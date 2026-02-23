@@ -1,0 +1,674 @@
+
+\subsection{Conditioning and independence}
+
+\subsubsection{Conditional probabilities}
+Conditional probabilities formalize how we update a probability model once we learn that some event has occurred.
+
+Conditional probabilities are probabilities associated with a revised model that takes into account extra information about the outcome of a probabilistic experiment. The question is how to systematically revise our model when we are told that a certain event has occurred.
+
+Consider a probability model with a sample space \(\Omega\) and a probability law \(P\). Let \(A\) and \(B\) be two events, that is, two subsets of \(\Omega\). We will be interested in the probability of \(A\) under the information that \(B\) has occurred.
+
+To build intuition, start with a finite sample space with equally likely outcomes. Suppose that \(\Omega\) has 12 possible outcomes, each with probability \(1/12\). Let \(A\) be an event consisting of 5 outcomes, so that \(P(A) = 5/12\), and let \(B\) be an event consisting of 6 outcomes, so that \(P(B) = 6/12\). Assume that \(A\) and \(B\) overlap in exactly 2 outcomes, so that
+\[
+P(A \cap B) = \frac{2}{12}.
+\]
+
+Now suppose we are told that \(B\) has occurred, but nothing more. How should we revise the model? First, all outcomes outside \(B\) are no longer possible. In the updated model they must have probability \(0\). Second, inside \(B\) we still have 6 outcomes. In the original model they were equally likely, and the new information does not change their relative likelihoods, so they should remain equally likely. Since the total probability inside \(B\) must now be 1, each of the 6 outcomes in \(B\) should have probability \(1/6\) in the revised model.
+
+In this revised model the probability of \(A\) is just the fraction of the outcomes in \(B\) that also belong to \(A\). There are 2 such outcomes, so
+\[
+P(A \mid B) = \frac{2}{6} = \frac{1}{3}.
+\]
+Here we have introduced the notation \(P(A \mid B)\) for the probability of \(A\) given \(B\), read as “the probability of \(A\) given \(B\)”. Similarly, since \(B\) is now certain in the revised model, we have \(P(B \mid B) = 1\).
+
+The same idea works even if the outcomes of \(\Omega\) are not equally likely. Suppose we only know the probabilities of certain regions of the sample space without assuming any uniformity inside them. For instance, we might still have
+\[
+P(A) = \frac{5}{12}, \qquad P(B) = \frac{6}{12}, \qquad P(A \cap B) = \frac{2}{12},
+\]
+but now these numbers come directly from the probability law \(P\) without referring to equally likely elementary outcomes. Inside \(B\) the subset where \(A\) also occurs, namely \(A \cap B\), has total probability \(P(A \cap B) = 2/12\). Relative to the total probability of \(B\), which is \(P(B) = 6/12\), this corresponds to a fraction
+\[
+\frac{P(A \cap B)}{P(B)} = \frac{2/12}{6/12} = \frac{1}{3}.
+\]
+It is therefore natural to define the conditional probability of \(A\) given \(B\) to be this fraction. Intuitively, once we restrict attention to \(B\) we renormalize the probability law by dividing by \(P(B)\) and then ask what portion of the “mass” inside \(B\) lies in \(A\).
+
+This leads to the formal definition. Given two events \(A\) and \(B\) with \(P(B) > 0\), the conditional probability of \(A\) given \(B\) is defined by
+\[
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}.
+\]
+The numerator \(P(A \cap B)\) is the probability that both \(A\) and \(B\) occur, while the denominator \(P(B)\) is the probability that \(B\) occurs. Their ratio measures the fraction of the probability of \(B\) that also belongs to \(A\). This definition only makes sense when \(P(B) > 0\). If \(P(B) = 0\), the expression \(P(A \cap B) / P(B)\) is undefined, and conditional probabilities given \(B\) are not defined.
+
+It is important to emphasize that this is a definition, not a theorem. There is no question of “proving” that
+\[
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}
+\]
+is correct. Rather, we adopt this formula because it captures the intuitive procedure of restricting the model to \(B\) and renormalizing the probabilities. The earlier examples simply motivate why this is the most natural way to construct a conditional probability law that reflects the information that the event \(B\) has occurred.
+
+
+Conditional probabilities obey the same axioms as ordinary probabilities and therefore behave as an ordinary probability law on a new sample space.
+
+Conditional probabilities are defined from an underlying probability model \((\Omega, P)\) and an event \(B\) with \(P(B) > 0\). For any event \(A\), the conditional probability of \(A\) given \(B\) is
+\[
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}.
+\]
+This definition suggests that we can think of a new probabilistic model in which the outcomes are restricted to the event \(B\) and the probabilities are renormalized. In this new model the function \(A \mapsto P(A \mid B)\) should behave like a probability law. We now check that it satisfies the usual axioms.
+
+First, conditional probabilities are nonnegative. Indeed, both \(P(A \cap B)\) and \(P(B)\) are nonnegative, and \(P(B) > 0\) by assumption, so the ratio
+\[
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}
+\]
+is always greater than or equal to 0. Thus the nonnegativity axiom remains valid under conditioning.
+
+Second, we verify that the whole sample space has probability 1 in the conditional model. Consider the conditional probability of \(\Omega\) given \(B\):
+\[
+P(\Omega \mid B) = \frac{P(\Omega \cap B)}{P(B)}.
+\]
+Since \(B \subseteq \Omega\), the intersection \(\Omega \cap B\) is just \(B\), so the numerator is \(P(B)\). Therefore
+\[
+P(\Omega \mid B) = \frac{P(B)}{P(B)} = 1.
+\]
+We can also view the new sample space as \(B\) itself, because outcomes outside \(B\) are considered impossible once we know that \(B\) has occurred. In that view the “entire sample space” is \(B\), and its conditional probability is
+\[
+P(B \mid B) = \frac{P(B \cap B)}{P(B)} = \frac{P(B)}{P(B)} = 1.
+\]
+So the normalization axiom \(P(\text{whole space}) = 1\) holds whether we regard \(\Omega\) or \(B\) as the relevant sample space under conditioning.
+
+Third, we check the additivity axiom. Let \(A\) and \(C\) be two disjoint events, so that \(A \cap C = \emptyset\). We want to show that
+\[
+P(A \cup C \mid B) = P(A \mid B) + P(C \mid B).
+\]
+Using the definition of conditional probability, we have
+\[
+P(A \cup C \mid B)
+= \frac{P\big((A \cup C) \cap B\big)}{P(B)}.
+\]
+By a basic set identity,
+\[
+(A \cup C) \cap B = (A \cap B) \cup (C \cap B).
+\]
+Now note that \(A\) and \(C\) are disjoint, so their intersections with \(B\) are also disjoint. Indeed, any point in \((A \cap B) \cap (C \cap B)\) would belong to both \(A\) and \(C\), which is impossible. Therefore \((A \cap B)\) and \((C \cap B)\) are disjoint sets, and by the additivity axiom for the original probability measure \(P\),
+\[
+P\big((A \cup C) \cap B\big)
+= P(A \cap B) + P(C \cap B).
+\]
+Substituting into the expression for the conditional probability gives
+\[
+P(A \cup C \mid B)
+= \frac{P(A \cap B) + P(C \cap B)}{P(B)}
+= \frac{P(A \cap B)}{P(B)} + \frac{P(C \cap B)}{P(B)}
+= P(A \mid B) + P(C \mid B).
+\]
+This shows that conditional probabilities preserve finite additivity for disjoint events. The same reasoning extends, without essential changes, to finite unions of pairwise disjoint events and even to countable unions when countable additivity holds for the original probability measure \(P\). Thus, conditional probabilities satisfy nonnegativity, normalization, and (finite or countable) additivity, and therefore they obey all the standard axioms of probability theory.
+
+An important consequence is that conditional probabilities can be treated as ordinary probabilities. Any identity or theorem that we derive for ordinary probabilities continues to hold if we replace \(P(\cdot)\) by \(P(\cdot \mid B)\). In later sections we will repeatedly use this idea to apply general probability rules, such as the product rule or Bayes’ rule, in conditional form.
+
+
+\newpage
+\textsc{example: radar detection problem}
+
+Conditional probabilities are useful both for updating a model when new information arrives and for building multi-stage probabilistic models.
+
+Consider a simple radar detection problem. Either there is an airplane in the sky or there is not. Let \(A\) be the event that an airplane is present and \(A^c\) the event that there is no airplane. Suppose prior information tells us that
+\[
+P(A) = 0.05, \qquad P(A^c) = 0.95.
+\]
+A radar looks at the sky and either reports a detection or not. Let \(B\) be the event that the radar reports a detection and \(B^c\) the event that it does not. The performance of the radar is summarized by conditional probabilities that describe how it behaves in the two possible worlds \(A\) and \(A^c\).
+
+If an airplane is present, the radar should detect it most of the time, but it can also miss it. For example, we might have
+\[
+P(B \mid A) = 0.99, \qquad P(B^c \mid A) = 0.01,
+\]
+so that conditionally on \(A\) the radar detects the plane with probability \(99\%\) and misses it with probability \(1\%\). If no airplane is present, the radar can still produce a false alarm or remain silent. For instance,
+\[
+P(B \mid A^c) = 0.10, \qquad P(B^c \mid A^c) = 0.90,
+\]
+so there is a \(10\%\) chance of a false alarm and a \(90\%\) chance that the radar correctly reports no detection when nothing is flying.
+
+These four conditional probabilities, together with the prior probabilities of \(A\) and \(A^c\), define a complete probabilistic model. We can represent it with a tree diagram: first choose between \(A\) and \(A^c\), then from each of these nodes choose between \(B\) and \(B^c\) using the corresponding conditional probabilities. The probability of each “leaf” of the tree is obtained by multiplying along the path that leads to it. This is an instance of the product rule
+\[
+P(A \cap B) = P(A)\,P(B \mid A),
+\]
+which follows directly from the definition of conditional probability.
+
+As a first example, let us compute the probability that there is an airplane and that the radar detects it, that is, \(P(A \cap B)\). Using the product rule,
+\[
+P(A \cap B) = P(A)\,P(B \mid A) = 0.05 \times 0.99 = 0.0495.
+\]
+In the tree picture, this is the probability of the path where \(A\) occurs at the first stage and \(B\) occurs at the second stage.
+
+Next, consider the total probability that the radar reports a detection, \(P(B)\). There are two disjoint ways in which this can happen: either there is an airplane and it is detected, or there is no airplane and the radar produces a false alarm. In symbols,
+\[
+B = (A \cap B) \cup (A^c \cap B),
+\]
+and the two events on the right-hand side are disjoint. Therefore
+\[
+P(B) = P(A \cap B) + P(A^c \cap B).
+\]
+Using the product rule for each term, we obtain
+\[
+P(B) = P(A)\,P(B \mid A) + P(A^c)\,P(B \mid A^c)
+= 0.05 \times 0.99 + 0.95 \times 0.10.
+\]
+Numerically,
+\[
+0.05 \times 0.99 = 0.0495, \qquad 0.95 \times 0.10 = 0.095,
+\]
+so
+\[
+P(B) = 0.0495 + 0.095 = 0.1445.
+\]
+This calculation is an example of the law of total probability: we express the probability of \(B\) as a sum over different scenarios (\(A\) and \(A^c\)) weighted by their prior probabilities and the corresponding conditional probabilities of \(B\).
+
+Finally, suppose the radar has reported a detection. We would like to know how likely it is that there really is an airplane in the sky, that is, we want \(P(A \mid B)\). By the definition of conditional probability,
+\[
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}.
+\]
+We already computed both the numerator and the denominator:
+\[
+P(A \cap B) = 0.0495, \qquad P(B) = 0.1445,
+\]
+so
+\[
+P(A \mid B) = \frac{0.0495}{0.1445} \approx 0.34.
+\]
+Thus, even though the radar is quite reliable in both scenarios, the probability that there is actually an airplane given that the radar reports a detection is only about \(34\%\).
+
+This example illustrates three basic tools that arise from conditional probabilities: the product rule, which expresses joint probabilities in terms of conditional probabilities; the law of total probability, which decomposes a probability into contributions from different scenarios; and the use of conditional probability to update our beliefs about \(A\) when we observe \(B\). Variants of these ideas will appear repeatedly in more complex models.
+
+
+\subsubsection{The multiplication rule}
+
+Conditional probabilities lead to a general multiplication rule that expresses the probability of several events occurring together as a product of ordinary and conditional probabilities.
+
+We start from the definition of conditional probability. For events \(A\) and \(B\) with \(P(B) > 0\),
+\[
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}.
+\]
+Rearranging this equality gives
+\[
+P(A \cap B) = P(B)\,P(A \mid B).
+\]
+This says that the probability that both \(A\) and \(B\) occur is equal to the probability that \(B\) occurs, times the conditional probability that \(A\) occurs given that \(B\) has occurred. Since we are free to choose which event we treat as “first”, we can also write
+\[
+P(A \cap B) = P(A)\,P(B \mid A).
+\]
+These are the simplest forms of the multiplication rule and they are exactly what we used in the radar example when we computed the probability of a particular path in the tree diagram.
+
+The same idea extends to three events. Consider events \(A\), \(B\), and \(C\). We can write their intersection as
+\[
+A \cap B \cap C = (A \cap B) \cap C.
+\]
+Applying the multiplication rule to the “composite” event \(A \cap B\) and the event \(C\) gives
+\[
+P(A \cap B \cap C)
+= P(A \cap B)\,P\big(C \mid A \cap B\big).
+\]
+We can then expand \(P(A \cap B)\) using the two-event rule:
+\[
+P(A \cap B) = P(A)\,P(B \mid A).
+\]
+Substituting into the previous expression yields
+\[
+P(A \cap B \cap C)
+= P(A)\,P(B \mid A)\,P\big(C \mid A \cap B\big).
+\]
+This formula has a natural interpretation in terms of a three-stage tree: first we pick \(A\) or \(A^c\), then from there we pick \(B\) or \(B^c\), and finally we pick \(C\) or \(C^c\). The probability of a leaf is the product of the probability of the first branch, the conditional probability of the second branch given the first, and the conditional probability of the third branch given the previous two.
+
+The same reasoning works for more than three events. Let \(A_1, A_2, \dots, A_n\) be events and assume that all the conditional probabilities we write below are well-defined. We can write
+\[
+A_1 \cap A_2 \cap \dots \cap A_n
+= (A_1 \cap \dots \cap A_{n-1}) \cap A_n,
+\]
+and apply the multiplication rule step by step. The result is the general multiplication rule:
+\[
+P(A_1 \cap A_2 \cap \dots \cap A_n)
+= P(A_1)\,\prod_{i=2}^n P\big(A_i \mid A_1 \cap \dots \cap A_{i-1}\big).
+\]
+In words, the probability that all of \(A_1, \dots, A_n\) occur is equal to the probability that \(A_1\) occurs, times the probability that \(A_2\) occurs given that \(A_1\) has occurred, times the probability that \(A_3\) occurs given that \(A_1\) and \(A_2\) have occurred, and so on. This is the most general form of the multiplication rule and it underlies the computation of path probabilities in multi-stage models.
+
+\newpage
+\subsubsection{Total probability theorem}
+
+The total probability theorem formalizes the “divide and conquer” idea: to find the probability of an event that can occur under several disjoint scenarios, we add its probabilities across those scenarios.
+
+Consider a sample space \(\Omega\) and events \(A_1, A_2, A_3\) that form a **partition** of \(\Omega\). This means:
+- the events are pairwise disjoint,
+- their union is the whole sample space,
+- and each has positive probability:
+\[
+A_i \cap A_j = \emptyset \text{ for } i \neq j, 
+\qquad
+A_1 \cup A_2 \cup A_3 = \Omega,
+\qquad
+P(A_i) > 0.
+\]
+We can think of \(A_1, A_2, A_3\) as three mutually exclusive “scenarios” under which the experiment may unfold.
+
+Now take an event \(B\). The event \(B\) can only occur through one of these scenarios. In set notation,
+\[
+B = (B \cap A_1) \,\cup\, (B \cap A_2) \,\cup\, (B \cap A_3).
+\]
+The three sets on the right-hand side are disjoint, because the \(A_i\) are disjoint. Therefore, by the additivity axiom,
+\[
+P(B) = P(B \cap A_1) + P(B \cap A_2) + P(B \cap A_3).
+\]
+For each term we can use the multiplication rule:
+\[
+P(B \cap A_i) = P(A_i)\,P(B \mid A_i), \qquad i = 1,2,3.
+\]
+Substituting these expressions into the previous equation gives
+\[
+P(B) = P(A_1)\,P(B \mid A_1)
+      + P(A_2)\,P(B \mid A_2)
+      + P(A_3)\,P(B \mid A_3).
+\]
+This is the \textbf{total probability theorem} for three scenarios. It says that the total probability of \(B\) is the sum over all scenarios of:
+\[
+\text{(probability of the scenario)} \times \text{(probability of \(B\) within that scenario)}.
+\]
+Equivalently, \(P(B)\) is a weighted average of the conditional probabilities \(P(B \mid A_i)\), with weights \(P(A_i)\) that sum to 1.
+
+The same reasoning applies to any finite number of scenarios. If \(A_1, \dots, A_n\) form a partition of \(\Omega\) and \(P(A_i) > 0\) for all \(i\), then for any event \(B\),
+\[
+P(B) = \sum_{i=1}^n P(A_i \cap B)
+     = \sum_{i=1}^n P(A_i)\,P(B \mid A_i).
+\]
+This is the general statement of the total probability theorem. If we partition \(\Omega\) into countably many events \(A_1, A_2, \dots\), the same derivation goes through, except that we use countable additivity instead of finite additivity, and we obtain an infinite series
+\[
+P(B) = \sum_{i=1}^\infty P(A_i)\,P(B \mid A_i).
+\]
+In all cases, the key idea is to decompose \(B\) into disjoint pieces corresponding to different scenarios and then sum their probabilities.
+
+\subsubsection{Bayes' rule}
+
+Bayes’ rule describes how to update the probabilities of different scenarios after observing an event.
+
+We keep the same setting as for the total probability theorem. The sample space \(\Omega\) is partitioned into disjoint events \(A_1, A_2, \dots, A_n\), which we think of as \textit{scenarios}. They satisfy
+\[
+A_i \cap A_j = \emptyset \text{ for } i \neq j, 
+\qquad
+\bigcup_{i=1}^n A_i = \Omega,
+\qquad
+P(A_i) > 0.
+\]
+The numbers \(P(A_i)\) represent our \textit{initial beliefs} about how likely each scenario is before seeing any additional information. There is also an event \(B\) that may occur under each scenario, and for each \(i\) we know the conditional probability \(P(B \mid A_i)\), that is, how likely \(B\) is to occur if scenario \(A_i\) is the true one.
+
+Once we perform the experiment, we may observe that \(B\) has actually occurred. This new information should cause us to revise our beliefs about which scenario \(A_i\) is more likely. The updated belief about scenario \(A_i\) is the conditional probability \(P(A_i \mid B)\).
+
+To compute \(P(A_i \mid B)\), we start from the definition of conditional probability:
+\[
+P(A_i \mid B) = \frac{P(A_i \cap B)}{P(B)},
+\qquad P(B) > 0.
+\]
+The numerator \(P(A_i \cap B)\) can be written using the multiplication rule:
+\[
+P(A_i \cap B) = P(A_i)\,P(B \mid A_i).
+\]
+The denominator \(P(B)\) is given by the total probability theorem:
+\[
+P(B) = \sum_{j=1}^n P(A_j \cap B)
+     = \sum_{j=1}^n P(A_j)\,P(B \mid A_j).
+\]
+Substituting these expressions into the definition yields
+\[
+P(A_i \mid B)
+= \frac{P(A_i)\,P(B \mid A_i)}{\sum_{j=1}^n P(A_j)\,P(B \mid A_j)}.
+\]
+This formula is \textbf{Bayes’ rule}. It combines three ingredients:
+- the prior probabilities \(P(A_i)\), which encode our initial beliefs about each scenario;
+- the likelihoods \(P(B \mid A_i)\), which tell us how compatible the observation \(B\) is with each scenario;
+- the normalizing denominator \(\sum_j P(A_j)\,P(B \mid A_j)\), which ensures that the updated probabilities \(P(A_i \mid B)\) sum to 1.
+
+Conceptually, Bayes’ rule starts from conditional probabilities “in one direction”, \(P(B \mid A_i)\), provided by the model, and uses them to compute conditional probabilities in the \textbf{reverse direction}, \(P(A_i \mid B)\), which represent our revised beliefs about the scenarios after observing \(B\). This is the basic mechanism of statistical inference: we begin with a probabilistic model and prior weights on possible explanations, observe data \(B\), and then use Bayes’ rule to update the probabilities of the different scenarios in light of the new evidence.
+
+
+\subsubsection{Independence}
+
+Independence formalizes the idea that learning one event has occurred does not change our beliefs about another event.
+
+We return to the example of three tosses of a biased coin. The coin lands heads with probability \(p\), where \(p\) is not necessarily \(1/2\). The experiment can be represented by a tree with three stages, one for each toss. Each branch corresponds to a possible result at a given toss, and each leaf corresponds to a complete outcome of the three tosses. Probabilities and conditional probabilities are attached to the branches: for example, the probability of heads on the first toss is \(p\), and the probability of heads on the second toss given that the first toss was heads is also \(p\). Similarly, the probability of heads on the second toss given that the first toss was tails is \(p\) as well. More generally, in this model every toss has probability \(p\) of being heads, regardless of the results of previous tosses.
+
+We can use the multiplication rule to compute the probability of any specific outcome. For instance, consider the outcome “tails, then heads, then tails”. Its probability is obtained by multiplying along the corresponding path in the tree:
+\[
+P(T,H,T) = (1-p)\,p\,(1-p).
+\]
+We can also compute the probability of more complicated events. Take the event that there is \textit{exactly one head} in the three tosses. This event consists of three distinct outcomes:
+\[
+(H,T,T), \quad (T,H,T), \quad (T,T,H).
+\]
+Using the tree, we find that each of these outcomes has probability \(p(1-p)^2\). Therefore, the total probability of exactly one head is
+\[
+P(\text{exactly one head}) = 3\,p(1-p)^2.
+\]
+All three outcomes in this event are equally likely.
+
+Now consider a conditional probability. Suppose we are told that there was exactly one head in the three tosses. We want the probability that the \textit{first} toss was heads under this information. In other words, we want
+\[
+P(H_1 \mid \text{exactly one head}).
+\]
+Intuitively, within the event “exactly one head” the three possible outcomes are equally likely, so each should have conditional probability \(1/3\). Only one of them—\((H,T,T)\)—has heads on the first toss, so we expect
+\[
+P(H_1 \mid \text{exactly one head}) = \frac{1}{3}.
+\]
+We can verify this formally using the definition of conditional probability. Let \(E\) be the event “exactly one head” and \(G\) be the event “first toss is heads”. Then
+\[
+P(G \mid E) = \frac{P(G \cap E)}{P(E)}.
+\]
+The event \(G \cap E\) corresponds to the single outcome \((H,T,T)\), which has probability \(p(1-p)^2\). The denominator \(P(E)\) is the probability of exactly one head, which we already computed as \(3p(1-p)^2\). Thus
+\[
+P(G \mid E) = \frac{p(1-p)^2}{3p(1-p)^2} = \frac{1}{3}.
+\]
+
+This example has a special property: knowing the result of one toss does not change the probabilities for future tosses. For instance, the conditional probability of heads on the second toss given heads on the first toss is
+\[
+P(H_2 \mid H_1) = p,
+\]
+and the conditional probability of heads on the second toss given tails on the first toss is
+\[
+P(H_2 \mid T_1) = p.
+\]
+So the probability of heads on the second toss remains \(p\), regardless of what happened on the first toss. We can also compute the unconditional probability of heads on the second toss using the total probability theorem:
+\[
+P(H_2) = P(H_1)\,P(H_2 \mid H_1) + P(T_1)\,P(H_2 \mid T_1)
+= p \cdot p + (1-p)\cdot p = p.
+\]
+Therefore, the unconditional probability of heads on the second toss is equal to both conditional probabilities. Learning the outcome of the first toss does not change our belief about the second toss.
+
+This motivates the notion of independence. Let \(A\) and \(B\) be two events. Informally, \(B\) is independent of \(A\) if knowing that \(A\) has occurred does not change our belief about \(B\), in the sense that
+\[
+P(B \mid A) = P(B).
+\]
+Using the multiplication rule,
+\[
+P(A \cap B) = P(A)\,P(B \mid A).
+\]
+If we also have \(P(B \mid A) = P(B)\), then this becomes
+\[
+P(A \cap B) = P(A)\,P(B).
+\]
+This identity turns out to be the most convenient formal definition of independence. We say that two events \(A\) and \(B\) are \textit{independent} if
+\[
+P(A \cap B) = P(A)\,P(B).
+\]
+This definition has several advantages. It is symmetric in \(A\) and \(B\), so it does not distinguish between “\(A\) is independent of \(B\)” and “\(B\) is independent of \(A\)”. It is also consistent with the intuitive definition: if \(P(A) > 0\) and \(P(B) > 0\), then
+\[
+P(B \mid A) = \frac{P(A \cap B)}{P(A)} = P(B),
+\]
+and similarly \(P(A \mid B) = P(A)\) whenever \(P(B) > 0\). Finally, the product definition makes sense even when one of the events has probability zero, whereas conditional probabilities are not defined in that case.
+
+It is important to distinguish independence from disjointness. Suppose \(A\) and \(B\) are disjoint events with strictly positive probabilities. Then
+\[
+P(A \cap B) = 0,
+\]
+but
+\[
+P(A)\,P(B) > 0.
+\]
+So the defining equality for independence does \textit{not} hold, and \(A\) and \(B\) are not independent. Intuitively, disjoint events are as dependent as possible: if you know that \(A\) has occurred, you are certain that \(B\) has not, and vice versa. In contrast, independent events are such that the occurrence of one does not affect the probability of the other.
+
+In many real-world situations, independence is a reasonable modeling assumption when two events are determined by physically separate and noninteracting processes. For example, the result of a coin toss and the weather on a specific future day can often be modeled as independent. In other cases, apparent independence may arise from a numerical coincidence, so one should always think carefully about whether the independence assumption is justified in a given context.
+
+
+\newpage
+\subsubsection{ Independence of event complements}
+
+Independence between events automatically extends to their complements in a natural way.
+
+Suppose that events \(A\) and \(B\) are independent. Intuitively, if learning that \(A\) occurred does not change our belief about whether \(B\) will occur, it also should not change our belief about whether \(B\) will \textit{not} occur. In other words, if \(A\) is independent of \(B\), then it is reasonable to expect that \(A\) is also independent of \(B^c\). We now show this formally.
+
+Start with the event \(A\). We can decompose \(A\) into two disjoint pieces:
+\[
+A = (A \cap B) \,\cup\, (A \cap B^c).
+\]
+These two sets are disjoint, and together they make up the whole of \(A\). By additivity,
+\[
+P(A) = P(A \cap B) + P(A \cap B^c).
+\]
+Since \(A\) and \(B\) are independent, their joint probability factorizes:
+\[
+P(A \cap B) = P(A)\,P(B).
+\]
+Substituting this into the previous equation gives
+\[
+P(A) = P(A)\,P(B) + P(A \cap B^c).
+\]
+Solving for \(P(A \cap B^c)\) yields
+\[
+P(A \cap B^c) = P(A) - P(A)\,P(B)
+= P(A)\bigl(1 - P(B)\bigr).
+\]
+Using the relation \(P(B^c) = 1 - P(B)\), we can rewrite this as
+\[
+P(A \cap B^c) = P(A)\,P(B^c).
+\]
+This is exactly the condition for \(A\) and \(B^c\) to be independent. Thus, we have shown that if \(A\) and \(B\) are independent, then \(A\) and \(B^c\) are independent as well.
+
+
+\subsubsection{Conditional independence}
+
+Conditional independence extends the idea of independence to a setting where we already condition on some additional information.
+
+Conditional probabilities are like ordinary probabilities, except that they apply in a new situation where we are told that a certain event has occurred. Because of this, any notion we define for ordinary probabilities has an analogue for conditional probabilities. In particular, we can talk about conditional independence, which is simply the notion of independence applied to a conditional model.
+
+More concretely, suppose we have events \(A\), \(B\), and \(C\) in a probability space, with \(P(C) > 0\). Once we are told that \(C\) has occurred, we work with the conditional probabilities \(P(\cdot \mid C)\). In the original (unconditional) model, independence of \(A\) and \(B\) is defined by
+\[
+P(A \cap B) = P(A)\,P(B).
+\]
+In the conditional model given \(C\), we use exactly the same pattern but with conditional probabilities in place of ordinary ones. We say that \(A\) and \(B\) are \textit{conditionally independent given \(C\)} if
+\[
+P(A \cap B \mid C) = P(A \mid C)\,P(B \mid C),
+\]
+provided all these conditional probabilities are defined. Intuitively, this means that after we learn that \(C\) has occurred, learning whether \(A\) occurs does not change our belief about \(B\), and learning whether \(B\) occurs does not change our belief about \(A\), within the “universe” where \(C\) holds.
+
+A natural question is whether ordinary independence implies conditional independence. The answer is no in general. It may happen that \(A\) and \(B\) are independent in the unconditional model, so that \(P(A \cap B) = P(A)\,P(B)\), but once we restrict attention to a particular event \(C\), the geometry of the sets inside \(C\) changes. For example, it could be that within \(C\) the events \(A\) and \(B\) have no overlap at all, so that
+\[
+P(A \cap B \mid C) = 0,
+\]
+while both \(P(A \mid C)\) and \(P(B \mid C)\) are positive. In that case,
+\[
+P(A \cap B \mid C) \neq P(A \mid C)\,P(B \mid C),
+\]
+and \(A\) and \(B\) are not conditionally independent given \(C\). In this way, conditioning on \(C\) can introduce dependencies even when none were present before.
+
+The main takeaway is that conditional independence is defined by the same product relation as ordinary independence, but using conditional probabilities. However, unconditional independence does not guarantee conditional independence once we restrict to a particular event \(C\).
+
+
+\subsubsection{Independence vs conditional independence}
+
+Independence and conditional independence can behave very differently; independent events may become dependent after conditioning.
+
+Consider two possible coins, coin A and coin B. If we know that coin A has been chosen, then in this conditional universe every toss is heads with probability \(0.9\), and different tosses are independent. Formally, given “coin A”, the coin flips are \textit{conditionally independent} and identically distributed with \(P(H) = 0.9\). Similarly, given “coin B”, the flips are conditionally independent with \(P(H) = 0.1\) at each toss.
+
+Now suppose that, before tossing, we pick one of the two coins at random, with
+\[
+P(\text{coin A}) = 0.5, \qquad P(\text{coin B}) = 0.5,
+\]
+and then we keep tossing that same coin. We consider the \textit{overall} model where we do not know in advance which coin was selected, and we ask whether the different tosses are independent in this unconditional model.
+
+First compute the unconditional probability of heads on the 11th toss. Using the total probability theorem,
+\[
+P(H_{11}) 
+= P(\text{coin A})\,P(H_{11} \mid \text{coin A})
++ P(\text{coin B})\,P(H_{11} \mid \text{coin B})
+= 0.5 \cdot 0.9 + 0.5 \cdot 0.1 = 0.5.
+\]
+So before seeing any outcomes, each toss has probability \(0.5\) of being heads on average.
+
+Next, suppose we are told that the first 10 tosses all resulted in heads. Intuitively, this makes coin A extremely likely: observing 10 heads in a row is very plausible under coin A, but extremely unlikely under coin B. In fact, by Bayes’ rule one can show that
+\[
+P(\text{coin A} \mid H_1, \dots, H_{10})
+\]
+is very close to 1, and the conditional probability of heads on the 11th toss satisfies
+\[
+P(H_{11} \mid H_1, \dots, H_{10}) \approx P(H_{11} \mid \text{coin A}) = 0.9.
+\]
+Thus
+\[
+P(H_{11} \mid H_1, \dots, H_{10}) \approx 0.9 \neq 0.5 = P(H_{11}).
+\]
+Information about the first ten tosses changes our belief about the 11th toss, so the 11th toss is \textit{not} independent of the first ten in the overall model.
+
+This example shows that even if the tosses are conditionally independent given the coin (they are independent within each conditional model), they need not be independent in the unconditional model where the underlying coin is unknown. Conditional independence does not imply unconditional independence, and unconditional independence does not imply conditional independence.
+
+\subsubsection{Independence of a collection of events}
+
+When we talk about independence for many events, we want a notion that captures “no information flow” between any subset and the rest of the family.
+
+Suppose we have a collection of events \(A_1, A_2, A_3, \dots\). Intuitively, we would like to say that this family is independent if knowing what happened for some of the events does not change our beliefs about the others. For example, if \(A_1, A_2, A_3\) are independent, then learning that \(A_1\) occurred and \(A_2\) did not occur should not change the probability we assign to \(A_3\); the conditional probability of \(A_3\) under that information should still be \(P(A_3)\). More generally, any information about which of \(A_1, A_2\) occurred should leave our probability for \(A_3\) unchanged.
+
+Stating independence directly in terms of “any information about some events does not affect the others” would lead to a very complicated definition. Instead, we use a cleaner condition that parallels the two-event case. Recall that two events \(A\) and \(B\) are independent exactly when
+\[
+P(A \cap B) = P(A)\,P(B).
+\]
+We extend this pattern to collections by requiring that we can always compute probabilities of intersections by multiplying individual probabilities.
+
+For concreteness, consider three events \(A_1, A_2, A_3\). We say that they are \textit{independent} if the following relations all hold:
+\[
+P(A_1 \cap A_2) = P(A_1)\,P(A_2),
+\]
+\[
+P(A_1 \cap A_3) = P(A_1)\,P(A_3),
+\]
+\[
+P(A_2 \cap A_3) = P(A_2)\,P(A_3),
+\]
+and, in addition,
+\[
+P(A_1 \cap A_2 \cap A_3) = P(A_1)\,P(A_2)\,P(A_3).
+\]
+The first three conditions mean that every pair of events is independent; this is called \textit{pairwise independence}. The last condition is extra and does not follow automatically from pairwise independence. It enforces that the three-way intersection probability also factors as a product of individual probabilities. For three events, our definition requires both pairwise independence and the three-way product condition.
+
+This definition extends to any finite family \(A_1, \dots, A_n\). We say that these events are independent if for every choice of distinct indices \(i_1, \dots, i_k\) (with \(k \ge 2\)) we have
+\[
+P(A_{i_1} \cap \dots \cap A_{i_k}) = P(A_{i_1}) \cdots P(A_{i_k}).
+\]
+In other words, the intersection of any subcollection of events has probability equal to the product of the individual probabilities. One can prove that, when these conditions are satisfied, all the intuitive “no-information” properties follow. For example, if \(A_1, A_2, A_3\) are independent in this sense, then for any pattern of occurrences of \(A_1\) and \(A_2\) we have
+\[
+P(A_3 \mid \text{any specification of }A_1, A_2) = P(A_3),
+\]
+so knowing which of \(A_1\) and \(A_2\) occurred does not change the probability of \(A_3\). The formal proof that the product conditions imply all such conditional equalities is somewhat tedious, so it is usually omitted, but the key point is that the product definition compactly captures the idea that information about any subfamily of events does not affect the probabilities of the remaining events.
+
+
+\subsubsection{Independence vs pairwise independence}
+
+Independence of a collection of events is stronger than pairwise independence; events can be pairwise independent without being independent as a family.
+
+Consider two independent tosses of a fair coin. Let \(H_1\) be the event that the first toss is heads, and \(H_2\) the event that the second toss is heads. Each toss has probability \(1/2\) of heads, and the independence assumption gives
+\[
+P(H_1 \cap H_2) = P(H_1)\,P(H_2) = \frac{1}{2}\cdot\frac{1}{2} = \frac{1}{4}.
+\]
+By symmetry, each of the four outcomes \((H,H)\), \((H,T)\), \((T,H)\), and \((T,T)\) has probability \(1/4\).
+
+Now define a new event \(C\) as “the two tosses have the same result”, which corresponds to the outcomes \((H,H)\) and \((T,T)\). Thus
+\[
+P(C) = \frac{1}{4} + \frac{1}{4} = \frac{1}{2}.
+\]
+
+We first check pairwise independence. Take \(H_1\) and \(C\):
+\[
+H_1 \cap C
+\]
+is the event that the first toss is heads and the two tosses are the same, which happens only for \((H,H)\), so
+\[
+P(H_1 \cap C) = \frac{1}{4}.
+\]
+On the other hand,
+\[
+P(H_1)\,P(C) = \frac{1}{2}\cdot\frac{1}{2} = \frac{1}{4}.
+\]
+So \(P(H_1 \cap C) = P(H_1)\,P(C)\), and \(H_1\) and \(C\) are independent. By symmetry, \(H_2\) and \(C\) are also independent, and we already know that \(H_1\) and \(H_2\) are independent. Thus all three pairs \((H_1,H_2)\), \((H_1,C)\), and \((H_2,C)\) are pairwise independent.
+
+To test whether \(H_1, H_2,\) and \(C\) are independent as a collection, we must also look at the three-way intersection. The event
+\[
+H_1 \cap H_2 \cap C
+\]
+means “first toss heads, second toss heads, and the two tosses are the same”, which again corresponds only to the outcome \((H,H)\), so
+\[
+P(H_1 \cap H_2 \cap C) = \frac{1}{4}.
+\]
+The product of individual probabilities is
+\[
+P(H_1)\,P(H_2)\,P(C) = \frac{1}{2}\cdot\frac{1}{2}\cdot\frac{1}{2} = \frac{1}{8}.
+\]
+Since \(\frac{1}{4} \neq \frac{1}{8}\), the factorization condition for three events fails. Therefore \(H_1, H_2, C\) are not independent as a collection, even though every pair among them is independent. This illustrates that pairwise independence does not imply independence of the whole family.
+
+The intuition is that knowing only \(H_1\) does not help us decide whether \(C\) occurs: given that the first toss is heads, the second toss is equally likely to be heads or tails, so
+\[
+P(C \mid H_1) = \frac{1}{2} = P(C).
+\]
+Similarly \(P(C \mid H_2) = P(C)\). However, if we know both \(H_1\) and \(H_2\) occurred, then we know the results of the two tosses are the same, so
+\[
+P(C \mid H_1 \cap H_2) = 1 \neq P(C).
+\]
+Thus the pair \((H_1,H_2)\) together carries information about \(C\), even though each event separately does not. This is exactly the situation where pairwise independence holds but full independence of the collection fails.
+
+
+\subsubsection{Reliability}
+
+Independence lets us analyze complex systems by breaking them into simpler independent pieces, which is especially useful in reliability calculations.
+
+Consider a system with \(n\) components (or units). The \(i\)-th unit can be “up” (working) or “down” (failed). Let \(U_i\) be the event that unit \(i\) is up, with
+\[
+P(U_i) = p_i,
+\]
+and assume the events \(U_1, \dots, U_n\) are independent. Intuitively, this means that whether some units are up or down does not change the probabilities for the others. Equivalently, if we define \(F_i = U_i^c\) as the event that unit \(i\) has failed, then the failure events \(F_1, \dots, F_n\) are also independent: information about which units have failed does not affect the failure probabilities of the remaining units.
+
+Let us look at a system with three components and define the event “system up” to mean that there exists a path from left to right consisting only of working units.
+
+First, consider a series system where all three units lie on the same path. In this case, the system is up if and only if all three units are up. The event “system up” is
+\[
+U_1 \cap U_2 \cap U_3,
+\]
+and by independence its probability is
+\[
+P(\text{system up}) = P(U_1 \cap U_2 \cap U_3)
+= P(U_1)\,P(U_2)\,P(U_3)
+= p_1 p_2 p_3.
+\]
+
+Next, consider a parallel system where three units provide alternative paths from left to right. The system is up as long as at least one unit is up. The event “system up” is
+\[
+U_1 \cup U_2 \cup U_3.
+\]
+Independence is most convenient for intersections, so we rewrite this probability using complements. The complement of “at least one unit is up” is “all units are down”, i.e.
+\[
+(U_1 \cup U_2 \cup U_3)^c = F_1 \cap F_2 \cap F_3.
+\]
+Therefore,
+\[
+P(\text{system up}) = P(U_1 \cup U_2 \cup U_3)
+= 1 - P(F_1 \cap F_2 \cap F_3).
+\]
+By independence of the failure events, this intersection probability factors:
+\[
+P(F_1 \cap F_2 \cap F_3) = P(F_1)\,P(F_2)\,P(F_3).
+\]
+Since \(P(F_i) = 1 - p_i\), we obtain
+\[
+P(\text{system up}) = 1 - (1 - p_1)(1 - p_2)(1 - p_3).
+\]
+
+These formulas illustrate how independence allows us to compute the reliability (probability of correct operation) of systems built from multiple components. For series configurations we multiply the success probabilities of all components, and for parallel configurations we use complements and multiply failure probabilities. More complex networks can be analyzed by combining these ideas.
+
+
+\newpage
+\textsc{example: The King's sibling}
+
+
+The probability that the king’s sibling is female depends on how we model the royal family’s childbearing decision.
+
+Assume first that the royal couple decided in advance to have exactly two children, that each child is independently a boy or a girl with probability \(1/2\), and that a boy always becomes king if there is at least one boy. Under these assumptions there are four equally likely gender outcomes for the two children:
+\[
+(B,B),\ (B,G),\ (G,B),\ (G,G),
+\]
+each with probability \(1/4\). Since there is a king, there must be at least one boy, so the outcome \((G,G)\) is impossible. Conditioning on “at least one boy”, we restrict to
+\[
+(B,B),\ (B,G),\ (G,B),
+\]
+which are now equally likely and each has conditional probability \(1/3\). In two of these three outcomes the sibling is a girl, so
+\[
+P(\text{sibling is female} \mid \text{there is a king, with exactly two children}) = \frac{2}{3}.
+\]
+
+However, this answer relies crucially on the assumption that “two children” was fixed in advance. If we change the family rule, the answer changes. For example, if the royal family “has children until the first boy is born,” then the fact that there are two children tells us the first was a girl and the second a boy, so the sibling is certainly a girl and the probability is \(1\). If instead they “have children until they get two boys,” then being told there are exactly two children implies both are boys, so the sibling cannot be a girl and the probability is \(0\).
+
+Thus \(2/3\) is the correct answer only under the model where the number of children (two) is fixed beforehand, genders are independent and equally likely, and a boy always becomes king. Different modeling assumptions lead to different probabilities, which illustrates how important it is to clarify the probabilistic model before computing.
