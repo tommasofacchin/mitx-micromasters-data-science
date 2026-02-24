@@ -1,0 +1,340 @@
+\subsection{Counting}
+
+\subsubsection{The counting principle}
+
+We often construct an outcome through a sequence of stages, making a choice at each stage.  
+The \textit{counting} principle says: if there are \(r\) stages and at stage \(i\) we always have \(n_i\) options (independent of previous choices), then the total number of possible outcomes is
+\[
+n_1 n_2 \cdots n_r. 
+\]
+
+\bigskip\textsc{Example: outfits}
+
+Suppose you have 4 shirts, 3 ties, and 2 jackets.  
+Think of getting dressed as a 3-stage process:
+\[
+\text{shirt}: 4 \text{ choices}, \quad
+\text{tie}: 3 \text{ choices}, \quad
+\text{jacket}: 2 \text{ choices}.
+\]
+By the counting principle, the number of different outfits is
+\[
+4 \cdot 3 \cdot 2 = 24.
+\]
+
+\bigskip\textsc{Example: license plates}
+
+Consider license plates of the form “2 letters followed by 3 digits.”  
+We construct the plate sequentially.
+
+\textit{With repetition allowed.}  
+At each stage:
+\[
+\underbrace{26}_{\text{1st letter}}
+\cdot
+\underbrace{26}_{\text{2nd letter}}
+\cdot
+\underbrace{10}_{\text{1st digit}}
+\cdot
+\underbrace{10}_{\text{2nd digit}}
+\cdot
+\underbrace{10}_{\text{3rd digit}}.
+\]
+So the number of such plates is
+\[
+26^2 \cdot 10^3.
+\]
+
+\textit{Without repetition.}  
+Now require that no letter and no digit can be used more than once.  
+Then:
+\[
+\underbrace{26}_{\text{1st letter}}
+\cdot
+\underbrace{25}_{\text{2nd letter}}
+\cdot
+\underbrace{10}_{\text{1st digit}}
+\cdot
+\underbrace{9}_{\text{2nd digit}}
+\cdot
+\underbrace{8}_{\text{3rd digit}}.
+\]
+Thus, the number of such plates is
+\[
+26 \cdot 25 \cdot 10 \cdot 9 \cdot 8.
+\]
+
+\bigskip\textsc{Example: permutations and factorial}
+
+Let a set have \(n\) distinct elements; we want to order them (form a permutation).  
+Think of \(n\) slots and fill them one at a time:
+\[
+\underbrace{n}_{\text{1st slot}}
+\cdot
+\underbrace{(n-1)}_{\text{2nd slot}}
+\cdot
+\underbrace{(n-2)}_{\text{3rd slot}}
+\cdots
+\underbrace{1}_{\text{last slot}}.
+\]
+The total number of permutations is
+\[
+n! = n (n-1) (n-2) \cdots 2 \cdot 1.
+\]
+
+\bigskip\textsc{Example: number of subsets}
+
+Let a set have \(n\) elements; we want to count its subsets.  
+Consider the elements one by one. For each element, we have 2 options: include it in the subset or not.  
+By the counting principle, the total number of subsets is
+\[
+2 \cdot 2 \cdot \dots \cdot 2 = 2^n,
+\]
+with \(n\) factors.
+
+\textit{Sanity check for \(n = 1\).}  
+If the set is \(\{a\}\), its subsets are
+\[
+\{a\}, \quad \varnothing,
+\]
+so there are 2 subsets, in agreement with \(2^1 = 2\).  
+Note that when we count subsets we include both the whole set and the empty set.
+
+\newpage
+\subsubsection{A die-roll example}
+
+We roll an ordinary six-sided die six times, and we are interested in the probability that all six results are different; denote this event by \(A\).  
+We assume that all \(6^6\) possible sequences of six rolls are equally likely, so we are in a discrete uniform model and probabilities can be computed by counting.
+
+\bigskip\textsc{Sample space}
+
+A typical outcome is a sequence such as \((2,3,4,3,6,2)\).  
+At each of the 6 rolls we have 6 possible results, so by the counting principle the total number of outcomes is
+\[
+|\Omega| = 6^6.
+\]
+Under the equally likely assumption, each sequence has probability \(1/6^6\).  
+This is consistent with viewing the experiment as 6 independent rolls of a fair die, each outcome having probability \((1/6)^6 = 1/6^6\).
+
+\bigskip\textsc{Counting the favorable outcomes}
+
+Event \(A\) consists of all sequences in which no number is repeated, i.e., each of the numbers \(1,\dots,6\) appears exactly once.  
+Such sequences are precisely the permutations of \(\{1,2,3,4,5,6\}\), and there are
+\[
+|A| = 6!
+\]
+of them.
+
+\bigskip\textsc{Probability of all distinct rolls}
+
+By the discrete uniform model,
+\[
+P(A) = \frac{|A|}{|\Omega|} = \frac{6!}{6^6}.
+\]
+
+\subsubsection{Combinations}
+
+We start with a set of \(n\) elements and a non-negative integer \(k\).  
+A \textit{combination} is a subset of the original set that has exactly \(k\) elements.  
+The number of such subsets is denoted by the binomial coefficient
+\[
+\binom{n}{k},
+\]
+read as “\(n\)-choose-\(k\)”.
+
+\bigskip\textsc{Two ways to count ordered \(k\)-tuples}
+
+Consider a related problem: construct an ordered list of \(k\) \textit{distinct} elements chosen from the \(n\)-element set.
+
+\textit{First method (direct counting).}  
+Think of \(k\) slots and fill them one by one with distinct elements:
+\[
+n \cdot (n-1) \cdot (n-2) \cdots (n-k+1).
+\]
+This product can be written as
+\[
+n (n-1) \cdots (n-k+1) = \frac{n!}{(n-k)!}.
+\]
+
+\textit{Second method (choose then order).}  
+First choose which \(k\) elements will appear (ignore order), then order them.
+\[
+\underbrace{\binom{n}{k}}_{\text{choose the set of }k\text{ elements}}
+\cdot
+\underbrace{k!}_{\text{permute these }k\text{ elements}}.
+\]
+
+Both methods count the same set of ordered lists, so
+\[
+\binom{n}{k} \, k! = \frac{n!}{(n-k)!}.
+\]
+Solving for \(\binom{n}{k}\) gives the standard formula
+\[
+\binom{n}{k} = \frac{n!}{k! \, (n-k)!},
+\]
+valid for integers \(n \ge 0\) and \(0 \le k \le n\).
+
+\newpage
+\bigskip\textsc{Extreme cases and the convention \(0! = 1\)}
+
+Consider \(\binom{n}{n}\).  
+From the combinatorial definition, choosing \(n\) elements from an \(n\)-element set leaves only one possibility: take all elements, so \(\binom{n}{n} = 1\).  
+From the formula,
+\[
+\binom{n}{n} = \frac{n!}{n! \, 0!},
+\]
+so this equals \(1\) if we adopt the convention \(0! = 1\).
+
+Now consider \(\binom{n}{0}\).  
+Combinatorially, there is exactly one subset with zero elements: the empty set, so \(\binom{n}{0} = 1\).  
+From the formula,
+\[
+\binom{n}{0} = \frac{n!}{0! \, n!} = 1,
+\]
+again consistent with \(0! = 1\).
+
+\bigskip\textsc{A useful binomial identity}
+
+The sum
+\[
+\binom{n}{0} + \binom{n}{1} + \cdots + \binom{n}{n}
+\]
+can be given a combinatorial interpretation.  
+Here, \(\binom{n}{k}\) counts the subsets of size \(k\) of an \(n\)-element set.  
+Summing over all \(k\) from \(0\) to \(n\) counts all subsets of the set.  
+But the total number of subsets of an \(n\)-element set is \(2^n\).  
+Therefore,
+\[
+\sum_{k=0}^{n} \binom{n}{k} = 2^n.
+\]
+
+
+\subsubsection{Binomial probabilities}
+
+The binomial coefficients \(\binom{n}{k}\) are closely related to probabilities in repeated coin-tossing experiments.  
+Consider a coin tossed \(n\) times independently.  
+Let \(p\) be the probability of heads on a single toss, so the probability of tails is \(1-p\).  
+We want the probability of observing exactly \(k\) heads in these \(n\) tosses.
+
+\bigskip\textsc{Probability of a particular sequence}
+
+Take a concrete example with \(n = 6\), and consider a specific sequence of heads and tails, e.g.\ \(\text{H T T H H H}\).  
+By independence, the probability of this sequence is
+\[
+p \cdot (1-p) \cdot (1-p) \cdot p \cdot p \cdot p = p^4 (1-p)^2.
+\]
+In general, for any \textit{given} sequence with \(k\) heads and \(n-k\) tails, the probability of that sequence is
+\[
+p^k (1-p)^{n-k},
+\]
+because each head contributes a factor \(p\) and each tail a factor \(1-p\).
+
+\bigskip\textsc{Number of \(k\)-head sequences}
+
+We now want the probability of the event “exactly \(k\) heads in \(n\) tosses”.  
+This event consists of all sequences of length \(n\) that contain exactly \(k\) heads.  
+Every such sequence has the same probability \(p^k (1-p)^{n-k}\).  
+Therefore, the desired probability equals
+\[
+\bigl(\text{number of sequences with exactly }k\text{ heads}\bigr) \times p^k (1-p)^{n-k}.
+\]
+
+To count the sequences with exactly \(k\) heads, think of the \(n\) tosses as \(n\) time slots.  
+To specify a \(k\)-head sequence, we must choose which \(k\) of the \(n\) slots contain heads; the remaining \(n-k\) slots will contain tails.  
+Thus, the number of such sequences is
+\[
+\binom{n}{k}.
+\]
+
+\bigskip\textsc{The binomial formula}
+
+Putting everything together, the probability of exactly \(k\) heads in \(n\) independent tosses of a coin with head probability \(p\) is
+\[
+P(\text{exactly }k\text{ heads}) = \binom{n}{k} \, p^k (1-p)^{n-k},
+\]
+which is called the \textit{binomial} probability formula.
+
+
+
+\newpage
+\subsubsection{Example: Each person gets an ace}
+
+We have a standard 52-card deck, dealt fairly to four players, 13 cards each (as in bridge).  
+Outcomes are all partitions of the 52 cards into four hands of size 13, and all such partitions are assumed equally likely.  
+We want the probability that each player gets \textit{exactly one ace}.
+
+\bigskip\textsc{Counting via multinomial coefficients}
+
+The sample space size is the number of ways to partition 52 distinct cards into hands of sizes
+\(13,13,13,13\), namely the multinomial coefficient
+\[
+|\Omega|
+= \binom{52}{13,13,13,13}
+= \frac{52!}{13!\,13!\,13!\,13!}.
+\]
+
+Now count the favorable outcomes where each person gets exactly one ace.
+
+First distribute the four aces:  
+there are
+\[
+4 \cdot 3 \cdot 2 \cdot 1 = 4!
+\]
+ways to assign the four distinct aces to the four distinct players (each player gets one).  
+
+Then distribute the remaining 48 non-aces arbitrarily, giving 12 additional cards to each player.  
+The number of such partitions is
+\[
+\binom{48}{12,12,12,12}
+= \frac{48!}{12!\,12!\,12!\,12!}.
+\]
+
+By the counting principle, the number of favorable outcomes is
+\[
+|A|
+= 4! \cdot \binom{48}{12,12,12,12}
+= 4! \cdot \frac{48!}{12!\,12!\,12!\,12!}.
+\]
+
+Thus, the desired probability is
+\[
+P(A)
+= \frac{|A|}{|\Omega|}
+= \frac{4! \cdot \dfrac{48!}{12!\,12!\,12!\,12!}}
+       {\dfrac{52!}{13!\,13!\,13!\,13!}}.
+\]
+
+\bigskip\textsc{Alternative “aces first” viewpoint}
+
+There is a faster way to obtain the same probability.  
+Imagine the 52 slots corresponding to the four players’ 13-card hands.  
+Place the four aces \textit{first}, one at a time, uniformly at random among the 52 slots.
+
+The first ace can go anywhere.  
+
+For the second ace, there are 51 remaining slots, of which 39 belong to players who do not yet have an ace (3 players \(\times\) 13 slots each).  
+So the conditional probability that the second ace goes to a different player than the first is
+\[
+\frac{39}{51}.
+\]
+
+Assuming this has happened, two players now have aces.  
+For the third ace there are 50 remaining slots; the “good” slots are those belonging to the two players without aces, i.e.\ \(2 \times 13 = 26\) slots.  
+So the corresponding probability is
+\[
+\frac{26}{50}.
+\]
+
+Assuming all three aces have gone to different players, three players now have aces.  
+For the fourth ace, there are 49 remaining slots, of which 13 belong to the last player without an ace, giving probability
+\[
+\frac{13}{49}.
+\]
+
+Multiplying these conditional probabilities, the overall probability that the four aces land in slots belonging to four different players is
+\[
+P(A)
+= \frac{39}{51} \cdot \frac{26}{50} \cdot \frac{13}{49}.
+\]
+
+One can check algebraically that this expression is equal to the earlier ratio of multinomial coefficients.
