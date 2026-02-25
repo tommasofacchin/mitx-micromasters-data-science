@@ -6,3 +6,4 @@ The text was drafted with the help of an AI assistant and then adapted and edite
 The goal is to have a concise and easy-to-read reference, useful for quick review, that follows the structure of the original courses.
 
 The sections are organized hierarchically as *course.unit.x*.
+Images are generated with Gemini AI
