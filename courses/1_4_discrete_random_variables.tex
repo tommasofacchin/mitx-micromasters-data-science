@@ -1,0 +1,1620 @@
+\subsection{Discrete random variables}
+
+\subsubsection{Definition of random variables}
+
+A random variable is a function from the sample space to the real numbers.  
+It assigns to each outcome of the experiment a numerical value, determined once the outcome is known.
+
+\bigskip\textsc{Example: Weight of a student}
+
+Let the sample space be \(\Omega = \{a,b,c,d\}\), where each element is a student.  
+The experiment is to pick one student at random and record their weight in kilograms.  
+Define \(W(\omega)\) as the weight of student \(\omega\).  
+Then \(W\) is a random variable, because for each outcome \(\omega \in \Omega\) it produces a real number \(W(\omega)\).
+
+\bigskip\textsc{Another random variable and a function of them}
+
+On the same experiment, define \(H(\omega)\) as the height (in meters) of student \(\omega\).  
+This \(H\) is also a random variable.  
+We can form a new random variable by combining them, for instance the body mass index
+\[
+B(\omega) = \frac{W(\omega)}{H(\omega)^2}.
+\]
+Once the outcome \(\omega\) is known, both \(W(\omega)\) and \(H(\omega)\) are known, so \(B(\omega)\) is determined as well.
+
+\bigskip\textsc{Discrete and continuous random variables}
+
+Random variables can be discrete or continuous.  
+For example, the number of heads in \(10\) coin tosses is a discrete random variable taking values in \(\{0,1,\dots,10\}\).  
+The time at which an event occurs, measured with infinite accuracy, is modeled as a continuous random variable taking real values in some interval.
+
+\bigskip\textsc{Notation}
+
+We use uppercase letters such as \(X, Y, W, H\) for random variables (the functions) and lowercase letters such as \(x, y, w, h\) for their numerical values.  
+If \(X\) and \(Y\) are random variables, then \(X+Y\) is also a random variable, defined by
+\[
+(X+Y)(\omega) = X(\omega) + Y(\omega).
+\]
+In general, any function of random variables is again a random variable.
+
+
+
+\subsubsection{Probability mass function}
+
+A discrete random variable can take different numerical values, and some of these values are more likely than others.  
+These relative likelihoods are described by the \textit{probability mass function} (PMF), which gives the probability of each possible numerical value.
+
+\bigskip\textsc{Definition of the PMF}
+
+Let \(X\) be a discrete random variable.  
+For any real number \(x\), we write
+\[
+p_X(x) = \mathbb{P}(X = x).
+\]
+This is the probability of the event that \(X\) takes the value \(x\).  
+The function \(p_X\) is called the PMF (or probability law, or probability distribution) of \(X\).  
+
+The argument \(x\) ranges over the possible values that \(X\) can take.  
+For each such \(x\), \(p_X(x)\) is a number between \(0\) and \(1\).  
+If we had another random variable \(Y\) on the same sample space, its PMF would be denoted \(p_Y(y) = \mathbb{P}(Y = y)\).
+
+\bigskip\textsc{Basic properties}
+
+The PMF satisfies two fundamental properties:
+
+\[
+p_X(x) \ge 0 \quad \text{for all } x,
+\]
+\[
+\sum_{x} p_X(x) = 1,
+\]
+where the sum is over all possible values of \(X\).  
+The first property holds because probabilities are never negative.  
+The second holds because the events \(\{X = x\}\) for all possible \(x\) are disjoint and together cover the entire sample space, so their probabilities must add up to \(1\).
+
+\bigskip\textsc{Example: A simple random variable}
+
+Consider an experiment with four equally likely outcomes \(a, b, c, d\).  
+Suppose a random variable \(X\) is defined by
+\[
+X(a) = 5, \quad X(b) = 5, \quad X(c) = 4, \quad X(d) = 3.
+\]
+Each outcome has probability \(1/4\).  
+
+The event \(\{X = 5\}\) is \(\{a, b\}\), so
+\[
+p_X(5) = \mathbb{P}(X = 5) = \mathbb{P}(\{a, b\}) = \frac{1}{4} + \frac{1}{4} = \frac{1}{2}.
+\]
+Similarly,
+\[
+p_X(4) = \mathbb{P}(X = 4) = \mathbb{P}(\{c\}) = \frac{1}{4},
+\]
+\[
+p_X(3) = \mathbb{P}(X = 3) = \mathbb{P}(\{d\}) = \frac{1}{4}.
+\]
+For any other \(x\), we have \(p_X(x) = 0\).  
+These values satisfy \(p_X(3) + p_X(4) + p_X(5) = \frac{1}{4} + \frac{1}{4} + \frac{1}{2} = 1\), as required.
+
+\bigskip\textsc{Example: Sum of two tetrahedral dice}
+
+Consider rolling two independent tetrahedral dice, each with faces \(\{1,2,3,4\}\).  
+Let \(X\) be the result of the first roll and \(Y\) the result of the second roll.  
+All \(16\) pairs \((i,j)\) with \(i,j \in \{1,2,3,4\}\) are assumed equally likely, each with probability \(1/16\).  
+
+Define a new random variable
+\[
+Z = X + Y.
+\]
+The possible values of \(Z\) are \(2,3,4,5,6,7,8\).  
+To compute the PMF of \(Z\), we proceed value by value, each time collecting the outcomes that give that sum and adding their probabilities.
+
+For example, the event \(\{Z = 2\}\) is \(\{(1,1)\}\), so
+\[
+p_Z(2) = \mathbb{P}(Z = 2) = \frac{1}{16}.
+\]
+The event \(\{Z = 3\}\) is \(\{(1,2), (2,1)\}\), so
+\[
+p_Z(3) = \mathbb{P}(Z = 3) = \frac{2}{16}.
+\]
+The event \(\{Z = 4\}\) is \(\{(1,3), (2,2), (3,1)\}\), so
+\[
+p_Z(4) = \mathbb{P}(Z = 4) = \frac{3}{16}.
+\]
+Continuing in the same way, we find
+\[
+p_Z(5) = \frac{4}{16}, \quad
+p_Z(6) = \frac{3}{16}, \quad
+p_Z(7) = \frac{2}{16}, \quad
+p_Z(8) = \frac{1}{16}.
+\]
+
+These numbers are all nonnegative and they add up to \(1\):
+\[
+\frac{1}{16} + \frac{2}{16} + \frac{3}{16} + \frac{4}{16} + \frac{3}{16} + \frac{2}{16} + \frac{1}{16} = 1.
+\]
+Thus we have completely determined the probability mass function of \(Z\).
+
+
+
+\subsubsection{Bernoulli and indicator random variables}
+
+A \textit{Bernoulli} random variable is a discrete random variable that takes only the values \(0\) and \(1\).  
+Its distribution is determined by a parameter \(p \in [0,1]\), interpreted as the probability of the outcome \(1\).  
+
+Using PMF notation, a Bernoulli random variable \(X\) satisfies
+\[
+\mathbb{P}(X = 1) = p, \qquad \mathbb{P}(X = 0) = 1 - p.
+\]
+If we plot its PMF, we obtain two bars: one at \(x=0\) of height \(1-p\), and one at \(x=1\) of height \(p\).  
+Bernoulli random variables model experiments with two possible outcomes, such as success/failure or heads/tails.
+
+\bigskip\textsc{Indicator random variables}
+
+Let \(\Omega\) be a sample space and let \(A \subseteq \Omega\) be an event.  
+The \textit{indicator} random variable of \(A\) is defined by
+\[
+I_A(\omega) =
+\begin{cases}
+1 & \text{if } \omega \in A,\\
+0 & \text{if } \omega \notin A.
+\end{cases}
+\]
+Thus \(I_A = 1\) exactly when the event \(A\) occurs, and \(I_A = 0\) otherwise.  
+
+Since \(I_A\) takes only the values \(0\) and \(1\), it is a Bernoulli random variable.  
+Moreover,
+\[
+\mathbb{P}(I_A = 1) = \mathbb{P}(A), \qquad \mathbb{P}(I_A = 0) = 1 - \mathbb{P}(A),
+\]
+so \(I_A\) is Bernoulli with parameter \(p = \mathbb{P}(A)\).  
+Indicator random variables are useful because they convert questions about events into questions about random variables, where algebraic manipulations are often easier.
+
+
+\subsubsection{Uniform random variables}
+
+A \textit{discrete uniform} random variable is one whose possible values all have the same probability.  
+It takes integer values in some finite interval and assigns equal mass to each of them.
+
+\bigskip\textsc{Definition}
+
+Let \(a\) and \(b\) be integers with \(a \le b\).  
+We consider the experiment of choosing an integer at random from the set
+\[
+\{a, a+1, a+2, \dots, b\}.
+\]
+There are \(b - a + 1\) possible values.  
+
+Let \(X\) be the random variable that equals the chosen integer.  
+Then \(X\) has PMF
+\[
+\mathbb{P}(X = x) =
+\begin{cases}
+\dfrac{1}{b - a + 1} & \text{if } x \in \{a, a+1, \dots, b\},\\[4pt]
+0 & \text{otherwise.}
+\end{cases}
+\]
+In this setting, the outcome of the experiment is already a number, and this number is the value of the random variable, so there is no distinction between outcome and numerical value.
+
+\bigskip\textsc{Example: Seconds on a digital clock}
+
+Consider the seconds reading on a digital clock.  
+The possible values are the integers from \(0\) to \(59\), so there are \(60\) possibilities.  
+If you glance at the clock at a time chosen completely at random, there is no reason to think one second value is more likely than another.  
+
+Let \(S\) be the seconds reading.  
+Then \(S\) is (ideally) discrete uniform on \(\{0,1,\dots,59\}\), with
+\[
+\mathbb{P}(S = s) = \frac{1}{60}, \quad s = 0,1,\dots,59.
+\]
+
+\bigskip\textsc{Degenerate case}
+
+If \(a = b\), then the range of \(X\) consists of a single value \(a\).  
+In that case,
+\[
+\mathbb{P}(X = a) = 1,
+\]
+and \(X\) is a \textit{constant} or \textit{degenerate} random variable.  
+It has no randomness in the usual sense, but it still fits the formal definition of a random variable as a function on the sample space.
+
+
+\subsubsection{Binomial random variables}
+
+A \textit{binomial} random variable models the number of successes in a fixed number of independent, identical trials, where each trial has two outcomes (success/failure) and the same success probability \(p\).  
+Typical examples are repeated coin tosses or repeated yes/no experiments.
+
+\bigskip\textsc{Definition}
+
+Consider \(n\) independent trials.  
+On each trial, the probability of success is \(p\) and the probability of failure is \(1-p\).  
+Define the random variable \(X\) to be the number of successes observed in these \(n\) trials.  
+
+Then \(X\) is called a \textit{binomial} random variable with parameters \(n\) and \(p\).  
+Its possible values are \(0,1,\dots,n\).
+
+\bigskip\textsc{PMF of a binomial random variable}
+
+We now recall the probability that \(X\) takes a specific value \(k\).  
+The event \(\{X = k\}\) consists of all sequences of \(n\) trials that contain exactly \(k\) successes and \(n-k\) failures.  
+Each particular sequence with \(k\) successes has probability
+\[
+p^k (1-p)^{n-k},
+\]
+because we multiply a factor \(p\) for each success and a factor \(1-p\) for each failure.  
+
+The number of such sequences is
+\[
+\binom{n}{k},
+\]
+since we must choose which \(k\) of the \(n\) positions are successes.  
+Therefore, the PMF of \(X\) is
+\[
+\mathbb{P}(X = k) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k = 0,1,\dots,n.
+\]
+
+\bigskip\textsc{Interpretation and shape}
+
+When the coin is fair, \(p = 1/2\), the PMF is largest near \(k = n/2\).  
+For example, with \(n = 10\), the most likely outcome is \(X = 5\), and probabilities decrease as \(k\) moves away from \(5\) in either direction.  
+For larger \(n\), such as \(n = 100\), the most likely values of \(X\) form a band around \(np\); values far from \(np\) have very small probability.
+
+When \(p\) is small (for instance \(p = 0.2\)), small values of \(X\) are more likely.  
+If \(n\) is moderate, such as \(n = 10\), we typically see a few successes, often between \(0\) and \(4\).  
+If \(n\) is large, such as \(n = 100\) with \(p = 0.1\), we say we expect “about” \(np = 10\) successes, meaning that values near \(10\) (roughly in some neighborhood such as from \(0\) up to around \(20\)) have noticeable probability, while much larger values are extremely unlikely.
+
+
+\subsubsection{Geometric random variables}
+
+A \textit{geometric} random variable models the number of trials needed until the first success occurs, in a sequence of independent, identical trials with success probability \(p\) at each trial.  
+Typical examples are repeated coin tosses until the first head appears, or repeated attempts at an experiment until it succeeds.
+
+\bigskip\textsc{Definition and PMF}
+
+Consider an infinite sequence of independent trials, each with probability \(p\) of success and \(1-p\) of failure, where \(0 < p \le 1\).  
+Let \(X\) be the number of the trial on which the first success occurs.  
+Then \(X\) is called a \textit{geometric} random variable.  
+Its possible values are the positive integers \(1,2,3,\dots\).
+
+To compute the PMF, fix \(k \ge 1\).  
+The event \(\{X = k\}\) means that the first \(k-1\) trials are failures and the \(k\)-th trial is a success.  
+By independence,
+\[
+\mathbb{P}(X = k) = (1-p)^{k-1} p, \qquad k = 1,2,3,\dots
+\]
+As \(k\) increases, the factor \((1-p)^{k-1}\) makes these probabilities decrease geometrically.
+
+\bigskip\textsc{Remark on “never seeing a success”}
+
+There is a logically possible outcome where every trial is a failure (for example, all tails when tossing a coin), so there is no first success and \(X\) would be “infinite”.  
+However, the probability of this event is
+\[
+\lim_{k \to \infty} (1-p)^k = 0,
+\]
+because \(0 < 1-p < 1\).  
+So with probability \(1\) the random variable \(X\) takes a finite value in \(\{1,2,3,\dots\}\), and the probabilities \((1-p)^{k-1}p\) sum to \(1\).
+
+
+
+\subsubsection{Expectation}
+
+The \textit{expected value} (or expectation, or mean) of a random variable is a single number that describes what value we see “on average” in many independent repetitions of the experiment.  
+For a discrete random variable, it is defined as a weighted average of its possible values, where the weights are the corresponding probabilities.
+
+\bigskip\textsc{Definition for a discrete random variable}
+
+Let \(X\) be a discrete random variable with PMF \(p_X(x) = \mathbb{P}(X = x)\).  
+The expected value of \(X\), denoted \(\mathbb{E}[X]\), is
+\[
+\mathbb{E}[X] = \sum_{x} x \, p_X(x),
+\]
+where the sum runs over all possible values of \(X\).  
+Each term is “value \(\times\) probability of that value”.
+
+If \(X\) takes infinitely many (discrete) values, this becomes an infinite series.  
+We then assume that
+\[
+\sum_{x} |x| \, p_X(x) < \infty,
+\]
+so that \(\mathbb{E}[X]\) is well defined and finite.
+
+\bigskip\textsc{Example: Game of chance}
+
+Suppose a random variable \(X\) represents your gain in a single play of a game, with
+\[
+\mathbb{P}(X = 1) = \frac{2}{10}, \quad
+\mathbb{P}(X = 2) = \frac{5}{10}, \quad
+\mathbb{P}(X = 4) = \frac{3}{10}.
+\]
+Then
+\[
+\mathbb{E}[X] = 1 \cdot \frac{2}{10}
+             + 2 \cdot \frac{5}{10}
+             + 4 \cdot \frac{3}{10}
+           = \frac{2}{10} + \frac{10}{10} + \frac{12}{10}
+           = \frac{24}{10}
+           = 2.4.
+\]
+If you play many times, your average gain per game will be close to \(2.4\).
+
+\bigskip\textsc{Bernoulli and indicator random variables}
+
+Let \(X\) be a Bernoulli random variable with parameter \(p\), so
+\[
+\mathbb{P}(X = 1) = p, \qquad \mathbb{P}(X = 0) = 1 - p.
+\]
+Then
+\[
+\mathbb{E}[X] = 1 \cdot p + 0 \cdot (1-p) = p.
+\]
+
+As a special case, let \(X = I_A\) be the indicator of an event \(A\), so that \(X = 1\) if \(A\) occurs and \(X = 0\) otherwise.  
+Then
+\[
+\mathbb{P}(I_A = 1) = \mathbb{P}(A),
+\]
+and
+\[
+\mathbb{E}[I_A] = \mathbb{P}(A).
+\]
+So the expected value of an indicator random variable equals the probability of the corresponding event.
+
+\bigskip\textsc{Uniform random variable on \(\{0,1,\dots,n\}\)}
+
+Let \(X\) be discrete uniform on \(\{0,1,\dots,n\}\).  
+Then
+\[
+\mathbb{P}(X = k) = \frac{1}{n+1}, \quad k = 0,1,\dots,n.
+\]
+Using the definition,
+\[
+\mathbb{E}[X] = \sum_{k=0}^{n} k \cdot \frac{1}{n+1}
+              = \frac{1}{n+1} \sum_{k=0}^{n} k
+              = \frac{1}{n+1} \cdot \frac{n(n+1)}{2}
+              = \frac{n}{2}.
+\]
+Thus the expectation is the midpoint of the interval \(\{0,\dots,n\}\).  
+More generally, when a PMF is symmetric, the expected value lies at the center of symmetry.
+
+\bigskip\textsc{Population-average interpretation}
+
+Consider a class of \(n\) students, and let \(x_i\) be the weight of the \(i\)-th student.  
+You perform an experiment where you pick one student uniformly at random, and let \(X\) be the weight of the selected student.  
+
+The PMF of \(X\) is
+\[
+\mathbb{P}(X = x_i) = \frac{1}{n}, \quad i = 1,\dots,n.
+\]
+Then
+\[
+\mathbb{E}[X] = \sum_{i=1}^{n} x_i \cdot \frac{1}{n}
+              = \frac{1}{n} \sum_{i=1}^{n} x_i.
+\]
+So in this example, the expected value of \(X\) is exactly the usual average (arithmetic mean) of the students’ weights.  
+This illustrates that expectation can be seen both as the long-run average over many repetitions, and as an average over a finite population when all individuals are equally likely to be chosen.
+
+
+\bigskip\textsc{Elementary properties of expectation}
+
+A random variable \(X\) can be summarized by its expected value \(\mathbb{E}[X]\).  
+Some basic properties of expectation are very natural and are worth stating explicitly.
+
+\bigskip\textsc{Nonnegativity}
+
+If \(X(\omega) \ge 0\) for every outcome \(\omega\) in the sample space, then
+\[
+\mathbb{E}[X] \ge 0.
+\]
+In words, if the random variable never takes negative values, its average value cannot be negative.  
+This follows because \(\mathbb{E}[X]\) is a sum of terms of the form \(x \, p_X(x)\), and both factors are nonnegative.
+
+\bigskip\textsc{Bounds from the range}
+
+Suppose \(X(\omega)\) always lies between two constants \(a\) and \(b\), that is
+\[
+a \le X(\omega) \le b \quad \text{for all } \omega.
+\]
+Then the expectation also lies between \(a\) and \(b\):
+\[
+a \le \mathbb{E}[X] \le b.
+\]
+
+To see why \(\mathbb{E}[X] \ge a\), write
+\[
+\mathbb{E}[X] = \sum_{x} x \, p_X(x).
+\]
+Each possible value \(x\) of \(X\) satisfies \(x \ge a\), so
+\[
+\mathbb{E}[X]
+= \sum_{x} x \, p_X(x)
+\ge \sum_{x} a \, p_X(x)
+= a \sum_{x} p_X(x)
+= a,
+\]
+because the probabilities \(p_X(x)\) sum to \(1\).  
+A symmetric argument with \(x \le b\) gives \(\mathbb{E}[X] \le b\).
+
+\bigskip\textsc{Expectation of a constant}
+
+A constant \(c\) can be viewed as a (degenerate) random variable that always takes the value \(c\).  
+Its PMF assigns probability \(1\) to the value \(c\) and probability \(0\) to all other values.  
+Then
+\[
+\mathbb{E}[c] = c \cdot 1 = c.
+\]
+So if a quantity is always equal to \(c\), its average is also \(c\).
+
+
+\bigskip\textsc{Expected value rule}
+
+A random variable \(Y\) is often defined as a function of another random variable \(X\), say
+\[
+Y = g(X).
+\]
+We want a convenient way to compute \(\mathbb{E}[Y]\) without first finding the PMF of \(Y\).  
+The \textit{expected value rule} gives exactly this.
+
+
+Let \(X\) be a discrete random variable with PMF \(p_X(x) = \mathbb{P}(X = x)\), and let
+\[
+Y = g(X)
+\]
+for some function \(g\).  
+Then
+\[
+\mathbb{E}[Y] = \mathbb{E}[g(X)] = \sum_{x} g(x)\,p_X(x),
+\]
+where the sum is over all possible values of \(X\).  
+
+Conceptually, we sum over the values of \(X\), and for each possible \(x\) we take the corresponding value \(g(x)\) of \(Y\), weighted by the probability that \(X\) equals \(x\).
+
+\bigskip\textsc{Example}
+
+Suppose \(X\) takes values \(2,3,4,5\) with probabilities
+\[
+\mathbb{P}(X=2)=0.1, \quad
+\mathbb{P}(X=3)=0.2, \quad
+\mathbb{P}(X=4)=0.3, \quad
+\mathbb{P}(X=5)=0.4.
+\]
+Define \(Y = g(X)\) by
+\[
+g(2) = 3, \quad g(3) = 3, \quad g(4) = 4, \quad g(5) = 4.
+\]
+Then
+\[
+\mathbb{E}[Y]
+= \sum_{x} g(x)\,p_X(x)
+= 3 \cdot 0.1 + 3 \cdot 0.2 + 4 \cdot 0.3 + 4 \cdot 0.4.
+\]
+This matches the intuitive reasoning:  
+10% of the time \(X=2\) and \(Y=3\), 20% of the time \(X=3\) and \(Y=3\), 30% of the time \(X=4\) and \(Y=4\), and 40% of the time \(X=5\) and \(Y=4\).
+
+\bigskip\textsc{Why the rule works (idea)}
+
+By definition,
+\[
+\mathbb{E}[Y] = \sum_{y} y\,\mathbb{P}(Y=y).
+\]
+For each fixed \(y\), the event \(\{Y=y\}\) is the union of all outcomes for which \(X\) takes some value \(x\) with \(g(x)=y\).  
+Thus
+\[
+\mathbb{P}(Y=y) = \sum_{x : g(x)=y} \mathbb{P}(X=x).
+\]
+Substituting this into the definition and rearranging the order of summation leads to
+\[
+\mathbb{E}[Y]
+= \sum_{y} y \sum_{x : g(x)=y} \mathbb{P}(X=x)
+= \sum_{x} g(x)\,\mathbb{P}(X=x),
+\]
+which is the expected value rule.
+
+\bigskip\textsc{A useful special case}
+
+If \(g(x) = x^2\), then
+\[
+\mathbb{E}[X^2] = \sum_{x} x^2\,p_X(x).
+\]
+In general,
+\[
+\mathbb{E}[g(X)] \ne g(\mathbb{E}[X])
+\]
+for most functions \(g\).  
+So, for example, typically
+\[
+\mathbb{E}[X^2] \ne (\mathbb{E}[X])^2.
+\]
+
+
+\bigskip\textsc{Linearity for one random variable}
+
+Linearity of expectation describes how expectation behaves under multiplication by constants and addition.  
+It says that taking expectations is a linear operation.
+
+
+Let \(X\) be a random variable and let \(a, b\) be constants.  
+Define a new random variable
+\[
+Y = aX + b.
+\]
+Then
+\[
+\mathbb{E}[aX + b] = a\,\mathbb{E}[X] + b.
+\]
+
+\bigskip\textsc{Derivation}
+
+We view \(Y\) as a function of \(X\), namely \(Y = g(X)\) with \(g(x) = ax + b\).  
+By the expected value rule,
+\[
+\mathbb{E}[Y] = \mathbb{E}[g(X)] = \sum_{x} g(x)\,p_X(x)
+              = \sum_{x} (ax + b)\,p_X(x).
+\]
+We split the sum:
+\[
+\mathbb{E}[Y]
+= \sum_{x} ax\,p_X(x) + \sum_{x} b\,p_X(x)
+= a \sum_{x} x\,p_X(x) + b \sum_{x} p_X(x).
+\]
+The first sum is \(\mathbb{E}[X]\).  
+The second sum is \(1\), since the probabilities \(p_X(x)\) add up to \(1\).  
+Thus
+\[
+\mathbb{E}[aX + b] = a\,\mathbb{E}[X] + b.
+\]
+
+\bigskip\textsc{Special case: average salary}
+
+If \(X\) is the salary of a random person in a population, then \(\mathbb{E}[X]\) is the average salary.  
+If everyone’s salary is updated to
+\[
+Y = 2X + 100,
+\]
+then the new average is
+\[
+\mathbb{E}[Y] = 2\,\mathbb{E}[X] + 100.
+\]
+Doubling all salaries and adding \(100\) to each one doubles the average and adds \(100\).
+
+\bigskip\textsc{Comment}
+
+For linear functions \(g(x) = ax + b\), we have
+\[
+\mathbb{E}[g(X)] = g(\mathbb{E}[X]).
+\]
+For general, nonlinear functions \(g\), this identity usually does \textit{not} hold.
+
+
+
+\subsubsection{Variance}
+
+Variance measures how much a random variable tends to deviate (in squared distance) from its mean.  
+It complements the expectation by quantifying the spread of the distribution around the average.
+
+\bigskip\textsc{Definition}
+
+Let \(X\) be a random variable with mean \(\mu = \mathbb{E}[X]\).  
+The \textit{variance} of \(X\) is defined as
+\[
+\operatorname{Var}(X) = \mathbb{E}\bigl[(X - \mu)^2\bigr].
+\]
+This is the expected value of the squared distance from the mean.  
+Since \((X - \mu)^2 \ge 0\) always, the variance is always nonnegative.
+
+Using the expected value rule, for a discrete random variable with PMF \(p_X(x)\), we can write
+\[
+\operatorname{Var}(X)
+= \sum_{x} (x - \mu)^2\,p_X(x),
+\]
+where the sum is over all possible values of \(X\). 
+For each value \(x\), we compute its squared distance from \(\mu\) and weight it by the probability that \(X\) takes that value.
+
+\bigskip\textsc{Standard deviation}
+
+The \textit{standard deviation} of \(X\) is defined as
+\[
+\sigma_X = \sqrt{\operatorname{Var}(X)}.
+\]
+It has the same units as \(X\) (unlike the variance, which has squared units), and is often easier to interpret as a measure of typical deviation from the mean. 
+
+\bigskip\textsc{Effect of adding and scaling}
+
+Let \(Y = aX + b\), where \(a\) and \(b\) are constants.  
+Then
+\[
+\operatorname{Var}(Y) = a^2 \operatorname{Var}(X).
+\]
+In particular,
+\[
+\operatorname{Var}(X + b) = \operatorname{Var}(X), \qquad
+\operatorname{Var}(aX) = a^2 \operatorname{Var}(X) [][].
+\]
+
+Intuitively, adding a constant \(b\) just shifts the distribution right or left without changing its spread, so the variance stays the same.  
+Multiplying by \(a\) stretches or shrinks the distribution horizontally by a factor \(|a|\), so the spread (variance) scales by \(a^2\)  
+
+\bigskip\textsc{Example}
+
+If \(\operatorname{Var}(X) = 2\), then
+\[
+\operatorname{Var}(3 - 4X) = (-4)^2 \operatorname{Var}(X) = 16 \cdot 2 = 32.
+\]
+The additive constant \(3\) does not affect the variance, while the factor \(-4\) multiplies the variance by \(16\).
+
+\bigskip\textsc{Alternative formula}
+
+There is a useful identity that often simplifies calculations:
+\[
+\operatorname{Var}(X) = \mathbb{E}[X^2] - \bigl(\mathbb{E}[X]\bigr)^2 [][].
+\]
+It comes from expanding
+\[
+\operatorname{Var}(X)
+= \mathbb{E}\bigl[(X - \mu)^2\bigr]
+= \mathbb{E}\bigl[X^2 - 2\mu X + \mu^2\bigr]
+= \mathbb{E}[X^2] - 2\mu \mathbb{E}[X] + \mu^2
+= \mathbb{E}[X^2] - \mu^2,
+\]
+since \(\mu = \mathbb{E}[X]\).  
+This formula allows us to compute the variance by first finding \(\mathbb{E}[X]\) and \(\mathbb{E}[X^2]\), and then taking their difference.
+
+
+
+
+\bigskip\textsc{Variance of a Bernoulli random variable}
+
+A \textit{Bernoulli} random variable and a \textit{discrete uniform} random variable are simple examples where the variance can be computed explicitly.  
+We first recall the Bernoulli case, then the uniform on \(\{0,\dots,n\}\), and finally a general uniform on \(\{a,\dots,b\}\). 
+
+Let \(X\) be Bernoulli with parameter \(p\), so
+\[
+\mathbb{P}(X=1) = p, \qquad \mathbb{P}(X=0) = 1-p.
+\]
+We know that
+\[
+\mathbb{E}[X] = p.
+\]
+Using the alternative variance formula,
+\[
+\operatorname{Var}(X) = \mathbb{E}[X^2] - \bigl(\mathbb{E}[X]\bigr)^2 [][].
+\]
+For a Bernoulli random variable, \(X^2 = X\), since \(0^2=0\) and \(1^2=1\).  
+Hence
+\[
+\mathbb{E}[X^2] = \mathbb{E}[X] = p,
+\]
+and
+\[
+\operatorname{Var}(X) = p - p^2 = p(1-p).
+\]
+
+As a function of \(p\), \(p(1-p)\) is a parabola on \([0,1]\) with maximum at \(p=\tfrac12\) and zeros at \(p=0\) and \(p=1\). 
+This matches the intuition that a fair coin (\(p=\tfrac12\)) is “most random”, while a deterministic coin (\(p=0\) or \(p=1\)) has variance \(0\).
+
+\bigskip\textsc{Variance of a uniform on \(\{0,1,\dots,n\}\)}
+
+Let \(X\) be discrete uniform on \(\{0,1,\dots,n\}\).  
+Then
+\[
+\mathbb{P}(X=k) = \frac{1}{n+1}, \quad k=0,1,\dots,n.
+\]
+
+We first compute \(\mathbb{E}[X]\) and \(\mathbb{E}[X^2]\).
+
+For the mean,
+\[
+\mathbb{E}[X]
+= \sum_{k=0}^{n} k \cdot \frac{1}{n+1}
+= \frac{1}{n+1} \sum_{k=0}^{n} k
+= \frac{1}{n+1} \cdot \frac{n(n+1)}{2}
+= \frac{n}{2} [][].
+\]
+
+For \(\mathbb{E}[X^2]\),
+\[
+\mathbb{E}[X^2]
+= \sum_{k=0}^{n} k^2 \cdot \frac{1}{n+1}
+= \frac{1}{n+1} \sum_{k=0}^{n} k^2.
+\]
+The sum of squares satisfies
+\[
+\sum_{k=0}^{n} k^2 = \frac{n(n+1)(2n+1)}{6} [][],
+\]
+so
+\[
+\mathbb{E}[X^2]
+= \frac{1}{n+1} \cdot \frac{n(n+1)(2n+1)}{6}
+= \frac{n(2n+1)}{6}.
+\]
+
+Now apply \(\operatorname{Var}(X) = \mathbb{E}[X^2] - \bigl(\mathbb{E}[X]\bigr)^2\):
+\[
+\operatorname{Var}(X)
+= \frac{n(2n+1)}{6} - \left(\frac{n}{2}\right)^2
+= \frac{n(2n+1)}{6} - \frac{n^2}{4}.
+\]
+Bringing to a common denominator,
+\[
+\operatorname{Var}(X)
+= \frac{4n(2n+1) - 3n^2}{12}
+= \frac{8n^2 + 4n - 3n^2}{12}
+= \frac{5n^2 + 4n}{12}.
+\]
+This is the variance of the uniform distribution on \(\{0,1,\dots,n\}\) written via the sum-of-squares formula.
+
+In many references, one instead writes the variance of the uniform on \(\{0,1,\dots,n\}\) as
+\[
+\operatorname{Var}(X) = \frac{n(n+2)}{12},
+\]
+which is algebraically equivalent after simplifying the sum carefully. 
+
+\bigskip\textsc{Uniform on \(\{a,a+1,\dots,b\}\)}
+
+Now consider a general discrete uniform random variable \(Y\) on \(\{a,a+1,\dots,b\}\).  
+Let
+\[
+n = b-a.
+\]
+We can write
+\[
+Y = a + X,
+\]
+where \(X\) is uniform on \(\{0,1,\dots,n\}\).  
+Adding the constant \(a\) does not change the variance, so
+\[
+\operatorname{Var}(Y) = \operatorname{Var}(X) [][].
+\]
+Thus, substituting \(n = b-a\),
+\[
+\operatorname{Var}(Y)
+= \frac{(b-a)\bigl((b-a)+2\bigr)}{12},
+\]
+which expresses the variance in terms of the endpoints of the range. 
+
+
+\newpage
+\bigskip\textsc{Conditional PMF given an event}
+
+Let \(X\) be a discrete random variable with PMF \(p_X(x) = \mathbb{P}(X = x)\).  
+Let \(A\) be an event with \(\mathbb{P}(A) > 0\).  
+The \textit{conditional PMF} of \(X\) given \(A\) is
+\[
+p_{X\mid A}(x) = \mathbb{P}(X = x \mid A)
+= \frac{\mathbb{P}(X = x \cap A)}{\mathbb{P}(A)}.
+\]
+This is an ordinary PMF on the same set of values as \(X\), but computed in the conditional model where \(A\) is known to have occurred.  
+Its entries satisfy
+\[
+\sum_{x} p_{X\mid A}(x) = 1.
+\]
+
+\bigskip\textsc{Conditional expectation given an event}
+
+The \textit{conditional expectation} of \(X\) given \(A\) is the mean of \(X\) in the conditional model.  
+It is defined by
+\[
+\mathbb{E}[X \mid A] = \sum_{x} x\,\mathbb{P}(X = x \mid A)
+= \sum_{x} x\,p_{X\mid A}(x).
+\]
+This is the same formula as for an ordinary expectation, but with conditional probabilities throughout.
+
+\bigskip\textsc{Example: Conditioning a uniform}
+
+Let \(X\) be uniform on \(\{1,2,3,4\}\).  
+Then
+\[
+\mathbb{P}(X=x) = \frac{1}{4}, \quad x=1,2,3,4.
+\]
+By symmetry,
+\[
+\mathbb{E}[X] = \frac{1+4}{2} = \frac{5}{2},
+\]
+and using the uniform-variance formula on \(\{1,2,3,4\}\),
+\[
+\operatorname{Var}(X) = \frac{1}{12}\,(4-1)\bigl((4-1)+2\bigr)
+= \frac{1}{12} \cdot 3 \cdot 5 = \frac{5}{4}.
+\]
+
+Now condition on the event
+\[
+A = \{X \in \{2,3,4\}\}.
+\]
+In the conditional model, outcome \(1\) is impossible, so
+\[
+\mathbb{P}(X=1 \mid A) = 0.
+\]
+The remaining values \(2,3,4\) had equal probabilities in the original model, so they remain equally likely given \(A\).  
+Since their probabilities must sum to \(1\),
+\[
+\mathbb{P}(X=2 \mid A)
+= \mathbb{P}(X=3 \mid A)
+= \mathbb{P}(X=4 \mid A)
+= \frac{1}{3}.
+\]
+Thus the conditional PMF is uniform on \(\{2,3,4\}\).
+
+The conditional expectation is the mean of this conditional uniform:
+\[
+\mathbb{E}[X \mid A] = \frac{2+4}{2} = 3.
+\]
+
+For the conditional variance \(\operatorname{Var}(X \mid A)\), we can compute directly.  
+The mean is \(3\), so
+\[
+\operatorname{Var}(X \mid A)
+= \mathbb{E}\bigl[(X-3)^2 \mid A\bigr]
+= (2-3)^2 \cdot \frac{1}{3}
+  + (3-3)^2 \cdot \frac{1}{3}
+  + (4-3)^2 \cdot \frac{1}{3}
+= 1 \cdot \frac{1}{3} + 0 \cdot \frac{1}{3} + 1 \cdot \frac{1}{3}
+= \frac{2}{3}.
+\]
+
+Notice that
+\[
+\operatorname{Var}(X \mid A) = \frac{2}{3} < \operatorname{Var}(X) = \frac{5}{4}.
+\]
+In the conditional model we have more information (we know that \(X\) is not \(1\)), so there is less uncertainty, and the variance decreases.
+
+
+
+\subsubsection{Total expectation theorem}
+
+The Total Expectation Theorem provides a way to compute an expectation by splitting the probability space into scenarios and averaging the conditional expectations over those scenarios.  
+It is the expectation analogue of the Total Probability Theorem.
+
+Let \(X\) be a random variable and let \(A_1, A_2, A_3\) be events that form a partition of the sample space, that is:
+\[
+A_i \cap A_j = \emptyset \ \text{for } i \ne j, 
+\quad A_1 \cup A_2 \cup A_3 = \Omega,
+\quad \mathbb{P}(A_i) > 0.
+\]
+Then the \textit{Total Expectation Theorem} says that
+\[
+\mathbb{E}[X]
+= \mathbb{P}(A_1)\,\mathbb{E}[X \mid A_1]
++ \mathbb{P}(A_2)\,\mathbb{E}[X \mid A_2]
++ \mathbb{P}(A_3)\,\mathbb{E}[X \mid A_3].
+\]
+More generally, for a finite or countable partition \(\{A_i\}\),
+\[
+\mathbb{E}[X] = \sum_i \mathbb{P}(A_i)\,\mathbb{E}[X \mid A_i].
+\]
+
+\bigskip\textsc{From total probability to total expectation}
+
+For a fixed value \(x\), the Total Probability Theorem applied to the event \(\{X = x\}\) gives
+\[
+\mathbb{P}(X = x)
+= \sum_i \mathbb{P}(X = x \mid A_i)\,\mathbb{P}(A_i).
+\]
+This holds for every possible value \(x\).  
+Multiply both sides by \(x\) and sum over all \(x\):
+\[
+\sum_x x\,\mathbb{P}(X = x)
+= \sum_x x \sum_i \mathbb{P}(X = x \mid A_i)\,\mathbb{P}(A_i).
+\]
+The left-hand side is \(\mathbb{E}[X]\).  
+On the right-hand side, we can interchange the order of summation:
+\[
+\mathbb{E}[X]
+= \sum_i \mathbb{P}(A_i) \sum_x x\,\mathbb{P}(X = x \mid A_i).
+\]
+But for each \(i\),
+\[
+\sum_x x\,\mathbb{P}(X = x \mid A_i)
+= \mathbb{E}[X \mid A_i].
+\]
+Substituting this into the previous expression gives the Total Expectation Theorem.
+
+\bigskip\textsc{Interpretation}
+
+We can think of \(\{A_1, A_2, A_3\}\) as different scenarios.  
+Under each scenario \(A_i\), the random variable \(X\) has a conditional distribution and a conditional expectation \(\mathbb{E}[X \mid A_i]\).  
+The theorem says that the overall expectation \(\mathbb{E}[X]\) is the weighted average of these conditional expectations, where the weights are the scenario probabilities \(\mathbb{P}(A_i)\).
+
+\bigskip\textsc{Example: Splitting a PMF into two scenarios}
+
+Consider a discrete random variable \(X\) with PMF having six mass points: three “small” values and three “large” values.  
+Define
+\[
+A_1 = \{\text{“small” values of } X\}, \quad
+A_2 = \{\text{“large” values of } X\},
+\]
+so that \(\{A_1,A_2\}\) is a partition of the sample space.
+
+Suppose the probabilities of the three small values are all \(1/9\), so
+\[
+\mathbb{P}(A_1) = \frac{1}{9} + \frac{1}{9} + \frac{1}{9} = \frac{1}{3},
+\]
+and the probabilities of the three large values are all \(2/9\), so
+\[
+\mathbb{P}(A_2) = \frac{2}{9} + \frac{2}{9} + \frac{2}{9} = \frac{2}{3}.
+\]
+
+In the conditional model given \(A_1\), the three small values are equally likely, so \(X\) is uniform on \(\{0,1,2\}\) and
+\[
+\mathbb{E}[X \mid A_1] = 1
+\]
+(the midpoint).  
+Similarly, given \(A_2\), \(X\) is uniform on \(\{6,7,8\}\), so
+\[
+\mathbb{E}[X \mid A_2] = 7.
+\]
+
+By the Total Expectation Theorem,
+\[
+\mathbb{E}[X]
+= \mathbb{P}(A_1)\,\mathbb{E}[X \mid A_1]
++ \mathbb{P}(A_2)\,\mathbb{E}[X \mid A_2]
+= \frac{1}{3} \cdot 1 + \frac{2}{3} \cdot 7
+= \frac{1}{3} + \frac{14}{3}
+= 5.
+\]
+Thus, instead of computing \(\mathbb{E}[X]\) directly from all six probabilities at once, we divided the problem into two simpler conditional expectations and combined them with appropriate weights.
+
+
+
+\subsubsection{Geometric PMF and memorylessness}
+
+Let \(X\) be the number of tosses until the first heads.  
+Then \(X\) takes values \(1,2,3,\dots\), and
+\[
+\mathbb{P}(X = k) = (1-p)^{k-1} p, \quad k = 1,2,\dots
+\]
+
+The key property is \textit{memorylessness}.  
+Suppose we know that the first toss was tails, so \(X > 1\).  
+From that point on, we are again waiting for the first heads in a sequence of independent tosses with success probability \(p\).  
+Thus, the number of \textit{additional} tosses until heads, namely \(X-1\), has the same geometric distribution as \(X\), when we condition on \(X>1\):
+\[
+X-1 \mid (X>1) \sim \text{Geometric}(p).
+\]
+More generally, for any integer \(n \ge 1\),
+\[
+X-n \mid (X>n) \sim \text{Geometric}(p).
+\]
+
+Concretely, for example
+\[
+\mathbb{P}(X-1 = 3 \mid X>1)
+= \mathbb{P(\text{T,T,T,H on tosses }2,3,4 \mid \text{T on toss }1)}.
+\]
+Because tosses are independent, conditioning on tails on the first toss does not change the probabilities of future sequences, so this equals
+\[
+\mathbb{P}(\text{T,T,T,H on tosses }2,3,4)
+= (1-p)^3 p,
+\]
+which is exactly \(\mathbb{P}(X = 4)\), the geometric PMF at \(k=4\).  
+This illustrates that the conditional distribution of the remaining waiting time is geometric with parameter \(p\).
+
+\bigskip\textsc{Using memorylessness to find the expectation}
+
+Directly computing
+\[
+\mathbb{E}[X] = \sum_{k=1}^{\infty} k (1-p)^{k-1} p
+\]
+is possible but involves an infinite series.  
+Instead, we use memorylessness and the total expectation idea.
+
+Write
+\[
+X = 1 + (X-1).
+\]
+Taking expectations,
+\[
+\mathbb{E}[X] = 1 + \mathbb{E}[X-1].
+\]
+
+Now split \(\mathbb{E}[X-1]\) into two scenarios according to the outcome of the first toss:
+\[
+\mathbb{E}[X-1]
+= \mathbb{E}[X-1 \mid X=1]\,\mathbb{P}(X=1)
++ \mathbb{E}[X-1 \mid X>1]\,\mathbb{P}(X>1).
+\]
+If \(X=1\), then \(X-1=0\), so
+\[
+\mathbb{E}[X-1 \mid X=1] = 0, \quad \mathbb{P}(X=1) = p.
+\]
+Thus the first term is zero.  
+The second term is
+\[
+\mathbb{E}[X-1 \mid X>1]\,\mathbb{P}(X>1)
+= \mathbb{E}[X-1 \mid X>1] (1-p).
+\]
+
+By memorylessness,
+\[
+X-1 \mid (X>1) \sim \text{Geometric}(p),
+\]
+so
+\[
+\mathbb{E}[X-1 \mid X>1] = \mathbb{E}[X].
+\]
+Therefore
+\[
+\mathbb{E}[X-1] = (1-p)\,\mathbb{E}[X].
+\]
+
+Substitute back into \(\mathbb{E}[X] = 1 + \mathbb{E}[X-1]\):
+\[
+\mathbb{E}[X] = 1 + (1-p)\,\mathbb{E}[X].
+\]
+Rearrange:
+\[
+\mathbb{E}[X] - (1-p)\,\mathbb{E}[X] = 1,
+\]
+\[
+p\,\mathbb{E}[X] = 1,
+\]
+\[
+\mathbb{E}[X] = \frac{1}{p}.
+\]
+
+This makes intuitive sense: if the success probability \(p\) is small, we expect to wait longer on average until the first heads.
+
+
+
+\subsubsection{Joint PMFs and the expected value rule}
+
+When dealing with several discrete random variables together, their joint behaviour is described by a \textit{joint} PMF.  
+From the joint PMF we can recover the individual (marginal) PMFs and compute expectations of functions of several variables.
+
+\bigskip\textsc{Joint and marginal PMFs}
+
+Let \(X\) and \(Y\) be discrete random variables.  
+Their \textit{joint} PMF is
+\[
+p_{X,Y}(x,y) = \mathbb{P}(X = x,\, Y = y).
+\]
+This is a function of two arguments: for each pair \((x,y)\) it gives the probability that \(X\) takes value \(x\) and \(Y\) takes value \(y\) simultaneously.  
+It satisfies
+\[
+\sum_{x}\sum_{y} p_{X,Y}(x,y) = 1.
+\]
+
+The \textit{marginal} PMFs of \(X\) and \(Y\) are obtained by summing out the other variable:
+\[
+p_X(x) = \mathbb{P}(X = x) = \sum_{y} p_{X,Y}(x,y),
+\]
+\[
+p_Y(y) = \mathbb{P}(Y = y) = \sum_{x} p_{X,Y}(x,y).
+\]
+For example, if the joint PMF is given in a table, then \(p_X(x)\) is the sum of the entries in the column corresponding to \(x\), and \(p_Y(y)\) is the sum of the entries in the row corresponding to \(y\).
+
+\bigskip\textsc{Example: reading a joint PMF table}
+
+Suppose the joint PMF of \(X\) and \(Y\), for \(x \in \{0,1,2\}\) and \(y \in \{1,2,3\}\), is given in a \(3\times 3\) table of probabilities.  
+Then:
+- The probability that \(X=1\) and \(Y=3\) is the entry in the row \(y=3\), column \(x=1\).  
+- The marginal \(\mathbb{P}(X=2)\) is the sum of the entries in the column \(x=2\).  
+- The marginal \(\mathbb{P}(Y=2)\) is the sum of the entries in the row \(y=2\).  
+
+If we want \(\mathbb{P}(X=Y)\), we add the probabilities of all diagonal pairs \((0,0)\), \((1,1)\), \((2,2)\) (or whichever pairs satisfy \(x=y\)) in the joint table.
+
+\bigskip\textsc{Joint PMF for more variables}
+
+For three discrete random variables \(X,Y,Z\), the joint PMF is
+\[
+p_{X,Y,Z}(x,y,z) = \mathbb{P}(X=x, Y=y, Z=z),
+\]
+and
+\[
+\sum_{x}\sum_{y}\sum_{z} p_{X,Y,Z}(x,y,z) = 1.
+\]
+From this we can obtain marginals by summing out the variables we are not interested in, for example
+\[
+p_X(x) = \sum_{y}\sum_{z} p_{X,Y,Z}(x,y,z),
+\]
+\[
+p_{X,Y}(x,y) = \sum_{z} p_{X,Y,Z}(x,y,z).
+\]
+
+\bigskip\textsc{Functions of two random variables and their PMF}
+
+Given two random variables \(X\) and \(Y\), a function
+\[
+Z = g(X,Y)
+\]
+is itself a random variable.  
+To find the PMF of \(Z\), we use the joint PMF of \((X,Y)\):
+\[
+p_Z(z) = \mathbb{P}(Z = z)
+= \mathbb{P}\bigl(g(X,Y) = z\bigr)
+= \sum_{(x,y):\, g(x,y) = z} p_{X,Y}(x,y).
+\]
+That is, we sum the probabilities of all pairs \((x,y)\) for which \(g(x,y)\) equals the value \(z\).
+
+\bigskip\textsc{Expected value rule for functions of two variables}
+
+For a function \(g(X,Y)\), there is an expected value rule analogous to the one-variable case:
+\[
+\mathbb{E}[g(X,Y)] = \sum_{x}\sum_{y} g(x,y)\,p_{X,Y}(x,y).
+\]
+Interpretation: for each possible pair \((x,y)\), the random variables take this pair with probability \(p_{X,Y}(x,y)\), and then the function has value \(g(x,y)\); the product \(g(x,y)\,p_{X,Y}(x,y)\) is the contribution of that pair to the overall average, and we sum over all pairs.
+
+
+\subsubsection{Linearity of expectations}
+
+Linearity of expectation extends to sums of multiple random variables and lets us compute the binomial mean very easily.
+
+\bigskip\textsc{Linearity for several random variables}
+
+For any discrete random variables \(X_1,\dots,X_n\),
+\[
+\mathbb{E}\Bigl[\sum_{i=1}^{n} X_i\Bigr] = \sum_{i=1}^{n} \mathbb{E}[X_i].
+\]
+For example, for three variables,
+\[
+\mathbb{E}[2X + 3Y - Z]
+= 2\,\mathbb{E}[X] + 3\,\mathbb{E}[Y] - \mathbb{E}[Z].
+\]
+
+\bigskip\textsc{Derivation for two variables}
+
+For two variables \(X\) and \(Y\),
+\[
+\mathbb{E}[X+Y]
+= \sum_{x}\sum_{y} (x+y)\,p_{X,Y}(x,y).
+\]
+Split the sum:
+\[
+\mathbb{E}[X+Y]
+= \sum_{x}\sum_{y} x\,p_{X,Y}(x,y)
++ \sum_{x}\sum_{y} y\,p_{X,Y}(x,y).
+\]
+In the first term, for fixed \(x\),
+\[
+\sum_{y} x\,p_{X,Y}(x,y)
+= x \sum_{y} p_{X,Y}(x,y)
+= x\,p_X(x),
+\]
+so
+\[
+\sum_{x}\sum_{y} x\,p_{X,Y}(x,y)
+= \sum_{x} x\,p_X(x)
+= \mathbb{E}[X].
+\]
+A symmetric argument shows that the second term equals \(\mathbb{E}[Y]\).  
+Thus
+\[
+\mathbb{E}[X+Y] = \mathbb{E}[X] + \mathbb{E}[Y].
+\]
+The general \(n\)-variable case follows similarly.
+
+\bigskip\textsc{Mean of a binomial via indicators}
+
+Let \(X \sim \text{Binomial}(n,p)\).  
+Interpret \(X\) as the number of successes in \(n\) independent trials, each with success probability \(p\).
+
+Define indicator variables
+\[
+X_i =
+\begin{cases}
+1 & \text{if trial \(i\) is a success},\\
+0 & \text{otherwise},
+\end{cases}
+\qquad i=1,\dots,n.
+\]
+Each \(X_i\) is Bernoulli\((p)\), so
+\[
+\mathbb{P}(X_i = 1) = p, \quad \mathbb{P}(X_i = 0) = 1-p, \quad \mathbb{E}[X_i] = p.
+\]
+
+The total number of successes is the sum of these indicators:
+\[
+X = X_1 + X_2 + \cdots + X_n.
+\]
+By linearity of expectation,
+\[
+\mathbb{E}[X]
+= \mathbb{E}[X_1] + \cdots + \mathbb{E}[X_n]
+= p + \cdots + p
+= np.
+\]
+
+So a binomial random variable with parameters \(n\) and \(p\) has mean
+\[
+\mathbb{E}[X] = np,
+\]
+which matches the intuition that in \(n\) trials with success probability \(p\), we expect \(np\) successes on average.
+
+
+
+\newpage
+\subsubsection{Conditional PMFs}
+
+When we condition on the value of another random variable, we obtain a family of conditional PMFs for \(X\), one for each value of \(Y\).
+
+\bigskip\textsc{Conditional PMF given another variable}
+
+Let \(X\) and \(Y\) be discrete random variables with joint PMF \(p_{X,Y}(x,y)\) and marginal \(p_Y(y) = \mathbb{P}(Y=y)\).  
+For any \(y\) with \(p_Y(y) > 0\), the \textit{conditional PMF} of \(X\) given \(Y=y\) is
+\[
+p_{X\mid Y}(x\mid y)
+= \mathbb{P}(X = x \mid Y = y)
+= \frac{p_{X,Y}(x,y)}{p_Y(y)}.
+\]
+If we fix \(y\), this is a PMF in the variable \(x\), and its values satisfy
+\[
+\sum_x p_{X\mid Y}(x\mid y) = 1.
+\]
+Changing \(y\) changes the conditional PMF, so \(\{p_{X\mid Y}(\cdot\mid y)\}\) is a family of PMFs indexed by \(y\).
+
+\bigskip\textsc{Example from a joint table}
+
+Suppose the joint PMF of \((X,Y)\) is given by a table, and we condition on \(Y=2\).  
+First compute
+\[
+p_Y(2) = \sum_x p_{X,Y}(x,2),
+\]
+by adding the entries in the row \(y=2\).  
+Then, for each \(x\),
+\[
+p_{X\mid Y}(x\mid 2)
+= \frac{p_{X,Y}(x,2)}{p_Y(2)}.
+\]
+For instance, if the row \(y=2\) has entries proportional to \(0,1,3,1\), their sum is \(5\), so the conditional PMF values are
+\[
+0,\ \frac{1}{5},\ \frac{3}{5},\ \frac{1}{5}.
+\]
+Geometrically, the conditional PMF for \(X\mid Y=2\) is the corresponding row of the joint PMF, rescaled so that its entries add to \(1\).
+
+\bigskip\textsc{Multiplication rule in PMF form}
+
+From the definition
+\[
+p_{X\mid Y}(x\mid y) = \frac{p_{X,Y}(x,y)}{p_Y(y)},
+\]
+we can rewrite
+\[
+p_{X,Y}(x,y)
+= p_Y(y)\,p_{X\mid Y}(x\mid y),
+\]
+which is the multiplication rule in PMF notation.  
+Symmetrically,
+\[
+p_{X,Y}(x,y)
+= p_X(x)\,p_{Y\mid X}(y\mid x).
+\]
+Thus we can specify a joint distribution either directly via \(p_{X,Y}\) or indirectly by giving a marginal (say \(p_Y\)) and a conditional PMF (say \(p_{X\mid Y}\)).
+
+\bigskip\textsc{More than two variables}
+
+For three random variables \(X,Y,Z\), the conditional PMF of \(X\) given \(Y=y\) and \(Z=z\) is
+\[
+p_{X\mid Y,Z}(x\mid y,z)
+= \mathbb{P}(X=x \mid Y=y, Z=z)
+= \frac{p_{X,Y,Z}(x,y,z)}{p_{Y,Z}(y,z)},
+\]
+where
+\[
+p_{Y,Z}(y,z) = \sum_x p_{X,Y,Z}(x,y,z).
+\]
+
+We also have a multiplication rule for three variables.  
+Let
+\[
+A = \{X=x\}, \quad B = \{Y=y\}, \quad C = \{Z=z\}.
+\]
+Then
+\[
+\mathbb{P}(A \cap B \cap C)
+= \mathbb{P}(A)\,\mathbb{P}(B\mid A)\,\mathbb{P}(C\mid A \cap B),
+\]
+which in PMF notation becomes
+\[
+p_{X,Y,Z}(x,y,z)
+= p_X(x)\,p_{Y\mid X}(y\mid x)\,p_{Z\mid X,Y}(z\mid x,y).
+\]
+
+\bigskip\textsc{conditional expectation}
+
+A conditional expectation is just the expectation of \(X\) computed in the conditional model “given \(Y=y\)”.
+
+
+Let \(X\) and \(Y\) be discrete random variables, and suppose \(\mathbb{P}(Y = y) > 0\).  
+The conditional expectation of \(X\) given \(Y=y\) is
+\[
+\mathbb{E}[X \mid Y = y]
+= \sum_{x} x \,\mathbb{P}(X = x \mid Y = y).
+\]
+Here we use the conditional PMF \(p_{X\mid Y}(x\mid y)\) instead of the original PMF of \(X\).
+
+\bigskip\textsc{Expected value rule (conditional form)}
+
+If \(g\) is a function and \(Z = g(X)\), then in the conditional model “given \(Y=y\)” we have
+\[
+\mathbb{E}[g(X) \mid Y = y]
+= \sum_{x} g(x)\,\mathbb{P}(X = x \mid Y = y).
+\]
+This is the same expected value rule as before, but with conditional probabilities.
+
+\bigskip\textsc{Total expectation theorem (version with \(Y\))}
+
+Let \(X\) and \(Y\) be discrete random variables, and suppose \(Y\) takes values in some countable set \(\mathcal{Y}\).  
+Then the total expectation theorem says
+\[
+\mathbb{E}[X]
+= \sum_{y \in \mathcal{Y}} \mathbb{P}(Y = y)\,\mathbb{E}[X \mid Y = y].
+\]
+So we can view the possible values of \(Y\) as “scenarios”:  
+for each scenario \(Y=y\), we compute the conditional mean \(\mathbb{E}[X \mid Y=y]\), and then average these means using \(\mathbb{P}(Y=y)\) as weights.
+
+\bigskip\textsc{Remark on infinite ranges}
+
+If \(Y\) can take infinitely many discrete values, the sum
+\[
+\sum_{y} \mathbb{P}(Y = y)\,\mathbb{E}[X \mid Y = y]
+\]
+becomes an infinite series.  
+Under the usual assumption that \(\mathbb{E}[X]\) is well defined (finite), this identity still holds, and we can safely use the total expectation theorem even when \(Y\) ranges over an infinite discrete set.
+
+
+\subsubsection{Independence of random variables}
+
+Independence for random variables extends the idea of independence for events to the level of entire distributions.
+
+Let \(X\) be a random variable and \(A\) an event.  
+We say that \(X\) and \(A\) are \textit{independent} if, for every real number \(x\),
+\[
+\mathbb{P}(X = x \text{ and } A) = \mathbb{P}(X = x)\,\mathbb{P}(A).
+\]
+Equivalently, whenever \(\mathbb{P}(A) > 0\),
+\[
+\mathbb{P}(X = x \mid A) = \mathbb{P}(X = x) \quad \text{for all } x.
+\]
+Intuition: knowing that \(A\) occurred does not change the distribution of \(X\).  
+
+Symmetrically, for any \(x\) with \(\mathbb{P}(X = x) > 0\),
+\[
+\mathbb{P}(A \mid X = x) = \mathbb{P}(A),
+\]
+so learning the value of \(X\) does not change your beliefs about \(A\).
+
+\bigskip\textsc{Independence of two random variables}
+
+Let \(X\) and \(Y\) be discrete random variables.  
+We say that \(X\) and \(Y\) are \textit{independent} if, for all real \(x\) and \(y\),
+\[
+\mathbb{P}(X = x,\, Y = y)
+= \mathbb{P}(X = x)\,\mathbb{P}(Y = y).
+\]
+In terms of PMFs,
+\[
+p_{X,Y}(x,y) = p_X(x)\,p_Y(y) \quad \text{for all } x,y.
+\]
+So the joint PMF factorizes as the product of the marginals.
+
+Equivalently, for any \(y\) with \(\mathbb{P}(Y = y) > 0\),
+\[
+\mathbb{P}(X = x \mid Y = y) = \mathbb{P}(X = x) \quad \text{for all } x,
+\]
+that is,
+\[
+p_{X\mid Y}(x\mid y) = p_X(x).
+\]
+So knowing \(Y=y\) does not change the distribution of \(X\).  
+Symmetrically,
+\[
+p_{Y\mid X}(y\mid x) = p_Y(y),
+\]
+so knowing \(X=x\) does not change the distribution of \(Y\).
+
+\bigskip\textsc{Independence of multiple random variables}
+
+For three random variables \(X,Y,Z\), we say they are \textit{mutually independent} if, for all \(x,y,z\),
+\[
+p_{X,Y,Z}(x,y,z)
+= p_X(x)\,p_Y(y)\,p_Z(z).
+\]
+More generally, a finite collection \(X_1,\dots,X_n\) is mutually independent if the joint PMF factors as the product of all the marginals:
+\[
+p_{X_1,\dots,X_n}(x_1,\dots,x_n)
+= \prod_{i=1}^{n} p_{X_i}(x_i)
+\]
+for all choices of \((x_1,\dots,x_n)\).
+
+Intuitively, this means that information about some of the variables does not change the distribution of any of the others: all conditional PMFs coincide with the corresponding unconditional PMFs.  
+In practical terms, independence models situations where each random variable is generated by its own separate probabilistic experiment, with no interaction and no shared source of randomness.
+
+
+
+Independence gives one more important rule for expectations: products of independent random variables have factorizing expectations.
+
+\bigskip\textsc{Product of independent random variables}
+
+Let \(X\) and \(Y\) be independent discrete random variables.  
+Then
+\[
+\mathbb{E}[XY] = \mathbb{E}[X]\,\mathbb{E}[Y].
+\]
+
+\textit{Derivation.}  
+Using the expected value rule with the joint PMF:
+\[
+\mathbb{E}[XY]
+= \sum_{x} \sum_{y} xy\,p_{X,Y}(x,y).
+\]
+Independence means
+\[
+p_{X,Y}(x,y) = p_X(x)\,p_Y(y),
+\]
+so
+\[
+\mathbb{E}[XY]
+= \sum_{x} \sum_{y} xy\,p_X(x)\,p_Y(y).
+\]
+For fixed \(x\), the factor \(x\,p_X(x)\) does not depend on \(y\), hence
+\[
+\mathbb{E}[XY]
+= \sum_{x} x\,p_X(x) \sum_{y} y\,p_Y(y)
+= \Bigl(\sum_{x} x\,p_X(x)\Bigr)
+  \Bigl(\sum_{y} y\,p_Y(y)\Bigr)
+= \mathbb{E}[X]\,\mathbb{E}[Y].
+\]
+
+\bigskip\textsc{Products of functions of independent variables}
+
+If \(X\) and \(Y\) are independent, and \(g\) and \(h\) are functions, then the random variables \(g(X)\) and \(h(Y)\) are also independent.  
+Therefore,
+\[
+\mathbb{E}[g(X)\,h(Y)]
+= \mathbb{E}[g(X)]\,\mathbb{E}[h(Y)].
+\]
+We can view this either as a consequence of independence of \(g(X)\) and \(h(Y)\), or prove it directly by repeating the previous derivation with \(g(x)\) in place of \(x\) and \(h(y)\) in place of \(y\).
+
+
+We want to understand how variance behaves for sums, and then use this to find the variance of a binomial random variable.
+
+\newpage
+\bigskip\textsc{Variance of a sum under independence}
+
+In general, \(\operatorname{Var}(X+Y)\) is not equal to \(\operatorname{Var}(X)+\operatorname{Var}(Y)\).  
+However, if \(X\) and \(Y\) are independent, we do have
+\[
+\operatorname{Var}(X+Y) = \operatorname{Var}(X) + \operatorname{Var}(Y).
+\]
+
+Assume first that \(\mathbb{E}[X]=\mathbb{E}[Y]=0\), just to simplify the algebra.  
+Then
+\[
+\operatorname{Var}(X+Y)
+= \mathbb{E}\bigl[(X+Y)^2\bigr]
+= \mathbb{E}\bigl[X^2 + 2XY + Y^2\bigr].
+\]
+Using linearity of expectation,
+\[
+\operatorname{Var}(X+Y)
+= \mathbb{E}[X^2] + 2\mathbb{E}[XY] + \mathbb{E}[Y^2].
+\]
+Since the means are zero, \(\mathbb{E}[X^2] = \operatorname{Var}(X)\) and \(\mathbb{E}[Y^2] = \operatorname{Var}(Y)\).  
+
+If \(X\) and \(Y\) are independent, then
+\[
+\mathbb{E}[XY] = \mathbb{E}[X]\,\mathbb{E}[Y] = 0 \cdot 0 = 0.
+\]
+So
+\[
+\operatorname{Var}(X+Y)
+= \operatorname{Var}(X) + \operatorname{Var}(Y).
+\]
+
+Without the zero-mean assumption, one can expand \(\operatorname{Var}(X+Y)\) using the general formula \(\operatorname{Var}(Z)=\mathbb{E}[Z^2]-(\mathbb{E}[Z])^2\) and obtain the same result; the cross terms again cancel because \(\mathbb{E}[XY]=\mathbb{E}[X]\mathbb{E}[Y]\) under independence.
+
+\bigskip\textsc{Examples showing dependence matters}
+
+If \(Y = X\), then \(X+Y = 2X\), so
+\[
+\operatorname{Var}(X+Y) = \operatorname{Var}(2X) = 4\,\operatorname{Var}(X),
+\]
+which is generally not equal to \(\operatorname{Var}(X)+\operatorname{Var}(Y) = 2\,\operatorname{Var}(X)\).  
+Here \(X\) and \(Y\) are completely dependent.
+
+If \(Y = -X\), then \(X+Y = 0\) always, so
+\[
+\operatorname{Var}(X+Y) = \operatorname{Var}(0) = 0,
+\]
+again very different from \(\operatorname{Var}(X)+\operatorname{Var}(Y)\).  
+
+These examples show that knowing just the individual variances is not enough; the dependence structure between \(X\) and \(Y\) is crucial.
+
+\bigskip\textsc{Example with independence and scaling}
+
+If \(X\) and \(Y\) are independent, then \(X\) is also independent of any function of \(Y\), such as \(-3Y\).  
+Thus
+\[
+\operatorname{Var}(X - 3Y)
+= \operatorname{Var}(X) + \operatorname{Var}(-3Y)
+= \operatorname{Var}(X) + 9\,\operatorname{Var}(Y),
+\]
+using the rule \(\operatorname{Var}(aZ) = a^2 \operatorname{Var}(Z)\).
+
+\bigskip\textsc{Variance of a binomial random variable}
+
+Let \(X\) be binomial with parameters \(n\) and \(p\).  
+Interpret \(X\) as the number of successes in \(n\) independent trials, each with success probability \(p\).
+
+Define indicator random variables
+\[
+X_i =
+\begin{cases}
+1 & \text{if the \(i\)-th trial is a success},\\
+0 & \text{otherwise},
+\end{cases}
+\quad i=1,\dots,n.
+\]
+Each \(X_i\) is Bernoulli\((p)\), and the total number of successes is
+\[
+X = X_1 + X_2 + \cdots + X_n.
+\]
+The independence of the trials means the indicators \(X_1,\dots,X_n\) are independent.  
+
+For each \(X_i\),
+\[
+\mathbb{E}[X_i] = p, \qquad \operatorname{Var}(X_i) = p(1-p).
+\]
+
+Using independence and the variance-of-sum rule,
+\[
+\operatorname{Var}(X)
+= \operatorname{Var}\bigl(X_1 + \cdots + X_n\bigr)
+= \sum_{i=1}^{n} \operatorname{Var}(X_i)
+= \sum_{i=1}^{n} p(1-p)
+= n\,p(1-p).
+\]
+
+Thus a binomial random variable with parameters \(n\) and \(p\) has variance
+\[
+\operatorname{Var}(X) = n p (1-p).
+\]
+
+\subsubsection{The hat problem}
+
+
+There are \(n\) people and \(n\) hats, all permutations equally likely.  
+Let \(X\) be the number of people who get their own hat, and \(X_i\) the indicator for person \(i\).
+
+\bigskip\textsc{Definition of the indicators}
+
+For each \(i = 1,\dots,n\),
+\[
+X_i =
+\begin{cases}
+1 & \text{if person } i \text{ gets their own hat},\\
+0 & \text{otherwise}.
+\end{cases}
+\]
+Then
+\[
+X = X_1 + X_2 + \cdots + X_n.
+\]
+
+\bigskip\textsc{Expectation of each \(X_i\)}
+
+In a random permutation, person \(i\) is equally likely to receive any of the \(n\) hats.  
+Only one of these is their own hat, so
+\[
+\mathbb{P}(X_i = 1) = \frac{1}{n}.
+\]
+Thus
+\[
+\mathbb{E}[X_i]
+= 1 \cdot \frac{1}{n} + 0 \cdot \Bigl(1 - \frac{1}{n}\Bigr)
+= \frac{1}{n}.
+\]
+
+\bigskip\textsc{Expectation of \(X\)}
+
+By linearity of expectation,
+\[
+\mathbb{E}[X]
+= \sum_{i=1}^{n} \mathbb{E}[X_i]
+= \sum_{i=1}^{n} \frac{1}{n}
+= 1.
+\]
+
+So in the hat problem, the expected number of people who get their own hat back is always
+\[
+\mathbb{E}[X] = 1,
+\]
+independent of \(n\).
