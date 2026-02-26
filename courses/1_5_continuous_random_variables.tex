@@ -1,0 +1,703 @@
+\subsection{Continuous random variables}
+
+A continuous random variable takes values over a continuous range, such as the real line or an interval on the real line.  
+In the discrete case, one unit of probability is distributed over the possible values as point masses, and the PMF tells us how much probability sits on top of each value.  
+In the continuous case, one unit of probability is still assigned to the possible values, but now it is spread continuously over the real line.
+
+Some parts of the real line receive more probability mass per unit length, others receive less.  
+The \textit{probability density function} (PDF), denoted \(f_X(x)\), describes how densely probability is distributed along the real line.  
+The letter \(f\) indicates we are dealing with a PDF, and the subscript indicates which random variable we are considering.
+
+\bigskip\textsc{Interpretation of the PDF}
+
+Think of probability as snowfall.  
+One pound of snow has fallen on the real line, and the PDF tells us the height of the snow accumulated over each point.  
+The weight of snow sitting on top of an interval \([a, b]\) is found by calculating the area under the PDF curve over that interval.  
+Mathematically, area under the curve is an integral, so
+\[
+\mathbb{P}(a \le X \le b) = \int_a^b f_X(x) \, dx.
+\]
+This is the probability that \(X\) takes values in the interval \([a, b]\).
+
+\bigskip\textsc{Properties of a PDF}
+
+By analogy with the discrete case, a PDF must satisfy two conditions:
+\[
+f_X(x) \ge 0 \quad \text{for all } x,
+\]
+\[
+\int_{-\infty}^{+\infty} f_X(x) \, dx = 1.
+\]
+The first condition ensures we do not obtain negative probabilities.  
+The second condition ensures that the total probability over the entire real line equals one, since \(X\) is certain to lie somewhere on the real line.  
+These two conditions are all that we need for a legitimate PDF.
+
+\bigskip\textsc{Formal definition of a continuous random variable}
+
+A continuous random variable is a random variable whose probabilities can be described by a PDF.  
+That is, there exists a function \(f_X\) such that
+\[
+\mathbb{P}(a \le X \le b) = \int_a^b f_X(x) \, dx
+\]
+for any interval \([a, b]\).  
+It is not enough for a random variable to take values on a continuous set.  
+A continuous random variable must also be describable by a PDF according to this formula.
+
+\bigskip\textsc{Probabilities of more complicated sets}
+
+Once we have the probabilities of intervals, we can use additivity to calculate the probabilities of more complicated sets.  
+For example, suppose we want the probability that \(X\) lies between \(1\) and \(3\) or between \(4\) and \(5\).  
+This is the probability of a region consisting of two disjoint intervals.  
+By additivity,
+\[
+\mathbb{P}(1 \le X \le 3 \text{ or } 4 \le X \le 5) = \mathbb{P}(1 \le X \le 3) + \mathbb{P}(4 \le X \le 5).
+\]
+Each of the probabilities on the right is calculated using the PDF:
+\[
+= \int_1^3 f_X(x) \, dx + \int_4^5 f_X(x) \, dx.
+\]
+
+\bigskip\textsc{The role of the sample space}
+
+There is still an underlying sample space lurking in the background.  
+Different outcomes in the sample space result in different numerical values for the random variable \(X\).  
+When we talk about the probability that \(X\) takes values in an interval \([a, b]\), we mean the probability of those outcomes for which the resulting value of \(X\) lies in that interval.
+
+However, once we have a PDF in our hands, we can completely forget about the sample space and carry out any calculations just by working with the PDF.  
+As we move on in this course, the sample space will appear less and less, and we will work directly with PDFs or PMFs.
+
+\newpage
+\bigskip\textsc{Probabilities of small intervals}
+
+Let us look at an interval that starts at some point \(a\) and goes up to \(a + \delta\), where \(\delta\) is a small positive number.  
+The probability that \(X\) falls in this interval is the area under the PDF over the interval \([a, a + \delta]\).  
+As long as \(f_X\) does not change too much over this little interval, which will be the case if \(f_X\) is continuous, we can approximate the area by the area of a rectangle with constant height.  
+The area of this rectangle is
+\[
+\mathbb{P}(a \le X \le a + \delta) \approx f_X(a) \cdot \delta.
+\]
+This gives us an interpretation of PDFs in terms of probabilities of small intervals.
+
+If we rearrange this approximation, we see that
+\[
+f_X(a) \approx \frac{\mathbb{P}(a \le X \le a + \delta)}{\delta}.
+\]
+So the value of the PDF can be interpreted as \textit{probability per unit length}.  
+PDFs are not probabilities, they are densities, and their units are probability per unit length.
+
+\bigskip\textsc{Probability of a single point}
+
+If the probability per unit length is finite and the length \(\delta\) is sent to zero, we obtain zero probability.  
+More formally, if we let \(b = a\) in the integral
+\[
+\mathbb{P}(a \le X \le a) = \int_a^a f_X(x) \, dx,
+\]
+we get an integral over a zero-length interval, and that integral is zero.  
+Therefore,
+\[
+\mathbb{P}(X = a) = 0
+\]
+for any particular point \(a\).
+
+So for a continuous random variable, any particular point has zero probability.  
+Yet, collectively, the infinitely many points in an interval together have positive probability.  
+This is not a puzzle, it is exactly what happens with the ordinary notion of length.  
+Single points have zero length, yet by putting together lots of points we can create a set with positive length.
+
+\bigskip\textsc{Open and closed intervals}
+
+A final consequence of the fact that individual points have zero probability is that it does not matter whether we include the endpoints of an interval or not.  
+Using additivity,
+\[
+\mathbb{P}(a \le X \le b) = \mathbb{P}(X = a) + \mathbb{P}(a < X < b) + \mathbb{P}(X = b).
+\]
+Since \(\mathbb{P}(X = a) = 0\) and \(\mathbb{P}(X = b) = 0\), we conclude that
+\[
+\mathbb{P}(a \le X \le b) = \mathbb{P}(a < X < b).
+\]
+When calculating probabilities of intervals, it does not matter whether we include the endpoints or not.
+
+
+\subsubsection{Uniform and piecewise constant PDFs}
+
+The uniform random variable is a basic example of a continuous random variable.  
+In the discrete uniform case, the possible values are integers between \(a\) and \(b\), all equally likely.  
+In the continuous case, any real number between \(a\) and \(b\) is possible, and the PDF has the same height at all points in this interval.
+
+Intuitively, a uniform random variable models a situation where we know that the value lies between \(a\) and \(b\), but we have no reason to believe that any location inside the interval is more likely than another.  
+In this sense, it represents a situation of complete ignorance.
+
+\bigskip\textsc{PDF of a uniform random variable}
+
+Let \(X\) be uniform on \([a,b]\).  
+Its PDF is constant on \([a,b]\) and zero elsewhere:
+\[
+f_X(x) =
+\begin{cases}
+c, & a \le x \le b, \\
+0, & \text{otherwise}.
+\end{cases}
+\]
+The total probability must be \(1\), so the area under the PDF is
+\[
+1 = \int_a^b c \, dx = c(b-a),
+\]
+which gives \(c = \frac{1}{b-a}\).  
+Thus
+\[
+f_X(x) =
+\begin{cases}
+\frac{1}{b-a}, & a \le x \le b, \\
+0, & \text{otherwise}.
+\end{cases}
+\]
+Any two intervals of the same length inside \([a,b]\) have the same probability, because their probabilities are the base (length) times the same constant height.
+
+\bigskip\textsc{Piecewise constant PDFs}
+
+A more general kind of PDF is piecewise constant.  
+In this case, the PDF is constant on each of several subintervals, possibly with different heights on different intervals.  
+This shows that PDFs need not be continuous; they may have jumps and discontinuities.
+
+For such a PDF to be valid, the total area under the curve must be \(1\).  
+This total area is the sum of the areas of the rectangles corresponding to each constant piece.
+
+\bigskip\textsc{Computing probabilities}
+
+With a piecewise constant PDF, probabilities are obtained by adding areas of rectangles.  
+If a certain event corresponds to an interval that intersects several constant pieces, its probability is the sum of the areas over each part of that interval.  
+For example, if over two subintervals the heights are \(h_1\) and \(h_2\) and the lengths are \(\ell_1\) and \(\ell_2\), then the probability of their union is
+\[
+h_1 \ell_1 + h_2 \ell_2.
+\]
+
+
+\subsubsection{Means and variances}
+
+We now develop continuous counterparts of the concepts of expectation and variance.  
+In the discrete case, expectation is a weighted average of the possible values of a random variable, weighted by their probabilities.  
+In the continuous case, we use the same idea, but the sum is replaced by an integral and the weights come from the PDF.
+
+\bigskip\textsc{Expectation of a continuous random variable}
+
+Let \(X\) be a continuous random variable with PDF \(f_X(x)\).  
+Its expectation (or mean) is defined by
+\[
+\mathbb{E}[X] = \int_{-\infty}^{+\infty} x f_X(x) \, dx.
+\]
+This is a weighted average of the possible values of \(X\), where points with higher density \(f_X(x)\) contribute more.  
+More generally, for any function \(g\),
+\[
+\mathbb{E}[g(X)] = \int_{-\infty}^{+\infty} g(x) f_X(x) \, dx.
+\]
+This is the continuous analogue of the discrete expected value rule.  
+
+To ensure that the expectation is well defined, we usually assume that
+\[
+\int_{-\infty}^{+\infty} |x| f_X(x) \, dx < \infty.
+\]
+Under this assumption, \(\mathbb{E}[X]\) exists.  
+
+The intuition of expectation remains the same as in the discrete case.  
+It represents the average value we would see if we repeated the experiment many times independently.  
+It can also be viewed as the center of gravity of the distribution.  
+If the PDF is symmetric around a point \(c\), then the expectation is \(c\).
+
+\bigskip\textsc{Basic properties of expectation}
+
+Expectations of continuous random variables satisfy the same properties as in the discrete case.  
+If \(X \ge 0\) always, then \(\mathbb{E}[X] \ge 0\).  
+If \(X\) always lies in an interval \([a,b]\), then \(\mathbb{E}[X]\) also lies in \([a,b]\).
+
+A key property is linearity of expectation.  
+For constants \(a\) and \(b\),
+\[
+\mathbb{E}[aX + b] = a\,\mathbb{E}[X] + b.
+\]
+Linearity holds regardless of whether \(X\) is discrete or continuous.  
+
+\bigskip\textsc{Variance and standard deviation}
+
+The variance of a continuous random variable is defined exactly as in the discrete case:
+\[
+\mathrm{Var}(X) = \mathbb{E}\big[(X - \mu)^2\big],
+\]
+where \(\mu = \mathbb{E}[X]\).  
+Using the expected value rule, this becomes
+\[
+\mathrm{Var}(X) = \int_{-\infty}^{+\infty} (x - \mu)^2 f_X(x) \, dx.
+\]
+The standard deviation is
+\[
+\sigma = \sqrt{\mathrm{Var}(X)}.
+\]
+
+Variance measures how spread out the values of \(X\) are around the mean.  
+A small variance means that most of the probability mass is concentrated close to \(\mu\).  
+A large variance means that values far from \(\mu\) occur more often.
+
+\bigskip\textsc{Alternative formula for the variance}
+
+It is often convenient to use the formula
+\[
+\mathrm{Var}(X) = \mathbb{E}[X^2] - \big(\mathbb{E}[X]\big)^2.
+\]
+Here
+\[
+\mathbb{E}[X^2] = \int_{-\infty}^{+\infty} x^2 f_X(x) \, dx.
+\]
+This alternative expression is derived exactly as in the discrete case and is usually easier to use in calculations.
+
+\bigskip\textsc{Effect of linear transformations}
+
+If we transform a random variable \(X\) by a linear function \(aX + b\), the variance behaves as follows:
+\[
+\mathrm{Var}(aX + b) = a^2 \mathrm{Var}(X).
+\]
+Adding a constant \(b\) does not change the variance.  
+Multiplying by a constant \(a\) scales the variance by \(a^2\).
+
+
+\subsubsection{Mean and variance of the uniform}
+
+We now illustrate mean and variance calculations using the continuous uniform random variable.  
+This is the continuous analogue of the discrete uniform, for which we already know formulas for the mean and variance.
+
+\bigskip\textsc{Mean of the uniform}
+
+Let \(X\) be uniform on \([a,b]\), with density
+\[
+f_X(x) =
+\begin{cases}
+\frac{1}{b-a}, & a \le x \le b, \\
+0, & \text{otherwise}.
+\end{cases}
+\]
+The mean is
+\[
+\mathbb{E}[X] = \int_{-\infty}^{+\infty} x f_X(x)\,dx.
+\]
+Since \(f_X(x)=0\) outside \([a,b]\), this reduces to
+\[
+\mathbb{E}[X] = \int_a^b x \cdot \frac{1}{b-a}\,dx = \frac{1}{b-a}\int_a^b x\,dx.
+\]
+We have
+\[
+\int_a^b x\,dx = \frac{b^2}{2} - \frac{a^2}{2},
+\]
+so
+\[
+\mathbb{E}[X] = \frac{1}{b-a}\left(\frac{b^2}{2} - \frac{a^2}{2}\right) = \frac{a+b}{2}.
+\]
+This is the same as in the discrete case and also matches the midpoint of the interval \([a,b]\), reflecting the symmetry of the PDF around \(\frac{a+b}{2}\).
+
+\bigskip\textsc{Computing \(\mathbb{E}[X^2]\)}
+
+To use the alternative variance formula, we first compute \(\mathbb{E}[X^2]\).  
+By the expected value rule,
+\[
+\mathbb{E}[X^2] = \int_{-\infty}^{+\infty} x^2 f_X(x)\,dx = \int_a^b x^2 \cdot \frac{1}{b-a}\,dx.
+\]
+Thus
+\[
+\mathbb{E}[X^2] = \frac{1}{b-a}\int_a^b x^2\,dx.
+\]
+Since
+\[
+\int_a^b x^2\,dx = \frac{b^3}{3} - \frac{a^3}{3},
+\]
+we obtain
+\[
+\mathbb{E}[X^2] = \frac{1}{b-a}\left(\frac{b^3}{3} - \frac{a^3}{3}\right).
+\]
+The cubic terms appear because the antiderivative of \(x^2\) is \(\frac{x^3}{3}\).
+
+\bigskip\textsc{Variance and standard deviation}
+
+Using the alternative formula
+\[
+\mathrm{Var}(X) = \mathbb{E}[X^2] - \big(\mathbb{E}[X]\big)^2,
+\]
+we substitute
+\[
+\mathbb{E}[X^2] = \frac{1}{b-a}\left(\frac{b^3}{3} - \frac{a^3}{3}\right),
+\quad
+\mathbb{E}[X] = \frac{a+b}{2}.
+\]
+After some algebra, this simplifies to
+\[
+\mathrm{Var}(X) = \frac{(b-a)^2}{12}.
+\]
+The standard deviation is then
+\[
+\sigma = \sqrt{\mathrm{Var}(X)} = \frac{b-a}{\sqrt{12}}.
+\]
+
+A useful observation is that the standard deviation is proportional to the width \(b-a\) of the interval.  
+The wider the uniform distribution, the larger the standard deviation, which matches the intuition that standard deviation measures the spread or width of the distribution.  
+The variance grows with the square of the length \(b-a\), reflecting that doubling the width multiplies the variance by four.
+
+
+\subsubsection{Exponential random variables}
+
+We now introduce a new continuous random variable, the exponential random variable.  
+It is determined by a single positive parameter \(\lambda > 0\), and its PDF is
+\[
+f_X(x) =
+\begin{cases}
+\lambda e^{-\lambda x}, & x \ge 0, \\
+0, & x < 0.
+\end{cases}
+\]
+Since the PDF is zero for negative \(x\), the exponential random variable is always non-negative.
+
+For \(x \ge 0\), the PDF starts at value \(\lambda\) when \(x = 0\) and then decays exponentially.  
+When \(\lambda\) is small, the initial height is small but the decay is slow, so the distribution extends over a wide range.  
+When \(\lambda\) is large, the PDF starts high near zero and decays quickly, so most of the probability is concentrated near \(0\).
+
+The shape of the exponential PDF is analogous to that of the geometric distribution in the discrete case.  
+There, probabilities decrease geometrically with the value; here they decrease exponentially.
+
+\bigskip\textsc{Tail probabilities}
+
+Fix \(a > 0\).  
+We want to compute
+\[
+\mathbb{P}(X \ge a) = \int_a^{\infty} \lambda e^{-\lambda x} \, dx.
+\]
+Using the antiderivative \(\int e^{-\lambda x} dx = -\frac{1}{\lambda} e^{-\lambda x}\), we get
+\[
+\mathbb{P}(X \ge a)
+= \lambda \left[-\frac{1}{\lambda} e^{-\lambda x}\right]_{x=a}^{x=\infty}
+= - e^{-\lambda x}\Big|_{x=a}^{x=\infty}
+= 0 - \big(-e^{-\lambda a}\big)
+= e^{-\lambda a}.
+\]
+Thus the tail probability decays exponentially in \(a\).  
+
+If we set \(a = 0\), we obtain
+\[
+\mathbb{P}(X \ge 0) = e^{-\lambda \cdot 0} = 1,
+\]
+which confirms that the total integral of the PDF over its support is \(1\).
+
+\bigskip\textsc{Mean and second moment}
+
+To compute the mean, we use the definition
+\[
+\mathbb{E}[X] = \int_0^{\infty} x \lambda e^{-\lambda x} \, dx.
+\]
+This integral can be evaluated by integration by parts and the result is
+\[
+\mathbb{E}[X] = \frac{1}{\lambda}.
+\]
+
+For the second moment, we similarly write
+\[
+\mathbb{E}[X^2] = \int_0^{\infty} x^2 \lambda e^{-\lambda x} \, dx,
+\]
+which is again computed by integration by parts (a bit more tedious).  
+The result is
+\[
+\mathbb{E}[X^2] = \frac{2}{\lambda^2}.
+\]
+
+\bigskip\textsc{Variance}
+
+Using the alternative variance formula,
+\[
+\mathrm{Var}(X) = \mathbb{E}[X^2] - \big(\mathbb{E}[X]\big)^2,
+\]
+we substitute
+\[
+\mathbb{E}[X^2] = \frac{2}{\lambda^2},
+\quad
+\mathbb{E}[X] = \frac{1}{\lambda}.
+\]
+Thus
+\[
+\mathrm{Var}(X)
+= \frac{2}{\lambda^2} - \left(\frac{1}{\lambda}\right)^2
+= \frac{2}{\lambda^2} - \frac{1}{\lambda^2}
+= \frac{1}{\lambda^2}.
+\]
+
+When \(\lambda\) is small, the PDF decays slowly, so large values of \(X\) are more likely.  
+In that case, both the mean \(\frac{1}{\lambda}\) and the variance \(\frac{1}{\lambda^2}\) are large, reflecting a wide and spread-out distribution.  
+
+\bigskip\textsc{Interpretation and relation to geometric}
+
+The exponential distribution is closely related to the geometric distribution.  
+The mean \(\mathbb{E}[X] = 1/\lambda\) parallels the geometric mean \(1/p\), where \(p\) is the success probability.  
+The exponential is often used to model waiting times until an event occurs, such as the time until a customer arrives, a machine fails, a light bulb burns out, or an email arrives.
+
+
+\subsubsection{Cumulative distribution functions}
+
+We now introduce a way to describe the distribution of any random variable, discrete or continuous, using the \textit{cumulative distribution function} (CDF).  
+For a random variable \(X\), the CDF is the function
+\[
+F_X(x) = \mathbb{P}(X \le x).
+\]
+It gives the probability that \(X\) takes a value less than or equal to \(x\).
+
+The CDF is defined the same way for all types of random variables.  
+If \(X\) is continuous with PDF \(f_X\), then
+\[
+F_X(x) = \int_{-\infty}^{x} f_X(t)\,dt.
+\]
+
+\bigskip\textsc{Example: uniform random variable}
+
+Let \(X\) be uniform on \([a,b]\).  
+The CDF \(F_X(x)\) has three cases:
+\[
+F_X(x) =
+\begin{cases}
+0, & x \le a, \\
+\displaystyle \frac{x-a}{b-a}, & a < x < b, \\
+1, & x \ge b.
+\end{cases}
+\]
+For \(x \le a\), there is no probability mass to the left, so the CDF is \(0\).  
+For \(a < x < b\), the probability up to \(x\) is the area of a rectangle with base \(x-a\) and height \(\frac{1}{b-a}\), giving \(\frac{x-a}{b-a}\).  
+For \(x \ge b\), we have already covered all the probability, so the CDF is \(1\).
+
+The graph starts at \(0\), rises linearly from \(a\) to \(b\), and then stays at \(1\).
+
+\bigskip\textsc{Using the CDF to get probabilities}
+
+Once we know the CDF, we can compute probabilities of intervals.  
+For example,
+\[
+\mathbb{P}(3 < X \le 4) = F_X(4) - F_X(3).
+\]
+More generally, for any \(a < b\),
+\[
+\mathbb{P}(a < X \le b) = F_X(b) - F_X(a).
+\]
+Thus the CDF contains all probabilistic information about the distribution.
+
+For continuous random variables, we can recover the PDF from the CDF wherever the derivative exists:
+\[
+f_X(x) = \frac{d}{dx} F_X(x).
+\]
+Conversely, given the PDF, we obtain the CDF by integrating.
+
+\bigskip\textsc{CDFs for discrete random variables}
+
+For a discrete random variable \(X\), the CDF is still
+\[
+F_X(x) = \mathbb{P}(X \le x),
+\]
+but it is computed as a sum of PMF values for all outcomes \(k\) with \(k \le x\).  
+The CDF has the shape of a staircase: it is constant between the possible values of \(X\) and jumps upward at each value where \(X\) has positive probability.
+
+At a point \(x_0\) where \(X\) can take the value \(x_0\), the jump size is
+\[
+F_X(x_0) - \lim_{x \uparrow x_0} F_X(x) = \mathbb{P}(X = x_0).
+\]
+The value of the CDF at a jump is the value \emph{including} that point, because the definition uses \(\le x\).
+
+\bigskip\textsc{General properties of CDFs}
+
+CDFs satisfy some general properties for any random variable:
+\[
+\text{(i) } F_X(x) \text{ is non-decreasing in } x,
+\]
+\[
+\text{(ii) } \lim_{x \to -\infty} F_X(x) = 0,
+\]
+\[
+\text{(iii) } \lim_{x \to +\infty} F_X(x) = 1.
+\]
+The non-decreasing property reflects that larger \(x\) correspond to larger events \(\{X \le x\}\).  
+As we move far to the left, the probability of being \(\le x\) must go to \(0\), and as we move far to the right, the probability must approach \(1\).
+
+\subsubsection{Normal random variables}
+
+Normal random variables, also called Gaussian random variables, are among the most important in probability theory.  
+They play a key role in theoretical results such as the central limit theorem and are widely used in applications as models of random noise.
+
+\bigskip\textsc{Standard normal distribution}
+
+The \textit{standard normal} random variable is denoted by
+\[
+X \sim \mathcal{N}(0,1).
+\]
+Its PDF is defined for all real \(x\) by
+\[
+f_X(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}, \quad -\infty < x < \infty.
+\]
+This random variable can take any real value.  
+
+The factor \(e^{-x^2/2}\) has a bell shape centered at \(0\): it is equal to \(1\) at \(x=0\) and decreases as \(|x|\) increases.  
+The constant \(\frac{1}{\sqrt{2\pi}}\) is chosen so that the total area under the curve is \(1\).
+
+Because the PDF is symmetric around \(0\), the mean of the standard normal is
+\[
+\mathbb{E}[X] = 0.
+\]
+A calculus computation shows that its variance is
+\[
+\mathrm{Var}(X) = 1.
+\]
+
+\bigskip\textsc{General normal distributions}
+
+A general normal random variable with mean \(\mu\) and variance \(\sigma^2\) is denoted by
+\[
+X \sim \mathcal{N}(\mu,\sigma^2),
+\]
+where \(\sigma > 0\).  
+Its PDF is
+\[
+f_X(x) = \frac{1}{\sqrt{2\pi}\,\sigma}
+\exp\!\left(-\frac{(x-\mu)^2}{2\sigma^2}\right), \quad -\infty < x < \infty.
+\]
+
+The exponent \(-\frac{(x-\mu)^2}{2\sigma^2}\) is a quadratic centered at \(x=\mu\), so the PDF has a bell shape centered at \(\mu\).  
+By symmetry, the mean is
+\[
+\mathbb{E}[X] = \mu.
+\]
+A calculus exercise shows that the variance is
+\[
+\mathrm{Var}(X) = \sigma^2.
+\]
+
+The parameter \(\sigma\) controls the spread.  
+When \(\sigma\) is small, the quadratic in the exponent rises quickly, the bell is narrow, and the variance is small.  
+When \(\sigma\) is large, the bell is wide and the variance is large.
+
+\bigskip\textsc{Linear transformations of normal variables}
+
+Normal random variables behave very nicely under linear transformations.  
+Let
+\[
+X \sim \mathcal{N}(\mu,\sigma^2)
+\]
+and define
+\[
+Y = aX + b
+\]
+for constants \(a\) and \(b\).  
+
+From linearity of expectation,
+\[
+\mathbb{E}[Y] = a\,\mathbb{E}[X] + b = a\mu + b.
+\]
+From the variance rule for linear functions,
+\[
+\mathrm{Var}(Y) = a^2 \mathrm{Var}(X) = a^2 \sigma^2.
+\]
+The key additional fact is that \(Y\) is itself normal:
+\[
+Y \sim \mathcal{N}(a\mu + b,\, a^2\sigma^2).
+\]
+
+There is one special case.  
+If \(a = 0\), then \(Y = b\) is a constant (a degenerate discrete random variable with variance \(0\)).  
+By convention, we can view this as a degenerate normal with mean \(b\) and variance \(0\), so that any linear function of a normal random variable is still considered normal.
+
+
+\subsubsection{Calculation of normal probabilities}
+
+Normal random variables are very important, so we would like to calculate probabilities such as \(\mathbb{P}(X \le 5)\) when \(X\) is normal.  
+In general, the CDF of a normal random variable does not have a closed form expression in terms of elementary functions.  
+
+\bigskip\textsc{Standard normal CDF and its table}
+
+For the standard normal random variable \(Y \sim \mathcal{N}(0,1)\), we denote the CDF by
+\[
+\phi(y) = \mathbb{P}(Y \le y).
+\]
+Graphically, \(\phi(y)\) is the area under the standard normal PDF to the left of \(y\).  
+Values of \(\phi(y)\) are tabulated in standard normal tables.
+
+To use such a table, we locate the row and column corresponding to the first two decimal digits of \(y\).  
+For example, \(\phi(0) = 0.5\) by symmetry of the standard normal around \(0\).  
+If we want \(\phi(1.16)\), we find the row for \(1.1\) and the column for \(0.06\), and read off the corresponding entry.  
+For \(y = 2.9\), we find the row for \(2.9\) and the column for \(0.00\), which gives \(\phi(2.9)\).  
+
+Typical tables list \(\phi(y)\) only for \(y \ge 0\).  
+To handle negative arguments, we use symmetry of the standard normal:
+\[
+\phi(-y) = \mathbb{P}(Y \le -y) = 1 - \mathbb{P}(Y \le y) = 1 - \phi(y), \quad y \ge 0.
+\]
+Thus, to find \(\phi(-2)\), we compute \(1 - \phi(2)\).  
+
+\bigskip\textsc{Standardization of a general normal}
+
+Let \(X\) be a normal random variable with mean \(\mu\) and standard deviation \(\sigma > 0\), that is \(X \sim \mathcal{N}(\mu,\sigma^2)\).  
+We define the standardized random variable
+\[
+Y = \frac{X - \mu}{\sigma}.
+\]
+The quantity \(Y\) measures how many standard deviations \(X\) is away from its mean.  
+
+The mean of \(Y\) is
+\[
+\mathbb{E}[Y] = \frac{\mathbb{E}[X] - \mu}{\sigma} = 0,
+\]
+and the variance of \(Y\) is
+\[
+\mathrm{Var}(Y) = \frac{1}{\sigma^2} \mathrm{Var}(X) = 1.
+\]
+If \(X\) is normal, then \(Y\) is a standard normal random variable.  
+Equivalently,
+\[
+X = \mu + \sigma Y, \quad Y \sim \mathcal{N}(0,1).
+\]
+
+\bigskip\textsc{Using standardization to compute probabilities}
+
+To compute probabilities for \(X\), we transform the event into one involving \(Y\).  
+For example, for any real \(a\) and \(b\) with \(a < b\),
+\[
+\mathbb{P}(a \le X \le b)
+= \mathbb{P}\!\left(a \le \mu + \sigma Y \le b\right)
+= \mathbb{P}\!\left(\frac{a-\mu}{\sigma} \le Y \le \frac{b-\mu}{\sigma}\right).
+\]
+If we write
+\[
+\alpha = \frac{a-\mu}{\sigma}, \quad \beta = \frac{b-\mu}{\sigma},
+\]
+then
+\[
+\mathbb{P}(a \le X \le b) = \mathbb{P}(\alpha \le Y \le \beta) = \phi(\beta) - \phi(\alpha).
+\]
+We can then use the standard normal table to find \(\phi(\beta)\) and \(\phi(\alpha)\), handling negative arguments via symmetry if needed.
+
+\bigskip\textsc{Example of the method}
+
+Suppose \(X \sim \mathcal{N}(6,4)\), so \(\mu = 6\) and \(\sigma = 2\).  
+We want
+\[
+\mathbb{P}(2 \le X \le 8).
+\]
+We standardize:
+\[
+\frac{2 - 6}{2} = -2, \quad \frac{8 - 6}{2} = 1.
+\]
+So
+\[
+\mathbb{P}(2 \le X \le 8) = \mathbb{P}(-2 \le Y \le 1),
+\]
+where \(Y \sim \mathcal{N}(0,1)\).  
+This equals
+\[
+\mathbb{P}(Y \le 1) - \mathbb{P}(Y \le -2)
+= \phi(1) - \phi(-2).
+\]
+Using symmetry,
+\[
+\phi(-2) = 1 - \phi(2),
+\]
+so
+\[
+\mathbb{P}(2 \le X \le 8)
+= \phi(1) - \big(1 - \phi(2)\big)
+= \phi(1) + \phi(2) - 1.
+\]
+Finally, we read \(\phi(1)\) and \(\phi(2)\) from the standard normal table and substitute the corresponding numerical values.
