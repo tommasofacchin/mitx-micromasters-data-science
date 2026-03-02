@@ -701,3 +701,1286 @@ so
 = \phi(1) + \phi(2) - 1.
 \]
 Finally, we read \(\phi(1)\) and \(\phi(2)\) from the standard normal table and substitute the corresponding numerical values.
+
+
+\newpage
+\subsubsection{Conditioning a continuous random variable on an event}
+
+We extend conditioning to continuous random variables, by replacing sums with integrals and PMFs with PDFs.
+
+\bigskip\textsc{Conditional PDF on an event}
+
+Let \(X\) be continuous with PDF \(f_X\) and let \(A\) be an event with \(\mathbb{P}(A)>0\).  
+In the conditional world where \(A\) is known to have occurred, \(X\) has a conditional PDF \(f_{X\mid A}\) such that, for any set \(B\),
+\[
+\mathbb{P}(X \in B \mid A) = \int_B f_{X\mid A}(x)\,dx.
+\]
+This \(f_{X\mid A}\) is a genuine PDF:
+\[
+f_{X\mid A}(x)\ge 0,\qquad \int_{-\infty}^{\infty} f_{X\mid A}(x)\,dx = 1.
+\]
+
+\bigskip\textsc{Special case: conditioning on \(\{X \in S\}\)}
+
+Now assume
+\[
+A = \{X \in S\}, \quad S \subseteq \mathbb{R}, \quad \mathbb{P}(X \in S)>0.
+\]
+We want a formula for \(f_{X\mid X\in S}\).
+
+Think in terms of small intervals: for small \(\Delta>0\),
+\[
+\mathbb{P}(x \le X \le x+\Delta) \approx f_X(x)\,\Delta,
+\]
+\[
+\mathbb{P}(x \le X \le x+\Delta \mid X\in S) \approx f_{X\mid X\in S}(x)\,\Delta.
+\]
+
+\textsc{Case 1:} \(x \notin S\).  
+For small \(\Delta\), the interval \([x,x+\Delta]\) does not intersect \(S\), so the conditional probability is \(0\), hence
+\[
+f_{X\mid X\in S}(x)=0 \quad \text{if } x\notin S.
+\]
+
+\textsc{Case 2:} \(x \in S\).  
+For small \(\Delta\), \([x,x+\Delta]\subseteq S\), so
+\[
+\mathbb{P}(x \le X \le x+\Delta \mid X\in S)
+=
+\frac{\mathbb{P}(x \le X \le x+\Delta)}{\mathbb{P}(X\in S)}
+\approx
+\frac{f_X(x)\,\Delta}{\mathbb{P}(X\in S)}.
+\]
+Comparing with
+\[
+\mathbb{P}(x \le X \le x+\Delta \mid X\in S) \approx f_{X\mid X\in S}(x)\,\Delta
+\]
+and cancelling \(\Delta\), we get
+\[
+f_{X\mid X\in S}(x) = \frac{f_X(x)}{\mathbb{P}(X\in S)} \quad \text{if } x\in S,
+\]
+and \(0\) otherwise.
+
+In compact form,
+\[
+f_{X\mid X\in S}(x)
+=
+\frac{f_X(x)}{\int_S f_X(u)\,du}\,\mathbf{1}_{\{x\in S\}}.
+\]
+\textit{The conditional PDF keeps the same shape as \(f_X\) on \(S\), but is rescaled so that the total area over \(S\) becomes \(1\).}
+
+\bigskip\textsc{Conditional expectation (brief)}
+
+Given \(A\) with \(\mathbb{P}(A)>0\), the conditional expectation of \(g(X)\) given \(A\) is
+\[
+\mathbb{E}[g(X)\mid A] = \int_{-\infty}^{\infty} g(x)\,f_{X\mid A}(x)\,dx.
+\]
+For the special case \(A=\{X\in S\}\),
+\[
+\mathbb{E}[g(X)\mid X\in S]
+=
+\frac{1}{\mathbb{P}(X\in S)}\int_S g(x)\,f_X(x)\,dx.
+\]
+
+This is the continuous analogue of the discrete conditional expectation formula, with integrals instead of sums.
+
+
+\subsubsection{Conditioning example}
+
+We illustrate conditioning of a continuous random variable on an event using a simple piecewise constant PDF.
+
+\bigskip\textsc{Setup}
+
+Let \(X\) have a uniform PDF on \([a,b]\),
+\[
+f_X(x) = \frac{1}{b-a}, \quad a \le x \le b,
+\]
+and \(f_X(x)=0\) otherwise.  
+We condition on the event
+\[
+A = \left\{ \frac{a+b}{2} \le X \le b \right\}.
+\]
+
+\bigskip\textsc{Conditional PDF}
+
+The conditional PDF is
+\[
+f_{X\mid A}(x) = 0 \quad \text{for } x < \frac{a+b}{2} \text{ or } x > b.
+\]
+On the interval \(\left[\frac{a+b}{2}, b\right]\), it must keep the same \textit{shape} as \(f_X\), which is constant, so \(f_{X\mid A}\) is also constant there.  
+The length of the conditioning interval is
+\[
+b - \frac{a+b}{2} = \frac{b-a}{2}.
+\]
+Since the total area must be \(1\),
+\[
+\text{height} \times \text{length} = 1
+\quad\Rightarrow\quad
+\text{height} \cdot \frac{b-a}{2} = 1,
+\]
+so the conditional PDF height is
+\[
+\text{height} = \frac{2}{b-a}.
+\]
+Therefore
+\[
+f_{X\mid A}(x)
+=
+\begin{cases}
+\dfrac{2}{b-a}, & \dfrac{a+b}{2} \le x \le b,\\[4pt]
+0, & \text{otherwise}.
+\end{cases}
+\]
+
+\bigskip\textsc{Conditional expectation}
+
+Because \(X\mid A\) is uniform on \(\left[\frac{a+b}{2},b\right]\), its expectation is the midpoint of that interval:
+\[
+\mathbb{E}[X \mid A]
+=
+\frac{1}{2}\left(\frac{a+b}{2}\right)
++
+\frac{1}{2}b
+=
+\frac{1}{4}a + \frac{3}{4}b.
+\]
+
+\bigskip\textsc{Conditional expectation of \(X^2\)}
+
+Using the expected value rule with the conditional PDF,
+\[
+\mathbb{E}[X^2 \mid A]
+=
+\int_{-\infty}^{\infty} x^2 f_{X\mid A}(x)\,dx
+=
+\int_{(a+b)/2}^{b} x^2 \cdot \frac{2}{b-a}\,dx.
+\]
+That is,
+\[
+\mathbb{E}[X^2 \mid A]
+=
+\frac{2}{b-a}
+\int_{(a+b)/2}^{b} x^2\,dx,
+\]
+an elementary integral that can be evaluated directly if needed.
+
+\subsubsection{Exponential PDF and memorylessness}
+
+Let \(T\) be the lifetime of a light bulb and assume \(T \sim \text{Exponential}(\lambda)\), so
+\[
+\mathbb{P}(T > x) = e^{-\lambda x}, \quad x \ge 0.
+\]
+
+\bigskip\textsc{Memorylessness}
+
+Suppose the bulb has already worked for time \(t\) and has not failed, so \(T>t\).  
+Let \(X = T - t\) be the remaining lifetime. Then
+\[
+\mathbb{P}(X > x \mid T > t)
+=
+\frac{\mathbb{P}(T > t + x)}{\mathbb{P}(T > t)}
+=
+\frac{e^{-\lambda (t+x)}}{e^{-\lambda t}}
+=
+e^{-\lambda x}
+=
+\mathbb{P}(T > x).
+\]
+So the remaining lifetime has the same distribution as a new bulb.  
+\textit{An exponential lifetime does not “remember” how long it has already lasted.}
+
+\bigskip\textsc{Small-interval interpretation}
+
+For small \(\Delta>0\),
+\[
+\mathbb{P}(0 \le T \le \Delta) \approx \lambda \Delta.
+\]
+By memorylessness, the same is true conditionally at any time \(t\):
+\[
+\mathbb{P}(\text{failure in }[t,t+\Delta) \mid T>t) \approx \lambda \Delta.
+\]
+\textit{At each tiny time step, the failure chance is always about \(\lambda \Delta\), independent of the past.}
+
+
+\subsubsection{Total probability and expectation theorems (continuous case)}
+
+We now state continuous versions of the total probability and total expectation theorems, and illustrate them with a simple scenario model.
+
+\bigskip\textsc{Total probability for PDFs}
+
+Let \(A_1,\dots,A_n\) be a partition of the sample space, that is, disjoint events whose union is the whole space, and let \(X\) be a continuous random variable with density \(f_X\).  
+For each scenario \(A_i\), let \(f_{X\mid A_i}\) be the conditional PDF of \(X\) given \(A_i\).
+
+Then the PDF of \(X\) is
+\[
+f_X(x) = \sum_{i=1}^n \mathbb{P}(A_i)\,f_{X\mid A_i}(x).
+\]
+\textit{The overall density at a point \(x\) is a weighted sum of the conditional densities at \(x\), with weights given by the scenario probabilities.}
+
+\bigskip\textsc{Total expectation (continuous)}
+
+Under the same setup, the total expectation theorem says
+\[
+\mathbb{E}[X]
+=
+\sum_{i=1}^n \mathbb{P}(A_i)\,\mathbb{E}[X \mid A_i].
+\]
+\textit{The overall mean is the average of the conditional means, weighted by the probabilities of the scenarios.}
+
+\bigskip\textsc{Example: Bill and the supermarket}
+
+Bill will go to the supermarket at a random time \(X\) (in hours from now).  
+There are two scenarios:
+
+\textsc{Scenario 1} \(A_1\): with probability \(\mathbb{P}(A_1)=\tfrac{1}{3}\), Bill goes between 0 and 2 hours, uniformly:
+\[
+f_{X\mid A_1}(x) =
+\begin{cases}
+\dfrac{1}{2}, & 0 \le x \le 2,\\
+0, & \text{otherwise}.
+\end{cases}
+\]
+
+\textsc{Scenario 2} \(A_2\): with probability \(\mathbb{P}(A_2)=\tfrac{2}{3}\), Bill goes between 6 and 8 hours, uniformly:
+\[
+f_{X\mid A_2}(x) =
+\begin{cases}
+\dfrac{1}{2}, & 6 \le x \le 8,\\
+0, & \text{otherwise}.
+\end{cases}
+\]
+
+Using the total probability formula,
+\[
+f_X(x)
+=
+\mathbb{P}(A_1)f_{X\mid A_1}(x)
++
+\mathbb{P}(A_2)f_{X\mid A_2}(x),
+\]
+so
+\[
+f_X(x)
+=
+\begin{cases}
+\dfrac{1}{3}\cdot \dfrac{1}{2} = \dfrac{1}{6}, & 0 \le x \le 2,\\[4pt]
+\dfrac{2}{3}\cdot \dfrac{1}{2} = \dfrac{1}{3}, & 6 \le x \le 8,\\[4pt]
+0, & \text{otherwise}.
+\end{cases}
+\]
+
+For the expectation, use total expectation:
+\[
+\mathbb{E}[X]
+=
+\mathbb{P}(A_1)\,\mathbb{E}[X\mid A_1]
++
+\mathbb{P}(A_2)\,\mathbb{E}[X\mid A_2].
+\]
+Under \(A_1\), \(X\) is uniform on \([0,2]\), so \(\mathbb{E}[X\mid A_1]=1\).  
+Under \(A_2\), \(X\) is uniform on \([6,8]\), so \(\mathbb{E}[X\mid A_2]=7\).  
+Thus
+\[
+\mathbb{E}[X]
+=
+\frac{1}{3}\cdot 1 + \frac{2}{3}\cdot 7
+=
+\frac{1}{3} + \frac{14}{3}
+=
+5.
+\]
+
+This example shows how scenario-wise conditional PDFs and expectations combine to give the overall distribution and mean.
+
+
+\subsubsection{Mixed random variables}
+
+We now consider random variables that are neither purely discrete nor purely continuous.
+
+\bigskip\textsc{Motivating example}
+
+You have 1 dollar and can choose whether to play a lottery.
+
+- With probability \(1/2\), you do nothing and keep your 1 dollar.  
+  In this scenario, \(X=1\) for sure.  
+- With probability \(1/2\), you play the lottery and get a random return \(U\) that is uniform on \([0,2]\).  
+  In this scenario, \(X=U\).
+
+The resulting \(X\) can take any value in \([0,2]\), but
+\[
+\mathbb{P}(X = 1) = \frac{1}{2} > 0.
+\]
+So:
+
+- \(X\) is \textit{not} discrete, because it is not supported on a countable set only  
+- \(X\) is \textit{not} continuous, because a continuous random variable must satisfy \(\mathbb{P}(X=x)=0\) for all \(x\), which fails at \(x=1\)
+
+We call such an \(X\) a \textit{mixed random variable}.
+
+\bigskip\textsc{General construction}
+
+More generally, suppose:
+
+- With probability \(p\), \(X\) behaves like a discrete random variable \(Y\)  
+- With probability \(1-p\), \(X\) behaves like a continuous random variable \(Z\)
+
+Then \(X\) has no PMF (not purely discrete) and no PDF (not purely continuous), but its CDF is always well defined.  
+Let \(F_Y\) and \(F_Z\) be the CDFs of \(Y\) and \(Z\).  
+Using the total probability theorem for CDFs,
+\[
+F_X(x)
+=
+\mathbb{P}(X \le x)
+=
+p\,\mathbb{P}(Y \le x) + (1-p)\,\mathbb{P}(Z \le x)
+=
+p\,F_Y(x) + (1-p)\,F_Z(x).
+\]
+\textit{The CDF of a mixed random variable is a weighted sum of the CDFs of its discrete and continuous parts.}
+
+For the expectation, we define
+\[
+\mathbb{E}[X]
+=
+p\,\mathbb{E}[Y] + (1-p)\,\mathbb{E}[Z],
+\]
+consistent with the total expectation theorem.
+
+\bigskip\textsc{CDF in the lottery example}
+
+In the lottery example:
+
+- Scenario \(A_1\) (play): probability \(1/2\), \(X\) is uniform on \([0,2]\)  
+  \[
+  f_{X\mid A_1}(x) =
+  \begin{cases}
+  \dfrac{1}{2}, & 0 \le x \le 2,\\
+  0, & \text{otherwise},
+  \end{cases}
+  \]
+  so
+  \[
+  F_{X\mid A_1}(x) =
+  \begin{cases}
+  0, & x < 0,\\
+  \dfrac{x}{2}, & 0 \le x \le 2,\\
+  1, & x > 2.
+  \end{cases}
+  \]
+
+- Scenario \(A_2\) (do nothing): probability \(1/2\), \(X\equiv 1\)  
+  Then
+  \[
+  F_{X\mid A_2}(x) =
+  \begin{cases}
+  0, & x < 1,\\
+  1, & x \ge 1.
+  \end{cases}
+  \]
+
+Using
+\[
+F_X(x)
+=
+\frac{1}{2}F_{X\mid A_1}(x) + \frac{1}{2}F_{X\mid A_2}(x),
+\]
+we get:
+
+- For \(x<0\): \(F_X(x)=0\)  
+- For \(0 \le x < 1\):
+  \[
+  F_X(x) = \frac{1}{2}\cdot \frac{x}{2} + \frac{1}{2}\cdot 0 = \frac{x}{4},
+  \]
+  a line of slope \(1/4\)  
+- At \(x=1\): we add the jump from the discrete part
+  \[
+  \lim_{x\to 1^-}F_X(x) = \frac{1}{4}, \qquad F_X(1) = \frac{1}{2}\cdot\frac{1}{2} + \frac{1}{2}\cdot 1 = \frac{1}{4} + \frac{1}{2} = \frac{3}{4},
+  \]
+  so the jump size at \(x=1\) is \(3/4 - 1/4 = 1/2\), which equals \(\mathbb{P}(X=1)\)  
+- For \(1 < x \le 2\):
+  \[
+  F_X(x) = \frac{1}{2}\cdot\frac{x}{2} + \frac{1}{2}\cdot 1 = \frac{x}{4} + \frac{1}{2},
+  \]
+  again a line of slope \(1/4\) until it reaches 1 at \(x=2\)  
+- For \(x>2\): \(F_X(x)=1\)
+
+The resulting CDF has:
+
+- Linear growth with slope \(1/4\) on \([0,1)\)  
+- A jump of size \(1/2\) at \(x=1\)  
+- Linear growth with slope \(1/4\) on \((1,2]\), then flat
+
+\textit{This illustrates that a mixed random variable may not have a single PDF or PMF, but its CDF is easy to construct from the component distributions.}
+
+
+\subsubsection{Joint PDFs}
+
+We now move to \textit{multiple} continuous random variables and introduce the joint PDF, the continuous analogue of the joint PMF.
+
+\bigskip\textsc{Definition and probability of a set}
+
+Let \(X\) and \(Y\) be random variables.  
+A \textit{joint PDF} is a function \(f_{X,Y}(x,y)\) such that
+
+\[
+f_{X,Y}(x,y) \ge 0 \quad \text{for all } (x,y),
+\]
+\[
+\iint_{\mathbb{R}^2} f_{X,Y}(x,y)\,dx\,dy = 1.
+\]
+
+If \(X\) and \(Y\) are \textit{jointly continuous}, probabilities are computed by
+\[
+\mathbb{P}\big((X,Y)\in B\big)
+=
+\iint_B f_{X,Y}(x,y)\,dx\,dy,
+\]
+for any region \(B\subseteq\mathbb{R}^2\).  
+\textit{Geometrically, this is the volume under the surface \(z=f_{X,Y}(x,y)\) above the set \(B\).}
+
+\bigskip\textsc{Rectangles and small rectangles}
+
+For a rectangle
+\[
+B = \{(x,y)\colon a \le x \le b,\ c \le y \le d\},
+\]
+we write
+\[
+\mathbb{P}(a \le X \le b,\ c \le Y \le d)
+=
+\int_c^{d}\int_a^{b} f_{X,Y}(x,y)\,dx\,dy.
+\]
+
+If the rectangle is very small, say \([x, x+\Delta]\times[y, y+\Delta]\) with small \(\Delta>0\), then
+\[
+\mathbb{P}\big(x \le X \le x+\Delta,\ y \le Y \le y+\Delta\big)
+\approx
+f_{X,Y}(x,y)\,\Delta^2.
+\]
+So \textit{the joint PDF is a probability density per unit area}: probability \(\approx\) density \(\times\) area.
+
+\bigskip\textsc{Zero-area sets}
+
+For jointly continuous random variables, any set of area \(0\) has probability \(0\).  
+In particular:
+
+- \(\mathbb{P}(X = x_0,\ Y = y_0) = 0\) for any point \((x_0,y_0)\)  
+- \(\mathbb{P}\big( (X,Y)\) lies on a specific curve or line\()\big) = 0\)
+
+\bigskip\textsc{When continuity fails jointly}
+
+Consider \(X\) continuous and define \(Y=X\).  
+Each variable alone is continuous, but the pair \((X,Y)\) always lies on the line \(y=x\).  
+All probability is concentrated on this one-dimensional line, which has area \(0\).  
+
+This contradicts the \textit{jointly continuous} picture where zero-area sets must have probability \(0\).  
+So \(X\) and \(Y\) here are \textit{not} jointly continuous, even though each is continuous by itself.
+
+
+\newpage
+\subsubsection{From the joint to the marginal}
+
+We now see how to recover the individual (marginal) PDFs of \(X\) and \(Y\) from their joint PDF.
+
+\bigskip\textsc{Deriving the marginal of \(X\)}
+
+Let \(X,Y\) be jointly continuous with joint PDF \(f_{X,Y}(x,y)\).  
+The CDF of \(X\) is
+\[
+F_X(x) = \mathbb{P}(X \le x).
+\]
+Geometrically, this is the probability that the point \((X,Y)\) falls in the half-plane \(\{(s,t)\colon s \le x\}\).  
+Using the joint PDF,
+\[
+F_X(x)
+=
+\iint_{\{(s,t)\colon s \le x\}} f_{X,Y}(s,t)\,ds\,dt.
+\]
+
+We can write this as an iterated integral (use \(s\) for the \(X\)-coordinate and \(t\) for the \(Y\)-coordinate):
+\[
+F_X(x)
+=
+\int_{-\infty}^{\infty}
+\left(
+\int_{-\infty}^{x} f_{X,Y}(s,t)\,ds
+\right)dt.
+\]
+
+To get the PDF of \(X\), we differentiate:
+\[
+f_X(x)
+=
+\frac{d}{dx}F_X(x)
+=
+\frac{d}{dx}
+\int_{-\infty}^{\infty}
+\left(
+\int_{-\infty}^{x} f_{X,Y}(s,t)\,ds
+\right)dt.
+\]
+Differentiating w.r.t. the upper limit \(x\) of the inner integral gives
+\[
+f_X(x)
+=
+\int_{-\infty}^{\infty} f_{X,Y}(x,t)\,dt.
+\]
+
+So the \textit{marginal PDF of \(X\)} is obtained by integrating the joint PDF over all possible \(y\)-values:
+\[
+f_X(x)
+=
+\int_{-\infty}^{\infty} f_{X,Y}(x,y)\,dy.
+\]
+Similarly,
+\[
+f_Y(y)
+=
+\int_{-\infty}^{\infty} f_{X,Y}(x,y)\,dx.
+\]
+
+\bigskip\textsc{Example: uniform joint PDF on a region}
+
+Suppose \((X,Y)\) has a joint PDF that is uniform on a set \(S\) in the plane, and zero outside.  
+If \(\text{area}(S)=A\), then
+\[
+f_{X,Y}(x,y)
+=
+\begin{cases}
+\dfrac{1}{A}, & (x,y)\in S,\\[4pt]
+0, & \text{otherwise}.
+\end{cases}
+\]
+
+For any set \(B\),
+\[
+\mathbb{P}\big((X,Y)\in B\big)
+=
+\iint_{B} f_{X,Y}(x,y)\,dx\,dy
+=
+\frac{1}{A}\,\text{area}(B\cap S).
+\]
+
+Now fix some \(x\).  
+To find \(f_X(x)\), integrate along the vertical line at that \(x\):
+\[
+f_X(x)
+=
+\int_{-\infty}^{\infty} f_{X,Y}(x,y)\,dy
+=
+\frac{1}{A}\times \big(\text{length of the segment of this line inside }S\big).
+\]
+If that vertical slice inside \(S\) has length \(L(x)\), then
+\[
+f_X(x) = \frac{L(x)}{A}.
+\]
+
+Similarly, for \(f_Y(y)\), we integrate horizontally; if the horizontal slice at \(y\) has length \(M(y)\) inside \(S\), then
+\[
+f_Y(y) = \frac{M(y)}{A}.
+\]
+
+\textit{In words: the marginal at a given point is the joint density times the “thickness” of \(S\) along the corresponding line, i.e., the length of the slice through \(S\).}
+
+
+\subsubsection{Continuous analogs of various properties}
+
+We now briefly summarize how standard discrete results extend to jointly continuous random variables.
+
+\bigskip\textsc{Joint PDFs for many variables}
+
+For more than two continuous random variables \(X_1,\dots,X_n\), we can define a joint PDF
+\[
+f_{X_1,\dots,X_n}(x_1,\dots,x_n),
+\]
+which is nonnegative and integrates to 1 over \(\mathbb{R}^n\).  
+Probabilities of events in \(\mathbb{R}^n\) are obtained by integrating this joint PDF over the corresponding region.
+
+\bigskip\textsc{From joint to marginals}
+
+The marginal PDF of any subset of the variables is obtained by integrating out the others.  
+For example, for the first variable,
+\[
+f_{X_1}(x_1) = \int_{-\infty}^{\infty}\cdots\int_{-\infty}^{\infty}
+f_{X_1,\dots,X_n}(x_1,\dots,x_n)\,dx_2\cdots dx_n.
+\]
+
+\bigskip\textsc{Functions of jointly continuous variables}
+
+If \(X_1,\dots,X_n\) are jointly continuous and \(g\) is a real function, we can define
+\[
+Y = g(X_1,\dots,X_n).
+\]
+Then the expected value rule has the same form as in the discrete case:
+\[
+\mathbb{E}[Y]
+=
+\mathbb{E}\big[g(X_1,\dots,X_n)\big]
+=
+\int\cdots\int g(x_1,\dots,x_n)\,
+f_{X_1,\dots,X_n}(x_1,\dots,x_n)\,dx_1\cdots dx_n.
+\]
+
+\bigskip\textsc{Linearity of expectation}
+
+From this rule we recover the usual linearity properties.  
+For constants \(a,b\) and random variables \(X,Y\),
+\[
+\mathbb{E}[aX + bY] = a\,\mathbb{E}[X] + b\,\mathbb{E}[Y],
+\]
+with no extra assumptions needed.  
+
+\textit{In summary, all familiar discrete laws carry over to the continuous case by the usual recipe: replace sums by integrals and PMFs by PDFs.}
+
+
+\subsubsection{Joint CDFs}
+
+We can also describe the distribution of multiple random variables using a joint CDF, in complete analogy with the one-dimensional case.
+
+\bigskip\textsc{Definition and relation to the joint PDF}
+
+For a pair \((X,Y)\), the \textit{joint CDF} is
+\[
+F_{X,Y}(x,y)
+=
+\mathbb{P}(X \le x,\ Y \le y).
+\]
+Geometrically, this is the probability that \((X,Y)\) falls in the rectangle \((-\infty,x]\times(-\infty,y]\).
+
+If \(X,Y\) are jointly continuous with joint PDF \(f_{X,Y}\), then
+\[
+F_{X,Y}(x,y)
+=
+\int_{-\infty}^{y}
+\int_{-\infty}^{x}
+f_{X,Y}(s,t)\,ds\,dt.
+\]
+
+Conversely, we can recover the joint PDF by differentiating:
+\[
+f_{X,Y}(x,y)
+=
+\frac{\partial^2}{\partial x\,\partial y} F_{X,Y}(x,y),
+\]
+assuming the derivatives exist.
+
+\bigskip\textsc{Example: uniform on the unit square}
+
+Suppose \((X,Y)\) is uniform on the unit square \([0,1]\times[0,1]\).  
+Then
+\[
+f_{X,Y}(x,y)
+=
+\begin{cases}
+1, & 0 \le x \le 1,\ 0 \le y \le 1,\\
+0, & \text{otherwise}.
+\end{cases}
+\]
+
+For \(0 \le x \le 1,\ 0 \le y \le 1\), the joint CDF is the probability of the rectangle \([0,x]\times[0,y]\), which is just its area:
+\[
+F_{X,Y}(x,y) = xy.
+\]
+
+Differentiating,
+\[
+\frac{\partial^2}{\partial x\,\partial y}F_{X,Y}(x,y)
+=
+\frac{\partial}{\partial y}\big(y\big)
+=
+1,
+\]
+which recovers the joint PDF on the unit square, as expected.
+
+
+
+
+\subsubsection{Conditional PDFs of one variable given another}
+
+Let \(X\) and \(Y\) be jointly continuous with joint PDF \(f_{X,Y}(x,y)\) and marginal \(f_Y(y)\).  
+For \(y\) such that \(f_Y(y) > 0\), the \textit{conditional PDF} of \(X\) given \(Y=y\) is
+\[
+f_{X\mid Y}(x\mid y)
+=
+\frac{f_{X,Y}(x,y)}{f_Y(y)}.
+\]
+
+\textsc{Small-interval interpretation}
+
+For small \(\delta > 0\), we interpret
+\[
+\mathbb{P}(x \le X \le x + \delta \mid Y \approx y)
+\approx
+f_{X\mid Y}(x\mid y)\,\delta.
+\]
+So, given that \(Y\) is (approximately) \(y\), the function \(x \mapsto f_{X\mid Y}(x\mid y)\) plays the same role as an ordinary PDF of \(X\).
+
+\textsc{Conditional probabilities of sets}
+
+For any set \(B \subseteq \mathbb{R}\), we define
+\[
+\mathbb{P}(X \in B \mid Y = y)
+\triangleq
+\int_B f_{X\mid Y}(x\mid y)\,dx,
+\]
+and treat this as the conditional probability of \(X\) lying in \(B\), given that \(Y\) took value \(y\).
+
+\textsc{Example}
+
+Suppose
+\[
+f_{X,Y}(x,y)
+=
+\begin{cases}
+2, & 0 \le x \le y \le 1,\\
+0, & \text{otherwise}.
+\end{cases}
+\]
+Then for \(0 \le y \le 1\),
+\[
+f_Y(y)
+=
+\int_0^y 2\,dx
+=
+2y,
+\]
+and, for \(0<y\le 1\),
+\[
+f_{X\mid Y}(x\mid y)
+=
+\frac{f_{X,Y}(x,y)}{f_Y(y)}
+=
+\frac{2}{2y}
+=
+\frac{1}{y},
+\qquad 0 \le x \le y,
+\]
+so conditionally on \(Y=y\), the random variable \(X\) is uniform on \([0,y]\).
+
+
+\subsubsection{Comments on conditional PDFs}
+
+\textsc{Basic properties}
+
+For jointly continuous \(X,Y\) with joint PDF \(f_{X,Y}(x,y)\) and marginal \(f_Y(y)\), recall
+\[
+f_{X\mid Y}(x\mid y)
+=
+\frac{f_{X,Y}(x,y)}{f_Y(y)}
+\qquad\text{for } f_Y(y)>0.
+\]
+This conditional PDF is always nonnegative, because the joint PDF is nonnegative and the denominator is positive.
+
+\textsc{Slices of the joint PDF}
+
+Fix a value \(y\) with \(f_Y(y)>0\).  
+As a function of \(x\), the numerator \(f_{X,Y}(x,y)\) describes how the joint density varies along the horizontal line \(\{(x,y)\colon x\in\mathbb{R}\}\).  
+Thus \(x \mapsto f_{X,Y}(x,y)\) is a \textit{slice} of the joint surface taken at height \(y\).
+
+The conditional PDF \(f_{X\mid Y}(x\mid y)\) is obtained from this slice by multiplying by the constant factor \(1/f_Y(y)\).  
+So, for fixed \(y\), the conditional PDF has the \textit{same shape} in \(x\) as the corresponding slice of the joint PDF, just rescaled vertically.
+
+\textsc{Why it integrates to 1}
+
+For any fixed \(y\) with \(f_Y(y)>0\),
+\[
+\int_{-\infty}^{\infty} f_{X\mid Y}(x\mid y)\,dx
+=
+\int_{-\infty}^{\infty} \frac{f_{X,Y}(x,y)}{f_Y(y)}\,dx
+=
+\frac{1}{f_Y(y)}
+\int_{-\infty}^{\infty} f_{X,Y}(x,y)\,dx.
+\]
+By the marginalization rule,
+\[
+\int_{-\infty}^{\infty} f_{X,Y}(x,y)\,dx
+=
+f_Y(y),
+\]
+so the ratio is equal to 1.  
+This shows that, for each fixed \(y\), the conditional PDF behaves like an ordinary PDF in the variable \(x\): it is nonnegative and integrates to 1.
+
+\textsc{Multiplication rule for densities}
+
+Starting again from
+\[
+f_{X\mid Y}(x\mid y)
+=
+\frac{f_{X,Y}(x,y)}{f_Y(y)},
+\]
+we can rearrange to obtain
+\[
+f_{X,Y}(x,y)
+=
+f_{X\mid Y}(x\mid y)\,f_Y(y).
+\]
+This has the same form as the multiplication rule for probabilities, where we write
+\(\mathbb{P}(A\cap B) = \mathbb{P}(A\mid B)\,\mathbb{P}(B)\).  
+The only difference is that here we are dealing with densities, not probabilities, but the algebraic structure is identical.
+
+By symmetry, we also have
+\[
+f_{X,Y}(x,y)
+=
+f_{Y\mid X}(y\mid x)\,f_X(x).
+\]
+So, at the level of formulas, conditional PDFs mirror all the familiar rules from the discrete case, with PMFs replaced by PDFs.
+
+
+
+\subsubsection{Total probability and total expectation theorems}
+
+\textsc{Continuous total probability}
+
+For jointly continuous \(X,Y\) and any set \(A \subseteq \mathbb{R}\),
+\[
+\mathbb{P}(X \in A)
+=
+\int_{-\infty}^{\infty}
+\mathbb{P}(X \in A \mid Y = y)\,f_Y(y)\,dy.
+\]
+
+\textsc{Conditional expectation}
+
+For \(f_Y(y)>0\), the conditional mean of \(X\) given \(Y=y\) is
+\[
+\mathbb{E}[X \mid Y = y]
+=
+\int_{-\infty}^{\infty} x\,f_{X\mid Y}(x\mid y)\,dx.
+\]
+
+\textsc{Total expectation}
+
+The continuous total expectation theorem (law of total expectation) is
+\[
+\mathbb{E}[X]
+=
+\int_{-\infty}^{\infty}
+\mathbb{E}[X \mid Y = y]\,f_Y(y)\,dy.
+\]
+
+\textsc{Expected value rule in the conditional universe}
+
+For any function \(g\),
+\[
+\mathbb{E}\big[g(X) \mid Y = y\big]
+=
+\int_{-\infty}^{\infty} g(x)\,f_{X\mid Y}(x\mid y)\,dx.
+\]
+
+
+\subsubsection{Independence}
+
+\textsc{Definition}
+
+Let \(X\) and \(Y\) be jointly continuous with joint PDF \(f_{X,Y}(x,y)\) and marginals \(f_X(x)\), \(f_Y(y)\).  
+They are \textit{independent} if
+\[
+f_{X,Y}(x,y) = f_X(x)\,f_Y(y)
+\quad\text{for all }x,y.
+\]
+
+\textsc{Relation to conditional PDFs}
+
+Whenever \(f_Y(y)>0\), the multiplication rule gives
+\[
+f_{X,Y}(x,y) = f_{X\mid Y}(x\mid y)\,f_Y(y).
+\]
+If \(X\) and \(Y\) are independent, comparing with
+\[
+f_{X,Y}(x,y) = f_X(x)\,f_Y(y)
+\]
+yields
+\[
+f_{X\mid Y}(x\mid y) = f_X(x)
+\quad\text{for all }x\text{ and all }y\text{ with }f_Y(y)>0.
+\]
+So independence means that conditioning on \(Y=y\) does not change the distribution of \(X\).
+
+\textsc{Slice picture}
+
+For fixed \(y\), the conditional PDF \(f_{X\mid Y}(x\mid y)\) is (up to scaling) a slice of the joint PDF along the horizontal line at height \(y\).  
+Independence requires that all these slices, as functions of \(x\), have exactly the same shape, namely the shape of the marginal PDF \(f_X\).
+
+\textsc{Intuition}
+
+Under independence, no matter what value of \(Y\) we observe, the distribution of \(X\) remains the same.  
+In this sense, \(Y\) carries no information about \(X\), and by symmetry, \(X\) carries no information about \(Y\).
+
+\textsc{More than two variables}
+
+Random variables \(X_1,\dots,X_n\) are independent if their joint PDF factors as
+\[
+f_{X_1,\dots,X_n}(x_1,\dots,x_n)
+=
+\prod_{i=1}^n f_{X_i}(x_i)
+\quad\text{for all }(x_1,\dots,x_n).
+\]
+Intuitively, knowing some of the values \(X_i\) does not affect our beliefs about the others.
+
+\textsc{Consequences}
+
+If \(X\) and \(Y\) are independent, then
+\[
+\mathbb{E}[XY] = \mathbb{E}[X]\,\mathbb{E}[Y],
+\]
+and, for a sum,
+\[
+\operatorname{Var}(X+Y) = \operatorname{Var}(X) + \operatorname{Var}(Y).
+\]
+More generally, if \(X\) and \(Y\) are independent and \(g\) and \(h\) are measurable functions, then \(g(X)\) and \(h(Y)\) are independent, and
+\[
+\mathbb{E}\big[g(X)\,h(Y)\big]
+=
+\mathbb{E}[g(X)]\,\mathbb{E}[h(Y)].
+\]
+
+\textsc{Example}
+
+Suppose \(X\) and \(Y\) are independent, each uniform on \([0,1]\).  
+Then
+\[
+f_X(x) =
+\begin{cases}
+1, & 0 \le x \le 1,\\
+0, & \text{otherwise},
+\end{cases}
+\qquad
+f_Y(y) =
+\begin{cases}
+1, & 0 \le y \le 1,\\
+0, & \text{otherwise},
+\end{cases}
+\]
+and
+\[
+f_{X,Y}(x,y) = f_X(x)\,f_Y(y)
+=
+\begin{cases}
+1, & 0 \le x \le 1,\ 0 \le y \le 1,\\
+0, & \text{otherwise}.
+\end{cases}
+\]
+Here every horizontal slice in \(x\) has the same flat shape, matching the marginal density of \(X\), which reflects the independence of \(X\) and \(Y\).
+
+
+\subsubsection{Stick-breaking example}
+
+\textsc{Setup}
+
+A stick has length \(l\).  
+First break: the location \(X\) is uniform on \([0,l]\), so
+\[
+f_X(x)
+=
+\begin{cases}
+\frac{1}{l}, & 0 \le x \le l,\\
+0, & \text{otherwise}.
+\end{cases}
+\]
+Second break: given \(X=x\), the location \(Y\) is uniform on \([0,x]\), so
+\[
+f_{Y\mid X}(y\mid x)
+=
+\begin{cases}
+\frac{1}{x}, & 0 \le y \le x,\\
+0, & \text{otherwise}.
+\end{cases}
+\]
+
+\textsc{Dependence}
+
+The conditional PDF of \(Y\) changes when \(x\) changes (its support is \([0,x]\) and its height is \(1/x\)), so \(Y\) clearly depends on \(X\).  
+Equivalently, knowing \(X=x\) tells us that \(0 \le Y \le x\), so \(X\) provides information about \(Y\), hence \(X\) and \(Y\) are not independent.
+
+\textsc{Joint and marginal PDFs}
+
+Using the multiplication rule,
+\[
+f_{X,Y}(x,y)
+=
+f_X(x)\,f_{Y\mid X}(y\mid x)
+=
+\frac{1}{l}\cdot\frac{1}{x}
+=
+\frac{1}{lx},
+\]
+for the \textit{possible} pairs \((x,y)\), namely
+\[
+0 \le y \le x \le l,
+\]
+and \(f_{X,Y}(x,y)=0\) otherwise.  
+This corresponds to a joint density supported on the triangle \(\{(x,y)\colon 0\le y\le x\le l\}\).
+
+To find the marginal of \(Y\), fix \(y\) and integrate over the admissible \(x\):
+\[
+f_Y(y)
+=
+\int_{-\infty}^{\infty} f_{X,Y}(x,y)\,dx
+=
+\int_{y}^{l} \frac{1}{lx}\,dx
+=
+\frac{1}{l}\big[\log x\big]_{x=y}^{x=l}
+=
+\frac{1}{l}\log\!\Big(\frac{l}{y}\Big),
+\]
+for \(0<y\le l\), and \(f_Y(y)=0\) otherwise.  
+This density blows up as \(y\to 0\), but it is still valid because its total area is 1.
+
+\textsc{Expected value of \(Y\)}
+
+A direct computation uses
+\[
+\mathbb{E}[Y]
+=
+\int_{0}^{l} y\,f_Y(y)\,dy
+=
+\int_{0}^{l} y\cdot\frac{1}{l}\log\!\Big(\frac{l}{y}\Big)\,dy,
+\]
+but this integral is messy.  
+A simpler route is to use the total expectation theorem and condition on \(X\):
+\[
+\mathbb{E}[Y]
+=
+\int_{0}^{l} \mathbb{E}[Y\mid X=x]\,f_X(x)\,dx.
+\]
+Given \(X=x\), the variable \(Y\) is uniform on \([0,x]\), so
+\[
+\mathbb{E}[Y\mid X=x] = \frac{x}{2}.
+\]
+Thus
+\[
+\mathbb{E}[Y]
+=
+\int_{0}^{l} \frac{x}{2}\cdot\frac{1}{l}\,dx
+=
+\frac{1}{2l}\int_{0}^{l} x\,dx
+=
+\frac{1}{2l}\cdot\frac{l^{2}}{2}
+=
+\frac{l}{4}.
+\]
+\textit{Intuitively, each break cuts the expected length by a factor of \(1/2\), so after two breaks the expected remaining length is \(l/4\).}
+
+
+\subsubsection{Independent normals}
+
+\textsc{Standard independent normals}
+
+Let \(X\) and \(Y\) be independent standard normal random variables.  
+Their joint PDF is the product of the marginals:
+\[
+f_{X,Y}(x,y)
+=
+\frac{1}{\sqrt{2\pi}}e^{-x^{2}/2}
+\cdot
+\frac{1}{\sqrt{2\pi}}e^{-y^{2}/2}
+=
+\frac{1}{2\pi}\exp\!\Big(-\frac{1}{2}(x^{2}+y^{2})\Big).
+\]
+For any fixed radius \(r\), the circle \(\{(x,y)\colon x^{2}+y^{2}=r^{2}\}\) is a contour on which the joint PDF is constant, so the contours are circles centered at the origin.
+
+\textsc{General independent normals}
+
+Now let \(X\sim\mathcal{N}(\mu_{x},\sigma_{x}^{2})\) and \(Y\sim\mathcal{N}(\mu_{y},\sigma_{y}^{2})\) be independent.  
+Their joint PDF is
+\[
+f_{X,Y}(x,y)
+=
+\frac{1}{2\pi\sigma_{x}\sigma_{y}}
+\exp\!\Bigg(
+-\frac{1}{2}\Bigg[
+\frac{(x-\mu_{x})^{2}}{\sigma_{x}^{2}}
++
+\frac{(y-\mu_{y})^{2}}{\sigma_{y}^{2}}
+\Bigg]
+\Bigg).
+\]
+The prefactor \(1/(2\pi\sigma_{x}\sigma_{y})\) is just the normalizing constant.  
+Contours correspond to level sets of the quadratic form
+\[
+\frac{(x-\mu_{x})^{2}}{\sigma_{x}^{2}}
++
+\frac{(y-\mu_{y})^{2}}{\sigma_{y}^{2}}
+=
+\text{constant},
+\]
+which are ellipses centered at \((\mu_{x},\mu_{y})\) with principal axes aligned with the coordinate axes.
+
+\textsc{Shape and stretching}
+
+The joint PDF attains its maximum at \((x,y)=(\mu_{x},\mu_{y})\), where the exponent is zero.  
+Moving to ellipses farther from this center decreases the value of the joint PDF, but it remains constant along each ellipse.
+
+If \(\sigma_{y}^{2} > \sigma_{x}^{2}\), then the ellipses are more stretched in the \(y\)-direction than in the \(x\)-direction, reflecting that \(Y\) typically varies over a wider range than \(X\).  
+In the special case \(\sigma_{x}^{2} = \sigma_{y}^{2}\), these ellipses become circles (after appropriate rescaling), recovering a circularly symmetric bell.
+
+\textsc{Independence versus dependence}
+
+For independent normals, the stretching of the bell is always along the coordinate axes.  
+If the contours were ellipses tilted away from the axes (with principal axes along some diagonal direction), this would indicate dependence between \(X\) and \(Y\), leading to a general bivariate normal distribution rather than a product of independent one-dimensional normals.
+
+\subsubsection{Bayes rule variations}
+
+\textsc{Discrete case}
+
+In the discrete setting we have a hidden random variable \(X\) with a known prior PMF \(p_X(x)\), and an observable random variable \(Y\) related to \(X\) through the conditional PMF \(p_{Y\mid X}(y\mid x)\).  
+After observing \(Y=y\), Bayes rule gives the posterior PMF of \(X\):
+\[
+p_{X\mid Y}(x\mid y)
+=
+\frac{p_{Y\mid X}(y\mid x)\,p_X(x)}{p_Y(y)},
+\]
+where the marginal PMF of \(Y\) is
+\[
+p_Y(y)
+=
+\sum_{x} p_{Y\mid X}(y\mid x)\,p_X(x).
+\]
+
+\textsc{Continuous case}
+
+In the continuous setting the same structure carries over with PMFs replaced by PDFs and sums by integrals.  
+If \(X\) has prior PDF \(f_X(x)\) and \(Y\) has conditional PDF \(f_{Y\mid X}(y\mid x)\), then after observing \(Y=y\) the posterior PDF of \(X\) is
+\[
+f_{X\mid Y}(x\mid y)
+=
+\frac{f_{Y\mid X}(y\mid x)\,f_X(x)}{f_Y(y)},
+\]
+with
+\[
+f_Y(y)
+=
+\int_{-\infty}^{\infty} f_{Y\mid X}(y\mid x)\,f_X(x)\,dx.
+\]
+
+\textsc{Interpretation}
+
+In both cases, Bayes rule updates prior beliefs about \(X\) using the likelihood of the observation \(Y=y\).  
+The numerator combines prior and likelihood into a joint model, while the denominator normalizes over all possible values of \(X\) via the total probability theorem, ensuring the posterior is a valid distribution.
+
+
+\subsubsection{Detection of a binary signal}
+
+\textsc{Model}
+
+A binary random variable \(K\) takes values \(\pm 1\) with equal prior probabilities
+\[
+\mathbb{P}(K=1)=\mathbb{P}(K=-1)=\frac{1}{2}.
+\]
+The observation is
+\[
+Y = K + W,
+\]
+where \(W\) is standard normal, independent of \(K\).  
+Given \(K=k\), the random variable \(Y\) is normal with mean \(k\) and variance \(1\), so
+\[
+f_{Y\mid K}(y\mid k)
+=
+\frac{1}{\sqrt{2\pi}}
+\exp\!\Big(-\frac{1}{2}(y-k)^{2}\Big),
+\qquad k\in\{-1,1\}.
+\]
+
+\textsc{Posterior probability via Bayes rule}
+
+We want the posterior probability that \(K=1\) given an observed value \(Y=y\):
+\[
+\mathbb{P}(K=1\mid Y=y)
+=
+\frac{f_{Y\mid K}(y\mid 1)\,\mathbb{P}(K=1)}
+{f_{Y\mid K}(y\mid 1)\,\mathbb{P}(K=1)
++
+f_{Y\mid K}(y\mid -1)\,\mathbb{P}(K=-1)}.
+\]
+Using the equal priors, this becomes
+\[
+\mathbb{P}(K=1\mid Y=y)
+=
+\frac{f_{Y\mid K}(y\mid 1)}
+{f_{Y\mid K}(y\mid 1)+f_{Y\mid K}(y\mid -1)}.
+\]
+Substituting the Gaussian PDFs and simplifying the exponentials yields
+\[
+\mathbb{P}(K=1\mid Y=y)
+=
+\frac{1}{1+\exp(-2y)}.
+\]
+
+\textsc{Interpretation}
+
+As a function of \(y\), the posterior \(\mathbb{P}(K=1\mid Y=y)\) is a smooth S-shaped curve:
+\[
+\mathbb{P}(K=1\mid Y=y)\to 1 \ \text{as }y\to+\infty,\qquad
+\mathbb{P}(K=1\mid Y=y)\to 0 \ \text{as }y\to-\infty,
+\]
+and
+\[
+\mathbb{P}(K=1\mid Y=0)=\frac{1}{2}.
+\]
+Large positive \(y\) makes it very likely that \(K=1\), large negative \(y\) makes it very likely that \(K=-1\), and \(y=0\) leaves both possibilities equally likely.
+
+
+\subsubsection{Inference of the bias of a coin}
+
+\textsc{Model}
+
+We observe a Bernoulli random variable \(K\in\{0,1\}\) with
+\[
+\mathbb{P}(K=1\mid Y=y)=y,
+\qquad
+\mathbb{P}(K=0\mid Y=y)=1-y,
+\]
+where the (unknown) bias \(Y\) itself is random and modeled as uniform on \([0,1]\), so
+\[
+f_Y(y)
+=
+\begin{cases}
+1, & 0 \le y \le 1,\\
+0, & \text{otherwise}.
+\end{cases}
+\]
+
+\textsc{Goal}
+
+Given a single observation \(K=1\), we want the posterior density \(f_{Y\mid K}(y\mid 1)\).
+
+\textsc{Bayes rule}
+
+Using Bayes rule with a continuous \(Y\) and discrete \(K\),
+\[
+f_{Y\mid K}(y\mid 1)
+=
+\frac{\mathbb{P}(K=1\mid Y=y)\,f_Y(y)}
+{\mathbb{P}(K=1)}.
+\]
+Here
+\[
+\mathbb{P}(K=1\mid Y=y)=y,
+\qquad
+f_Y(y)=1 \ \text{on }[0,1],
+\]
+and
+\[
+\mathbb{P}(K=1)
+=
+\int_{0}^{1} \mathbb{P}(K=1\mid Y=u)\,f_Y(u)\,du
+=
+\int_{0}^{1} u\,du
+=
+\frac{1}{2}.
+\]
+Therefore, for \(0\le y\le 1\),
+\[
+f_{Y\mid K}(y\mid 1)
+=
+\frac{y\cdot 1}{1/2}
+=
+2y,
+\]
+and \(f_{Y\mid K}(y\mid 1)=0\) otherwise.
+
+\textsc{Interpretation}
+
+Initially, \(Y\) was uniform, so all biases in \([0,1]\) were equally plausible.  
+After observing \(K=1\), the posterior density \(f_{Y\mid K}(y\mid 1)=2y\) tilts toward larger \(y\), reflecting that higher biases make the outcome \(K=1\) more likely.
