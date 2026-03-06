@@ -1,0 +1,1099 @@
+\subsection{Further topics on random variables}
+
+
+\subsubsection{Functions of a discrete random variable}
+
+\textsc{PMF of a general function}
+
+Let \(X\) be a discrete random variable with PMF \(p_X(x)\), and let \(Y\) be defined as a function of \(X\), say
+\[
+Y = g(X).
+\]
+We wish to find the PMF \(p_Y(y)\) of \(Y\).  
+For any value \(y\) in the range of \(Y\), the event \(\{Y = y\}\) is the same as the event that \(X\) takes any value \(x\) such that \(g(x) = y\).  
+Therefore,
+\[
+p_Y(y)
+=
+\mathbb{P}(Y = y)
+=
+\mathbb{P}\big(g(X) = y\big)
+=
+\sum_{x :\, g(x) = y} \mathbb{P}(X = x)
+=
+\sum_{x :\, g(x) = y} p_X(x).
+\]
+In words, to obtain \(p_Y(y)\), we sum the probabilities of all values of \(X\) that are mapped to \(y\) by the function \(g\).
+
+\textsc{Example: many-to-one mapping}
+
+Suppose that \(X\) takes the values \(2,3,4,5\) with probabilities
+\[
+p_X(2) = 0.1,
+\quad
+p_X(3) = 0.2,
+\quad
+p_X(4) = 0.3,
+\quad
+p_X(5) = 0.4,
+\]
+and define \(Y = g(X)\) by specifying \(g(2), g(3), g(4), g(5)\).  
+If, for instance, \(g(4) = 4\) and \(g(5) = 4\), then the probability that \(Y\) takes the value \(4\) is
+\[
+p_Y(4)
+=
+\mathbb{P}(Y = 4)
+=
+\mathbb{P}(X = 4) + \mathbb{P}(X = 5)
+=
+p_X(4) + p_X(5)
+=
+0.3 + 0.4
+=
+0.7.
+\]
+This illustrates the general rule that whenever several values of \(X\) are mapped to the same value \(y\), the corresponding probability masses add up in the PMF of \(Y\).
+
+\textsc{Linear functions: stretching and shifting}
+
+Consider now the special case of a linear function
+\[
+Y = aX + b,
+\]
+where \(a\) and \(b\) are constants and \(a \ne 0\).  
+For any value \(y\), the event \(\{Y = y\}\) is the same as the event that \(X\) takes the unique value
+\[
+x = \frac{y - b}{a}
+\]
+for which \(a x + b = y\), provided that this \(x\) lies in the support of \(X\).  
+Thus,
+\[
+p_Y(y)
+=
+\mathbb{P}(Y = y)
+=
+\mathbb{P}\Big(X = \frac{y - b}{a}\Big)
+=
+p_X\Big(\frac{y - b}{a}\Big),
+\]
+whenever \((y - b)/a\) is a possible value of \(X\), and \(p_Y(y) = 0\) otherwise.
+
+\textsc{Example: scaling}
+
+Let \(X\) be a discrete random variable taking the values \(-1,1,2\) with
+\[
+p_X(-1) = \frac{2}{6},
+\quad
+p_X(1) = \frac{1}{6},
+\quad
+p_X(2) = \frac{3}{6}.
+\]
+Define
+\[
+Z = 2X.
+\]
+Then the possible values of \(Z\) are
+\[
+-2 \text{ when } X = -1,
+\quad
+2 \text{ when } X = 1,
+\quad
+4 \text{ when } X = 2.
+\]
+Using the general rule,
+\[
+p_Z(-2)
+=
+\mathbb{P}(Z = -2)
+=
+\mathbb{P}(X = -1)
+=
+\frac{2}{6},
+\]
+\[
+p_Z(2)
+=
+\mathbb{P}(Z = 2)
+=
+\mathbb{P}(X = 1)
+=
+\frac{1}{6},
+\]
+\[
+p_Z(4)
+=
+\mathbb{P}(Z = 4)
+=
+\mathbb{P}(X = 2)
+=
+\frac{3}{6}.
+\]
+If we plot the PMF of \(Z\) as a function of \(z\), it has exactly the same shape as the PMF of \(X\), except that the mass points have been stretched horizontally by a factor of \(2\).  
+No probabilities change, only the locations of the mass points on the horizontal axis.
+
+\textsc{Example: scaling and shifting}
+
+Using the previous example, define
+\[
+Y = 2X + 3 = Z + 3.
+\]
+The possible values of \(Y\) are obtained by applying this transformation to the values of \(X\):
+\[
+X = -1 \Rightarrow Y = 1,
+\quad
+X = 1 \Rightarrow Y = 5,
+\quad
+X = 2 \Rightarrow Y = 7.
+\]
+The corresponding PMF values are
+\[
+p_Y(1)
+=
+\mathbb{P}(Y = 1)
+=
+\mathbb{P}(X = -1)
+=
+\frac{2}{6},
+\]
+\[
+p_Y(5)
+=
+\mathbb{P}(Y = 5)
+=
+\mathbb{P}(X = 1)
+=
+\frac{1}{6},
+\]
+\[
+p_Y(7)
+=
+\mathbb{P}(Y = 7)
+=
+\mathbb{P}(X = 2)
+=
+\frac{3}{6}.
+\]
+Thus the PMF of \(Y\) has the same shape as the PMF of \(Z\), but all mass points have been shifted to the right by \(3\).  
+In general, for \(Y = aX + b\), the factor \(a\) stretches or compresses the horizontal axis, and the constant \(b\) shifts the PMF left or right, while the probabilities attached to corresponding mass points remain unchanged.
+
+\textsc{General formula for a linear function}
+
+For a discrete random variable \(X\) with PMF \(p_X\) and a linear function
+\[
+Y = aX + b,
+\quad a \ne 0,
+\]
+the PMF of \(Y\) is given by
+\[
+p_Y(y)
+=
+p_X\Big(\frac{y - b}{a}\Big),
+\]
+for those values of \(y\) such that \((y - b)/a\) is in the support of \(X\), and \(p_Y(y) = 0\) for all other values of \(y\).  
+This formula captures algebraically the graphical operations of stretching the PMF of \(X\) by the factor \(a\) and then shifting it horizontally by \(b\).
+
+
+
+\subsubsection{A linear function of a continuous random variable}
+
+\textsc{Heuristic picture}
+
+Let \(X\) be a continuous random variable with PDF \(f_X\).  
+Consider a linear transformation
+\[
+Y = aX + b,
+\]
+where \(a\) and \(b\) are constants and \(a \neq 0\).  
+Geometrically, this transformation takes the horizontal axis, stretches it by a factor of \(a\), and then shifts it by \(b\).  
+If we think of the PDF as a curve whose area under it must stay equal to \(1\), then stretching the horizontal axis by a factor \(|a|\) forces us to compress the vertical scale by a factor \(|a|\) so that the total area remains \(1\).
+
+\textsc{Intuitive example}
+
+Suppose that \(X\) has a piecewise constant PDF supported on the interval \([-1,1]\).  
+Define
+\[
+Z = 2X.
+\]
+Then \(Z\) takes values in \([-2,2]\).  
+The subinterval \([-1,0]\) of \(X\) corresponds to \([-2,0]\) for \(Z\), and if \(f_X\) is constant on \([-1,0]\), then the values of \(X\) in this interval are equally likely in the sense of density, so the corresponding values of \(Z\) in \([-2,0]\) should also have a constant density.  
+Similarly, the subinterval \([0,1]\) of \(X\) corresponds to \([0,2]\) of \(Z\), and if \(f_X\) is constant on \([0,1]\), then \(f_Z\) is constant on \([0,2]\).
+
+Assume, for instance, that the probability that \(X\) is positive equals \(2/3\), which is the area of a rectangle of width \(1\) and height \(2/3\).  
+When we pass to \(Z\), the corresponding probability that \(Z\) is positive must still be \(2/3\), but now this probability is the area of a rectangle of width \(2\), so its height must be \(1/3\).  
+The same reasoning applied to the negative side shows that if the area for negative \(X\) was \(1/3\), then the rectangle for negative \(Z\) now has width \(2\), so its height must be \(1/6\).  
+Thus, the shape of the PDF is stretched horizontally by a factor of \(2\), but the heights are scaled down by a factor of \(2\) to preserve total area \(1\).
+
+Now add a constant and define
+\[
+Y = Z + 3 = 2X + 3.
+\]
+Then the interval \([-2,0]\) for \(Z\) becomes \([1,3]\) for \(Y\), and \([0,2]\) becomes \([3,5]\).  
+The areas of the corresponding rectangles must remain the same, so their heights are unchanged.  
+In other words, adding a constant simply shifts the PDF horizontally without altering its shape or vertical scale.
+
+\textsc{CDF-based derivation for \(a>0\)}
+
+We now derive a general formula.  
+Assume first that \(a>0\).  
+The CDF of \(Y\) is
+\[
+F_Y(y)
+=
+\mathbb{P}(Y \le y)
+=
+\mathbb{P}(aX + b \le y).
+\]
+Solving the inequality for \(X\) gives
+\[
+aX + b \le y
+\quad\Longleftrightarrow\quad
+X \le \frac{y - b}{a}.
+\]
+Therefore,
+\[
+F_Y(y)
+=
+\mathbb{P}\Big(X \le \frac{y - b}{a}\Big)
+=
+F_X\Big(\frac{y - b}{a}\Big),
+\]
+where \(F_X\) is the CDF of \(X\).  
+To obtain the PDF, we differentiate both sides with respect to \(y\).  
+Using the chain rule,
+\[
+f_Y(y)
+=
+\frac{d}{dy} F_Y(y)
+=
+\frac{d}{dy} F_X\Big(\frac{y - b}{a}\Big)
+=
+f_X\Big(\frac{y - b}{a}\Big)\cdot\frac{d}{dy}\Big(\frac{y - b}{a}\Big)
+=
+\frac{1}{a}\,f_X\Big(\frac{y - b}{a}\Big),
+\]
+for all \(y\) such that \((y-b)/a\) lies in the support of \(X\), and \(f_Y(y)=0\) otherwise.
+
+\textsc{CDF-based derivation for \(a<0\)}
+
+Assume now that \(a<0\).  
+We again start from
+\[
+F_Y(y)
+=
+\mathbb{P}(Y \le y)
+=
+\mathbb{P}(aX + b \le y).
+\]
+Solving the inequality for \(X\), the sign of the inequality reverses when we divide by the negative constant \(a\):
+\[
+aX + b \le y
+\quad\Longleftrightarrow\quad
+X \ge \frac{y - b}{a}.
+\]
+Thus,
+\[
+F_Y(y)
+=
+\mathbb{P}\Big(X \ge \frac{y - b}{a}\Big)
+=
+1 - \mathbb{P}\Big(X < \frac{y - b}{a}\Big).
+\]
+Since \(X\) is continuous, \(\mathbb{P}(X < c) = \mathbb{P}(X \le c)\) for any constant \(c\), so
+\[
+F_Y(y)
+=
+1 - F_X\Big(\frac{y - b}{a}\Big).
+\]
+Differentiating both sides with respect to \(y\) and again using the chain rule gives
+\[
+f_Y(y)
+=
+\frac{d}{dy} F_Y(y)
+=
+- f_X\Big(\frac{y - b}{a}\Big)\cdot\frac{d}{dy}\Big(\frac{y - b}{a}\Big)
+=
+- f_X\Big(\frac{y - b}{a}\Big)\cdot\frac{1}{a}
+=
+\frac{1}{|a|}\,f_X\Big(\frac{y - b}{a}\Big),
+\]
+because when \(a<0\) we have \(-1/a = 1/|a|\).
+
+\textsc{Unified formula and interpretation}
+
+Combining the two cases \(a>0\) and \(a<0\), we obtain the general formula for any \(a\neq 0\):
+\[
+f_Y(y)
+=
+\frac{1}{|a|}\,
+f_X\Big(\frac{y - b}{a}\Big),
+\]
+for all \(y\) such that \((y-b)/a\) lies in the support of \(X\), and \(f_Y(y)=0\) otherwise.  
+This formula encodes three geometric effects of the transformation \(Y = aX + b\):
+\begin{itemize}
+\item The argument \((y-b)/a\) inside \(f_X\) corresponds to a horizontal stretching or compression by the factor \(a\).  
+\item The term \(b\) corresponds to a horizontal shift of the PDF by \(b\).  
+\item The factor \(1/|a|\) corresponds to a vertical scaling that ensures the area under \(f_Y\) is equal to \(1\).  
+\end{itemize}
+
+\textsc{Comparison with the discrete case}
+
+In the discrete case, for \(Y = aX + b\) we had
+\[
+p_Y(y)
+=
+p_X\Big(\frac{y - b}{a}\Big),
+\]
+without any extra scaling factor.  
+This reflects the fact that in the discrete setting we preserve the individual point probabilities exactly, and there is no notion of stretching intervals and adjusting heights to keep total probability equal to \(1\).  
+In the continuous setting, probabilities are represented by areas under the PDF, so when we stretch the horizontal axis by \(|a|\), we must divide the height of the curve by \(|a|\) to keep the total area unchanged.
+
+
+
+\subsubsection{A linear function of a normal random variable}
+
+\textsc{Setup}
+
+Let \(X\) be a normal random variable with mean \(\mu\) and variance \(\sigma^{2}\), so
+\[
+X \sim \mathcal{N}(\mu,\sigma^{2}),
+\]
+and its PDF is
+\[
+f_{X}(x)
+=
+\frac{1}{\sqrt{2\pi}\,\sigma}
+\exp\!\Bigg(
+-\frac{1}{2}
+\Bigg(
+\frac{x-\mu}{\sigma}
+\Bigg)^{2}
+\Bigg).
+\]
+Consider the linear transformation
+\[
+Y = aX + b,
+\]
+where \(a\) and \(b\) are constants with \(a \neq 0\).  
+
+\textsc{Using the general transformation formula}
+
+From the general result for linear functions of a continuous random variable, the PDF of \(Y\) is given by
+\[
+f_{Y}(y)
+=
+\frac{1}{|a|}\,
+f_{X}\Big(\frac{y-b}{a}\Big).
+\]
+Substituting the normal PDF of \(X\) into this expression gives
+\[
+f_{Y}(y)
+=
+\frac{1}{|a|}
+\cdot
+\frac{1}{\sqrt{2\pi}\,\sigma}
+\exp\!\Bigg(
+-\frac{1}{2}
+\Bigg(
+\frac{\frac{y-b}{a}-\mu}{\sigma}
+\Bigg)^{2}
+\Bigg).
+\]
+We now simplify the expression inside the exponential and the prefactor.  
+First rewrite
+\[
+\frac{\frac{y-b}{a}-\mu}{\sigma}
+=
+\frac{y-b-a\mu}{a\sigma},
+\]
+so the exponent becomes
+\[
+-\frac{1}{2}
+\Bigg(
+\frac{y-b-a\mu}{a\sigma}
+\Bigg)^{2}
+=
+-\frac{1}{2}
+\Bigg(
+\frac{y-(a\mu+b)}{|a|\sigma}
+\Bigg)^{2},
+\]
+because the square absorbs the sign of \(a\).  
+
+For the prefactor, we have
+\[
+\frac{1}{|a|}
+\cdot
+\frac{1}{\sqrt{2\pi}\,\sigma}
+=
+\frac{1}{\sqrt{2\pi}\,|a|\sigma}
+=
+\frac{1}{\sqrt{2\pi}\,\sqrt{a^{2}\sigma^{2}}}.
+\]
+Putting these together,
+\[
+f_{Y}(y)
+=
+\frac{1}{\sqrt{2\pi}\,\sqrt{a^{2}\sigma^{2}}}
+\exp\!\Bigg(
+-\frac{1}{2}
+\Bigg(
+\frac{y-(a\mu+b)}{\sqrt{a^{2}\sigma^{2}}}
+\Bigg)^{2}
+\Bigg).
+\]
+
+\textsc{Identification of the resulting distribution}
+
+The last expression has exactly the standard normal PDF form in the variable \(y\), with mean
+\[
+\mu_{Y} = a\mu + b
+\]
+and variance
+\[
+\sigma_{Y}^{2} = a^{2}\sigma^{2}.
+\]
+Therefore,
+\[
+Y = aX + b
+\sim
+\mathcal{N}(a\mu + b,\; a^{2}\sigma^{2}).
+\]
+The fact that the mean and variance transform as \(E[Y] = a\mu + b\) and \(\operatorname{Var}(Y) = a^{2}\sigma^{2}\) agrees with the general formulas for linear functions of any random variable.  
+The special feature here is that the entire distributional shape is preserved: the bell-shaped normal PDF of \(X\) is stretched and shifted, but remains bell shaped, so the resulting random variable \(Y\) is again normal.  
+
+
+\subsubsection{The PDF of a general function of a continuous r.v.}
+
+\textsc{Two-step method}
+
+Let \(X\) be a continuous random variable with known PDF \(f_X\) and CDF \(F_X\), and let
+\[
+Y = g(X)
+\]
+for some (possibly nonlinear) function \(g\).  
+To find the PDF of \(Y\), we use a two-step procedure:
+\begin{enumerate}
+\item First find the CDF of \(Y\),
+\[
+F_Y(y)
+=
+\mathbb{P}(Y \le y)
+=
+\mathbb{P}\big(g(X) \le y\big),
+\]
+by rewriting the event \(\{g(X) \le y\}\) in terms of inequalities involving \(X\) and then computing that probability using the known distribution of \(X\).  
+\item Then obtain the PDF by differentiation,
+\[
+f_Y(y)
+=
+\frac{d}{dy}F_Y(y),
+\]
+for those values of \(y\) in the range of \(Y\).  
+\end{enumerate}
+Most of the work lies in the first step, where we translate the condition \(g(X)\le y\) into a suitable interval (or union of intervals) for \(X\) and then evaluate the corresponding probability.
+
+\textsc{Example: \(Y = X^{3}\) with \(X \sim \text{Uniform}(0,2)\)}
+
+Suppose that \(X\) is uniform on \([0,2]\), so its PDF is
+\[
+f_X(x)
+=
+\begin{cases}
+\frac{1}{2}, & 0 \le x \le 2,\\[4pt]
+0, & \text{otherwise}.
+\end{cases}
+\]
+Define
+\[
+Y = X^{3}.
+\]
+Since \(X\) takes values in \([0,2]\), the range of \(Y\) is \([0,8]\).  
+For \(y<0\) we have \(F_Y(y)=0\), and for \(y>8\) we have \(F_Y(y)=1\), so we focus on \(0 \le y \le 8\).
+
+For such \(y\),
+\[
+F_Y(y)
+=
+\mathbb{P}(Y \le y)
+=
+\mathbb{P}(X^{3} \le y).
+\]
+On \([0,2]\), the function \(x \mapsto x^{3}\) is increasing, so the inequality \(X^{3} \le y\) is equivalent to
+\[
+X \le y^{1/3}.
+\]
+Thus,
+\[
+F_Y(y)
+=
+\mathbb{P}\big(X \le y^{1/3}\big)
+=
+\int_{0}^{y^{1/3}} \frac{1}{2}\,dx
+=
+\frac{1}{2}\,y^{1/3},
+\quad 0 \le y \le 8.
+\]
+This completes the first step.  
+For the second step, we differentiate:
+\[
+f_Y(y)
+=
+\frac{d}{dy}F_Y(y)
+=
+\frac{d}{dy}\Big(\frac{1}{2}y^{1/3}\Big)
+=
+\frac{1}{2}\cdot\frac{1}{3}y^{-2/3}
+=
+\frac{1}{6}\,y^{-2/3},
+\quad 0 < y \le 8.
+\]
+For \(y\) outside \([0,8]\), we have \(f_Y(y)=0\).  
+So the PDF of \(Y\) is
+\[
+f_Y(y)
+=
+\begin{cases}
+\frac{1}{6}\,y^{-2/3}, & 0<y\le 8,\\[4pt]
+0, & \text{otherwise}.
+\end{cases}
+\]
+This PDF is not constant: it becomes larger as \(y\) approaches \(0\), and in fact \(f_Y(y)\) tends to infinity as \(y \downarrow 0\), while still integrating to \(1\) over \((0,8]\).
+
+\textsc{Example: \(Y = 10/X\) with \(X \sim \text{Uniform}(5,10)\)}
+
+Now let \(X\) be uniform on \([5,10]\), so that
+\[
+f_X(x)
+=
+\begin{cases}
+\frac{1}{5}, & 5 \le x \le 10,\\[4pt]
+0, & \text{otherwise}.
+\end{cases}
+\]
+Define the random variable
+\[
+Y = \frac{10}{X}.
+\]
+Since \(X \in [5,10]\), the smallest value of \(Y\) occurs when \(X\) is largest, \(X=10\), giving \(Y=1\), and the largest value of \(Y\) occurs when \(X\) is smallest, \(X=5\), giving \(Y=2\).  
+Thus, the range of \(Y\) is \([1,2]\), and \(f_Y(y)=0\) outside this interval.
+
+For \(1 \le y \le 2\),
+\[
+F_Y(y)
+=
+\mathbb{P}(Y \le y)
+=
+\mathbb{P}\Big(\frac{10}{X} \le y\Big).
+\]
+Because \(X>0\), the inequality \(\frac{10}{X} \le y\) is equivalent to
+\[
+10 \le yX
+\quad\Longleftrightarrow\quad
+X \ge \frac{10}{y}.
+\]
+So
+\[
+F_Y(y)
+=
+\mathbb{P}\Big(X \ge \frac{10}{y}\Big).
+\]
+For \(1 \le y \le 2\), the point \(10/y\) lies in \([5,10]\), so we can express this probability as the area under the uniform density from \(10/y\) to \(10\):
+\[
+F_Y(y)
+=
+\int_{10/y}^{10} \frac{1}{5}\,dx
+=
+\frac{1}{5}\Big(10 - \frac{10}{y}\Big)
+=
+\frac{10}{5}\Big(1 - \frac{1}{y}\Big)
+=
+2\Big(1 - \frac{1}{y}\Big),
+\quad 1 \le y \le 2.
+\]
+Outside this interval, \(F_Y(y)\) is \(0\) for \(y<1\) and \(1\) for \(y>2\).
+
+To obtain the PDF, we differentiate on \((1,2)\):
+\[
+f_Y(y)
+=
+\frac{d}{dy}F_Y(y)
+=
+\frac{d}{dy}\Big(2 - \frac{2}{y}\Big)
+=
+0 - 2\cdot\Big(-\frac{1}{y^{2}}\Big)
+=
+\frac{2}{y^{2}},
+\quad 1<y<2.
+\]
+Thus,
+\[
+f_Y(y)
+=
+\begin{cases}
+\displaystyle \frac{2}{y^{2}}, & 1<y<2,\\[4pt]
+0, & \text{otherwise}.
+\end{cases}
+\]
+The PDF starts at a value of \(2\) when \(y\) is close to \(1\) and decreases as \(y\) increases, reflecting that shorter times (corresponding to higher speeds) are more likely than longer times in this setup.
+
+\textsc{General strategy}
+
+These examples illustrate a general and systematic approach to finding the PDF of a function \(Y = g(X)\) of a continuous random variable \(X\):
+\begin{itemize}
+\item Identify the range of \(Y\), so that you know where \(f_Y(y)\) can be nonzero.  
+\item For \(y\) in this range, express the event \(\{Y \le y\}\) as an event involving \(X\), typically of the form \(\{X \le h(y)\}\), \(\{X \ge h(y)\}\), or a union of such intervals.  
+\item Compute \(F_Y(y)\) by integrating the known PDF \(f_X\) over the appropriate interval(s) for \(X\).  
+\item Differentiate \(F_Y(y)\) with respect to \(y\) to obtain \(f_Y(y)\).  
+\end{itemize}
+In more complicated situations where \(g\) is not monotone on the entire support of \(X\), one splits the support of \(X\) into regions on which \(g\) is monotone, computes the contribution from each region, and then adds them up to obtain the CDF or PDF of \(Y\).
+
+
+\subsubsection{The monotonic case}
+
+\textsc{Setup and inverse function}
+
+Let \(X\) be a continuous random variable with PDF \(f_X\), and let
+\[
+Y = g(X),
+\]
+where \(g\) is a strictly monotonic and differentiable function on the range of interest of \(X\).  
+Because \(g\) is strictly monotonic, every value \(y\) in the range of \(Y\) comes from a unique value \(x\), so \(g\) has an inverse function \(h\) satisfying
+\[
+x = h(y)
+\quad\Longleftrightarrow\quad
+y = g(x).
+\]
+The function \(h\) maps values of \(y\) back to the corresponding values of \(x\).
+
+\textsc{Strictly increasing case}
+
+Assume first that \(g\) is strictly increasing.  
+Fix some \(y\) in the range of \(Y\).  
+The CDF of \(Y\) is
+\[
+F_Y(y)
+=
+\mathbb{P}(Y \le y)
+=
+\mathbb{P}\big(g(X) \le y\big).
+\]
+Since \(g\) is increasing, the inequality \(g(X) \le y\) is equivalent to
+\[
+X \le h(y),
+\]
+because \(h(y)\) is the unique value of \(x\) that produces \(y\).  
+Therefore,
+\[
+F_Y(y)
+=
+\mathbb{P}\big(X \le h(y)\big)
+=
+F_X\big(h(y)\big),
+\]
+where \(F_X\) is the CDF of \(X\).  
+To obtain the PDF, we differentiate both sides with respect to \(y\) and apply the chain rule:
+\[
+f_Y(y)
+=
+\frac{d}{dy}F_Y(y)
+=
+\frac{d}{dy}F_X\big(h(y)\big)
+=
+f_X\big(h(y)\big)\,h'(y),
+\]
+for \(y\) in the range of \(Y\), and \(f_Y(y)=0\) otherwise.  
+When \(g\) is increasing, the inverse \(h\) is also increasing, so \(h'(y)\ge 0\).
+
+\textsc{Strictly decreasing case}
+
+Assume now that \(g\) is strictly decreasing.  
+Again fix \(y\) in the range of \(Y\), and start from
+\[
+F_Y(y)
+=
+\mathbb{P}(Y \le y)
+=
+\mathbb{P}\big(g(X) \le y\big).
+\]
+Because \(g\) is decreasing, the inequality \(g(X) \le y\) holds when \(X\) is larger than or equal to the value \(h(y)\) that produces \(y\), so
+\[
+F_Y(y)
+=
+\mathbb{P}\big(X \ge h(y)\big).
+\]
+This can be written in terms of the CDF of \(X\) as
+\[
+F_Y(y)
+=
+1 - \mathbb{P}\big(X < h(y)\big).
+\]
+Since \(X\) is continuous, \(\mathbb{P}(X < h(y)) = \mathbb{P}(X \le h(y)) = F_X\big(h(y)\big)\), and thus
+\[
+F_Y(y)
+=
+1 - F_X\big(h(y)\big).
+\]
+Differentiating both sides with respect to \(y\) gives
+\[
+f_Y(y)
+=
+\frac{d}{dy}F_Y(y)
+=
+- f_X\big(h(y)\big)\,h'(y).
+\]
+In the decreasing case, \(h\) is also decreasing, so \(h'(y) \le 0\).  
+Thus the product \(-h'(y)\) is nonnegative, as a PDF must be.  
+
+\textsc{Unified formula}
+
+In the increasing case we have
+\[
+f_Y(y)
+=
+f_X\big(h(y)\big)\,h'(y),
+\]
+and in the decreasing case we have
+\[
+f_Y(y)
+=
+- f_X\big(h(y)\big)\,h'(y).
+\]
+These two expressions can be combined into a single formula using absolute values:
+\[
+f_Y(y)
+=
+f_X\big(h(y)\big)\,\big|h'(y)\big|,
+\]
+for \(y\) in the range of \(Y\), and \(f_Y(y)=0\) otherwise.  
+This is the general transformation rule for the PDF of a strictly monotonic and differentiable function of a continuous random variable.
+
+\textsc{Example: \(Y = X^{2}\) with \(X \sim \text{Uniform}(0,1)\)}
+
+Let \(X\) be uniform on \([0,1]\), so
+\[
+f_X(x)
+=
+\begin{cases}
+1, & 0 \le x \le 1,\\
+0, & \text{otherwise},
+\end{cases}
+\]
+and consider
+\[
+Y = g(X) = X^{2}.
+\]
+The function \(g(x)=x^{2}\) is not monotonic on the entire real line, but it is strictly increasing on \([0,1]\), which is the support of \(X\).  
+Therefore we can apply the monotonic transformation formula on this interval.
+
+First identify the inverse function.  
+On \([0,1]\),
+\[
+y = x^{2}
+\quad\Longleftrightarrow\quad
+x = \sqrt{y},
+\]
+so
+\[
+h(y) = \sqrt{y}.
+\]
+Since \(X\in[0,1]\), \(Y = X^{2}\) also takes values in \([0,1]\), and outside this interval we must have \(f_Y(y)=0\).  
+For \(0<y<1\),
+\[
+f_Y(y)
+=
+f_X\big(h(y)\big)\,\big|h'(y)\big|
+=
+f_X(\sqrt{y})\cdot\Big|\frac{d}{dy}\sqrt{y}\Big|.
+\]
+On the support of \(X\), we have \(f_X(\sqrt{y})=1\), and
+\[
+\frac{d}{dy}\sqrt{y}
+=
+\frac{1}{2\sqrt{y}}.
+\]
+Thus,
+\[
+f_Y(y)
+=
+1 \cdot \frac{1}{2\sqrt{y}}
+=
+\frac{1}{2\sqrt{y}},
+\quad 0<y<1.
+\]
+Including the behavior outside \([0,1]\), the PDF of \(Y\) is
+\[
+f_Y(y)
+=
+\begin{cases}
+\displaystyle \frac{1}{2\sqrt{y}}, & 0<y<1,\\[4pt]
+0, & \text{otherwise}.
+\end{cases}
+\]
+This result is obtained with much less work than going through the full two-step CDF method, because we only need to identify the inverse function \(h\) and its derivative.
+
+
+\bigskip
+\textsc{Matching small intervals}
+
+Let \(Y = g(X)\), where \(g\) is a strictly monotonic and differentiable function, and let \(h\) be its inverse, so that
+\[
+x = h(y)
+\quad\Longleftrightarrow\quad
+y = g(x).
+\]
+Fix a particular value \(x\) and the corresponding value \(y = g(x)\).  
+Consider a small interval around \(x\), say \([x, x + \Delta_1]\), and look at the corresponding interval for \(Y\), which is approximately \([y, y + \Delta_2]\), where \(\Delta_2\) is the small change in \(y\) that results from the change \(\Delta_1\) in \(x\).  
+Because the mapping \(y = g(x)\) is one-to-one, the event
+\[
+\{X \in [x, x + \Delta_1]\}
+\]
+is the same as the event
+\[
+\{Y \in [y, y + \Delta_2]\},
+\]
+so these two events have the same probability:
+\[
+\mathbb{P}\big(y \le Y \le y + \Delta_2\big)
+=
+\mathbb{P}\big(x \le X \le x + \Delta_1\big).
+\]
+
+\textsc{Approximating probabilities with PDFs}
+
+For small intervals, probabilities can be approximated using the PDFs.  
+On the \(y\)-side,
+\[
+\mathbb{P}\big(y \le Y \le y + \Delta_2\big)
+\approx
+f_Y(y)\,\Delta_2,
+\]
+and on the \(x\)-side,
+\[
+\mathbb{P}\big(x \le X \le x + \Delta_1\big)
+\approx
+f_X(x)\,\Delta_1.
+\]
+Equating these two approximations gives
+\[
+f_Y(y)\,\Delta_2
+\approx
+f_X(x)\,\Delta_1.
+\]
+To turn this into a relation between \(f_Y\) and \(f_X\), we need to relate \(\Delta_1\) and \(\Delta_2\).
+
+\textsc{Relating the interval lengths via the inverse}
+
+The change \(\Delta_2\) in \(y\) is caused by the change \(\Delta_1\) in \(x\) through the function \(g\).  
+Equivalently, we can look at how a small change \(\Delta_2\) in \(y\) produces a change \(\Delta_1\) in \(x\) through the inverse function \(h\).  
+When \(y\) advances from \(y\) to \(y + \Delta_2\), the corresponding \(x\) advances from \(x\) to \(x + \Delta_1\), so
+\[
+\Delta_1
+\approx
+h'(y)\,\Delta_2,
+\]
+where \(h'(y)\) is the derivative (slope) of the inverse function at \(y\).  
+
+Substituting this into the earlier approximate equality yields
+\[
+f_Y(y)\,\Delta_2
+\approx
+f_X(x)\,h'(y)\,\Delta_2.
+\]
+Canceling \(\Delta_2\) from both sides gives
+\[
+f_Y(y)
+\approx
+f_X(x)\,h'(y),
+\]
+and in the limit of vanishingly small intervals this becomes the exact relation
+\[
+f_Y(y)
+=
+f_X\big(h(y)\big)\,h'(y),
+\]
+where \(x = h(y)\) is the unique value of \(X\) that maps to \(y\).
+
+\textsc{Absolute value and decreasing functions}
+
+If \(g\) is decreasing instead of increasing, the same small-interval argument still applies.  
+The difference is that in this case the inverse function \(h\) is also decreasing, so \(h'(y) \le 0\).  
+The probability of a small interval in \(y\) must still be equal to the probability of the corresponding interval in \(x\), so the same algebra leads to
+\[
+f_Y(y)
+=
+f_X\big(h(y)\big)\,\big|h'(y)\big|.
+\]
+This absolute value ensures that the PDF \(f_Y\) is always nonnegative, regardless of whether \(g\) (and hence \(h\)) is increasing or decreasing.  
+Thus, the intuitive picture is that small intervals on the \(x\)-axis are stretched or compressed when mapped to the \(y\)-axis, and the PDFs adjust inversely to this stretching so that the probabilities of corresponding small intervals remain the same.
+
+
+
+\subsubsection{A function of multiple random variables}
+
+\textsc{General methodology}
+
+Let \(X\) and \(Y\) be jointly continuous random variables with known joint PDF \(f_{X,Y}(x,y)\).  
+Suppose we define a new random variable
+\[
+Z = g(X,Y),
+\]
+for some function \(g\).  
+To find the distribution of \(Z\), we follow the same two-step procedure used for functions of a single random variable:
+\begin{enumerate}
+\item First find the CDF of \(Z\),
+\[
+F_Z(z)
+=
+\mathbb{P}(Z \le z)
+=
+\mathbb{P}\big(g(X,Y) \le z\big)
+=
+\iint_{\{(x,y):\, g(x,y)\le z\}} f_{X,Y}(x,y)\,dx\,dy.
+\]
+\item Then obtain the PDF by differentiating,
+\[
+f_Z(z)
+=
+\frac{d}{dz}F_Z(z),
+\]
+for those values of \(z\) in the range of \(Z\).  
+\end{enumerate}
+In many examples, step one becomes a geometric problem: describe the region \(\{(x,y) : g(x,y)\le z\}\) and integrate \(f_{X,Y}\) over that region.
+
+\textsc{Example: \(Z = Y/X\) with \((X,Y)\) uniform on the unit square}
+
+Consider \(X\) and \(Y\) independent and each uniform on \([0,1]\).  
+Their joint PDF is
+\[
+f_{X,Y}(x,y)
+=
+\begin{cases}
+1, & 0 \le x \le 1,\; 0 \le y \le 1,\\[4pt]
+0, & \text{otherwise}.
+\end{cases}
+\]
+We define
+\[
+Z = \frac{Y}{X}
+\]
+and seek the CDF and PDF of \(Z\).
+
+\textsc{CDF for negative and small positive \(z\)}
+
+The CDF is
+\[
+F_Z(z)
+=
+\mathbb{P}(Z \le z)
+=
+\mathbb{P}\Big(\frac{Y}{X} \le z\Big).
+\]
+If \(z<0\), then \(\frac{Y}{X} \ge 0\) always, because \(X\) and \(Y\) are nonnegative, so
+\[
+F_Z(z) = 0, \quad z<0.
+\]
+
+Now consider \(0 \le z \le 1\).  
+The inequality \(\frac{Y}{X} \le z\) is equivalent to
+\[
+Y \le zX.
+\]
+On the \((x,y)\)-plane, this is the region below the line \(y = zx\).  
+When \(0 \le z \le 1\), this line intersects the top edge \(y=1\) at \(x = 1/z \ge 1\), so over the unit square it intersects only the right edge at \((1,z)\).  
+Thus, the region \(\{(x,y): 0 \le x \le 1,\; 0 \le y \le z x\}\) is a right triangle with base \(1\) and height \(z\), so its area is
+\[
+\text{area} = \frac{1}{2}\cdot 1 \cdot z = \frac{z}{2}.
+\]
+Since the joint density is 1 on the unit square, this area equals the probability, and therefore
+\[
+F_Z(z) = \frac{z}{2}, \quad 0 \le z \le 1.
+\]
+
+\textsc{CDF for \(z>1\)}
+
+Now consider \(z>1\).  
+Again, the event \(\frac{Y}{X}\le z\) corresponds to the region below the line \(y = z x\).  
+When \(z>1\), this line intersects the top edge \(y=1\) at \(x = 1/z < 1\), so it cuts off a small triangle near the origin where \(y > z x\).  
+The region where \(Y/X \le z\) is then the whole unit square minus that triangle.
+
+The small excluded triangle has base \(1/z\) on the \(x\)-axis and height \(1\) on the \(y\)-axis, so its area is
+\[
+\text{area}_{\text{triangle}}
+=
+\frac{1}{2}\cdot \frac{1}{z}\cdot 1
+=
+\frac{1}{2z}.
+\]
+Thus, the area of the region where \(Y/X \le z\) is
+\[
+1 - \frac{1}{2z},
+\]
+and consequently
+\[
+F_Z(z)
+=
+1 - \frac{1}{2z},
+\quad z>1.
+\]
+
+Putting all cases together, the CDF of \(Z\) is
+\[
+F_Z(z)
+=
+\begin{cases}
+0, & z<0,\\[4pt]
+\displaystyle \frac{z}{2}, & 0 \le z \le 1,\\[6pt]
+\displaystyle 1 - \frac{1}{2z}, & z>1.
+\end{cases}
+\]
+
+\textsc{PDF of \(Z\)}
+
+To obtain the PDF, we differentiate \(F_Z(z)\) piecewise.  
+
+For \(z<0\), \(F_Z(z)\) is constant, so
+\[
+f_Z(z) = 0, \quad z<0.
+\]
+
+For \(0<z<1\),
+\[
+F_Z(z) = \frac{z}{2}
+\quad\Longrightarrow\quad
+f_Z(z)
+=
+\frac{d}{dz}F_Z(z)
+=
+\frac{1}{2}.
+\]
+
+For \(z>1\),
+\[
+F_Z(z)
+=
+1 - \frac{1}{2z}
+\quad\Longrightarrow\quad
+f_Z(z)
+=
+\frac{d}{dz}\Big(1 - \frac{1}{2z}\Big)
+=
+\frac{1}{2z^{2}}.
+\]
+
+At the transition points \(z=0\) and \(z=1\), the PDF can be defined by continuity on either side, but this does not affect probabilities because these are single points.  
+Thus, the PDF of \(Z = Y/X\) is
+\[
+f_Z(z)
+=
+\begin{cases}
+0, & z<0,\\[4pt]
+\displaystyle \frac{1}{2}, & 0<z<1,\\[6pt]
+\displaystyle \frac{1}{2z^{2}}, & z>1.
+\end{cases}
+\]
+
+\textsc{Interpretation}
+
+The distribution of \(Z = Y/X\) arises from the geometry of the uniform joint distribution on the unit square.  
+For small positive \(z\), the allowed region where \(Y/X \le z\) is a triangle whose area grows linearly with \(z\), giving a constant PDF on \((0,1)\).  
+For larger \(z\), the allowed region is the unit square minus a shrinking triangle near the origin, whose area decreases like \(1/z\), and the corresponding PDF decays like \(1/z^{2}\). 
