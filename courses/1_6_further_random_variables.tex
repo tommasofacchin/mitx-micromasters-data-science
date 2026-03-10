@@ -1097,3 +1097,904 @@ f_Z(z)
 The distribution of \(Z = Y/X\) arises from the geometry of the uniform joint distribution on the unit square.  
 For small positive \(z\), the allowed region where \(Y/X \le z\) is a triangle whose area grows linearly with \(z\), giving a constant PDF on \((0,1)\).  
 For larger \(z\), the allowed region is the unit square minus a shrinking triangle near the origin, whose area decreases like \(1/z\), and the corresponding PDF decays like \(1/z^{2}\). 
+
+
+
+\subsubsection{Convolution of PMFs for sums of independent random variables}
+
+Let \(X\) and \(Y\) be independent discrete random variables with known PMFs \(p_X(x)\) and \(p_Y(y)\).  
+We define a new random variable
+\[
+Z = X + Y
+\]
+and we want to find the PMF \(p_Z(z) = \mathbb{P}(Z = z)\).
+
+\textsc{Basic idea}
+
+The event \(\{Z = z\}\) means that the pair \((X,Y)\) takes values that add up to \(z\).  
+There are many ways for this to happen; for example, if \(z=3\) then we could have \((X,Y) = (0,3)\), or \((1,2)\), or \((2,1)\), and so on.  
+The probability that \(Z\) equals \(z\) is obtained by adding the probabilities of all such pairs.  
+Because \(X\) and \(Y\) are independent, the probability of any particular pair \((x,y)\) is the product \(p_X(x)\,p_Y(y)\).  
+This leads to a systematic formula.
+
+\textsc{Convolution formula}
+
+Fix an integer \(z\).  
+For each possible value \(x\) of \(X\), the value of \(Y\) must be \(z-x\) in order for the sum to equal \(z\).  
+Thus
+\[
+\mathbb{P}(Z = z)
+=
+\sum_{x} \mathbb{P}\big(X = x,\; Y = z-x\big).
+\]
+Independence gives
+\[
+\mathbb{P}\big(X = x,\; Y = z-x\big)
+=
+\mathbb{P}(X = x)\,\mathbb{P}(Y = z-x)
+=
+p_X(x)\,p_Y(z-x).
+\]
+Therefore the PMF of \(Z\) is
+\[
+p_Z(z)
+=
+\sum_{x} p_X(x)\,p_Y(z-x),
+\]
+where the sum runs over all values of \(x\) for which both terms in the product are defined and nonzero.  
+This operation on PMFs is called \textit{convolution}.  
+Given \(p_X\) and \(p_Y\), the convolution formula produces a new PMF \(p_Z\) corresponding to the sum \(Z = X+Y\).
+
+\textsc{Example}
+
+Suppose \(X\) takes values \(1\) and \(4\) with
+\[
+p_X(1) = \frac{1}{3},
+\qquad
+p_X(4) = \frac{2}{3},
+\]
+and \(Y\) takes values \(-2,-1,1\) with
+\[
+p_Y(-2) = \frac{3}{6},
+\qquad
+p_Y(-1) = \frac{2}{6},
+\qquad
+p_Y(1) = \frac{1}{6},
+\]
+and \(X\) and \(Y\) are independent.  
+To compute \(p_Z(3)\) where \(Z = X+Y\), list all pairs \((x,y)\) with \(x+y=3\).  
+These are
+\[
+(x,y) = (1,2) \textit{ (impossible here)}, \quad (4,-1).
+\]
+In this particular example the only feasible pair is \((4,-1)\) because \(Y\) never takes the value \(2\).  
+Thus
+\[
+p_Z(3)
+=
+\mathbb{P}(X = 4,\; Y = -1)
+=
+p_X(4)\,p_Y(-1)
+=
+\frac{2}{3}\cdot\frac{2}{6}
+=
+\frac{4}{18}
+=
+\frac{2}{9}.
+\]
+If instead \(Y\) could also take the value \(2\) with some probability, say \(p_Y(2)\), then
+\[
+p_Z(3)
+=
+p_X(1)\,p_Y(2)
++
+p_X(4)\,p_Y(-1)
+=
+\frac{1}{3}p_Y(2)
++
+\frac{2}{3}\cdot\frac{2}{6}.
+\]
+
+\textsc{Graphical interpretation}
+
+A useful graphical method to remember the convolution formula is to work with the PMFs drawn as stem plots on the number line.  
+One can reflect the PMF of \(Y\) about the vertical axis to obtain a plot of \(p_Y(-y)\).  
+Then shift this reflected plot by an amount \(z\) so that the point corresponding to \(y\) lines up with the point \(x = z-y\).  
+For a given shift \(z\), the probability \(p_Z(z)\) is obtained by multiplying corresponding vertical stems that line up and summing all these products.  
+Changing \(z\) corresponds to sliding the reflected PMF left or right and repeating the same multiplication and summation.  
+This picture mirrors exactly the algebraic convolution sum \(p_Z(z) = \sum_x p_X(x)\,p_Y(z-x)\).
+
+
+
+\subsubsection{Convolution for sums of independent continuous random variables}
+
+Let \(X\) and \(Y\) be independent continuous random variables with PDFs \(f_X(x)\) and \(f_Y(y)\).  
+Define
+\[
+Z = X + Y.
+\]
+We want to find the PDF \(f_Z(z)\) of the sum \(Z\).
+
+\textsc{Heuristic derivation}
+
+For a fixed value \(z\), the event \(\{Z = z\}\) corresponds to all pairs \((x,y)\) satisfying \(x + y = z\).  
+In the discrete case, to obtain the PMF we add the probabilities of all pairs on that line and get a sum (the discrete convolution).  
+In the continuous case, there are infinitely many pairs on the line \(x+y=z\), so the “sum over ways” becomes an integral and PMFs are replaced by PDFs.  
+This leads to the continuous convolution formula
+\[
+f_Z(z)
+=
+\int_{-\infty}^{\infty} f_X(x)\,f_Y(z-x)\,dx,
+\]
+where we integrate over all possible values of \(x\) and for each such \(x\) the corresponding \(y\) is \(z-x\).
+
+\textsc{Conditional-density derivation}
+
+A more formal justification starts by conditioning on \(X\).  
+Fix a value \(x\) of \(X\); then
+\[
+Z = X + Y = x + Y,
+\]
+so given \(X=x\), the random variable \(Z\) is just \(Y\) shifted by \(x\).  
+For a linear transformation \(U = Y + b\), the PDF satisfies
+\[
+f_U(u) = f_Y(u-b),
+\]
+because shifting a continuous random variable by a constant simply shifts its density.  
+Thus, for each fixed \(x\),
+\[
+f_{Z\mid X}(z\mid x)
+=
+f_Y(z-x).
+\]
+
+Now use the multiplication rule for densities to get the joint PDF of \((X,Z)\).  
+We have
+\[
+f_{X,Z}(x,z)
+=
+f_X(x)\,f_{Z\mid X}(z\mid x)
+=
+f_X(x)\,f_Y(z-x).
+\]
+To obtain the marginal density of \(Z\), integrate out \(x\) from the joint density:
+\[
+f_Z(z)
+=
+\int_{-\infty}^{\infty} f_{X,Z}(x,z)\,dx
+=
+\int_{-\infty}^{\infty} f_X(x)\,f_Y(z-x)\,dx.
+\]
+This is exactly the continuous convolution formula.
+
+\bigskip
+\textsc{Graphical interpretation}
+
+The mechanics of using this formula mirror those of the discrete case.  
+To visualize the integral, one may take the graph of \(f_Y(y)\), reflect it horizontally to obtain \(f_Y(-y)\), and then shift it by an amount \(z\) to form the function \(y \mapsto f_Y(z-y)\).  
+For a fixed \(z\), the integrand \(f_X(x)\,f_Y(z-x)\) multiplies the height of the \(f_X\) graph at \(x\) by the height of the shifted-reflected \(f_Y\) graph at the same \(x\).  
+Integrating over all \(x\) adds up these products and yields \(f_Z(z)\).
+
+
+\subsubsection{Sum of independent normal random variables}
+
+Let \(X\) and \(Y\) be independent normal random variables.  
+Assume
+\[
+X \sim \mathcal{N}(\mu_X,\sigma_X^{2}),
+\qquad
+Y \sim \mathcal{N}(\mu_Y,\sigma_Y^{2}).
+\]
+We define
+\[
+Z = X + Y
+\]
+and we want to find the PDF and distribution of \(Z\).
+
+\bigskip
+\textsc{Using the convolution formula}
+
+Because \(X\) and \(Y\) are independent and continuous, the PDF of \(Z\) is given by the convolution
+\[
+f_Z(z)
+=
+\int_{-\infty}^{\infty} f_X(x)\,f_Y(z-x)\,dx.
+\]
+For normal \(X\) and \(Y\),
+\[
+f_X(x)
+=
+\frac{1}{\sqrt{2\pi}\,\sigma_X}
+\exp\!\left(-\,\frac{(x-\mu_X)^{2}}{2\sigma_X^{2}}\right),
+\]
+\[
+f_Y(y)
+=
+\frac{1}{\sqrt{2\pi}\,\sigma_Y}
+\exp\!\left(-\,\frac{(y-\mu_Y)^{2}}{2\sigma_Y^{2}}\right).
+\]
+In the convolution, \(y\) is replaced by \(z-x\), so
+\[
+f_Z(z)
+=
+\int_{-\infty}^{\infty}
+\frac{1}{\sqrt{2\pi}\,\sigma_X}
+\exp\!\left(-\,\frac{(x-\mu_X)^{2}}{2\sigma_X^{2}}\right)
+\cdot
+\frac{1}{\sqrt{2\pi}\,\sigma_Y}
+\exp\!\left(-\,\frac{(z-x-\mu_Y)^{2}}{2\sigma_Y^{2}}\right)
+\,dx.
+\]
+The integrand is a product of two exponentials in \(x\).  
+By expanding the squares in the exponents and collecting terms in \(x\), one can rewrite the product as a single Gaussian in \(x\) times a factor that depends only on \(z\).  
+Integrating the Gaussian in \(x\) over the real line yields \(1\), leaving a remaining factor in \(z\) that has the form of a normal PDF.
+
+\newpage
+\textsc{Resulting distribution}
+
+The final result is that \(Z\) is again normal with
+\[
+Z \sim \mathcal{N}(\mu_X + \mu_Y,\ \sigma_X^{2} + \sigma_Y^{2}).
+\]
+Equivalently, the PDF of \(Z\) can be written as
+\[
+f_Z(z)
+=
+\frac{1}{\sqrt{2\pi(\sigma_X^{2}+\sigma_Y^{2})}}
+\exp\!\left(
+-\,
+\frac{\big(z-(\mu_X+\mu_Y)\big)^{2}}{2(\sigma_X^{2}+\sigma_Y^{2})}
+\right).
+\]
+The mean of the sum is the sum of the means and the variance of the sum is the sum of the variances.
+
+\bigskip
+\textsc{Extension to more than two variables}
+
+Now consider independent normal random variables
+\[
+X_1, X_2, \dots, X_n,
+\qquad
+X_i \sim \mathcal{N}(\mu_i,\sigma_i^{2}).
+\]
+From the two-variable result, the sum \(X_1 + X_2\) is normal.  
+Because \(X_3\) is independent of \((X_1 + X_2)\) and normal, the sum \((X_1 + X_2) + X_3\) is also normal.  
+Continuing inductively, any finite sum
+\[
+S_n = X_1 + X_2 + \cdots + X_n
+\]
+is normal with
+\[
+S_n \sim \mathcal{N}\!\left(\sum_{i=1}^{n} \mu_i,\ \sum_{i=1}^{n} \sigma_i^{2}\right).
+\]
+Thus the class of normal distributions is closed under finite sums of independent variables, which makes normal models particularly convenient when studying linear combinations of random signals or errors.
+
+
+\subsubsection{Covariance and dependence}
+
+Consider two random variables \(X\) and \(Y\) with means \(0\).  
+If \(X\) and \(Y\) are independent, then
+\[
+\mathbb{E}[XY]
+=
+\mathbb{E}[X]\mathbb{E}[Y]
+=
+0.
+\]
+Now imagine a discrete joint distribution where points with \(X>0\) tend to occur together with \(Y>0\), and points with \(X<0\) tend to occur together with \(Y<0\).  
+Most outcomes then fall in the quadrants where the product \(XY\) is positive, so the average value \(\mathbb{E}[XY]\) is positive.  
+In contrast, if typical outcomes lie in quadrants where \(X\) and \(Y\) have opposite signs, then \(XY\) is usually negative and \(\mathbb{E}[XY]\) becomes negative.  
+Thus, in the zero-mean case, the sign of \(\mathbb{E}[XY]\) tells us whether \(X\) and \(Y\) tend to move in the same direction or in opposite directions.
+
+\bigskip
+\textsc{General definition}
+
+For general random variables \(X\) and \(Y\) (discrete or continuous) with possibly nonzero means, the covariance is defined as
+\[
+\operatorname{Cov}(X,Y)
+=
+\mathbb{E}\big[(X-\mathbb{E}[X])\,(Y-\mathbb{E}[Y])\big].
+\]
+Here \(X-\mathbb{E}[X]\) and \(Y-\mathbb{E}[Y]\) are the deviations from their respective mean values.  
+If the covariance is positive, then when \(X\) is typically above its mean, \(Y\) also tends to be above its mean, and when \(X\) is below its mean, \(Y\) tends to be below its mean.  
+If the covariance is negative, then \(X\) being above its mean is usually accompanied by \(Y\) being below its mean, and vice versa.  
+In summary, the covariance measures whether two random variables tend to be simultaneously high or low in an average sense.
+
+\bigskip
+\textsc{Independence and zero covariance}
+
+If \(X\) and \(Y\) are independent, then
+\[
+\operatorname{Cov}(X,Y)
+=
+\mathbb{E}\big[(X-\mathbb{E}[X])\,(Y-\mathbb{E}[Y])\big]
+=
+\mathbb{E}[X-\mathbb{E}[X]]\;\mathbb{E}[Y-\mathbb{E}[Y]]
+=
+0,
+\]
+because \(X-\mathbb{E}[X]\) and \(Y-\mathbb{E}[Y]\) are independent and each has expectation \(0\).  
+Thus independence implies zero covariance.  
+However, the converse is not true: there exist dependent random variables whose covariance is zero.
+
+\bigskip
+\textsc{Example of dependence with zero covariance}
+
+Consider a discrete example with four possible outcomes arranged so that at every outcome either \(X=0\) or \(Y=0\).  
+In this construction, the product \(XY\) is always equal to \(0\), so
+\[
+\mathbb{E}[XY] = 0.
+\]
+By symmetry, the means of \(X\) and \(Y\) are also \(0\), so
+\[
+\operatorname{Cov}(X,Y)
+=
+\mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]
+=
+0.
+\]
+Nevertheless, \(X\) and \(Y\) are not independent.  
+For instance, if you are told that \(X=1\), you immediately know which outcome occurred and can deduce that \(Y=0\) with certainty, so knowledge of \(X\) reveals information about \(Y\).
+
+
+\subsubsection{Covariance: basic algebraic properties}
+
+For any random variable \(X\), the covariance of \(X\) with itself is
+\[
+\operatorname{Cov}(X,X)
+=
+\mathbb{E}\big[(X-\mathbb{E}[X])^{2}\big]
+=
+\operatorname{Var}(X).
+\]
+Thus variance is a special case of covariance.
+
+\bigskip
+\textsc{Alternative formula}
+
+Starting from the definition
+\[
+\operatorname{Cov}(X,Y)
+=
+\mathbb{E}\big[(X-\mathbb{E}[X])\,(Y-\mathbb{E}[Y])\big]
+\]
+and expanding the product gives
+\[
+\operatorname{Cov}(X,Y)
+=
+\mathbb{E}[XY]
+-
+\mathbb{E}[X]\,\mathbb{E}[Y]
+-
+\mathbb{E}[X]\,\mathbb{E}[Y]
++
+\mathbb{E}[X]\,\mathbb{E}[Y].
+\]
+Using linearity of expectation and pulling constants outside, the middle two terms cancel, leaving
+\[
+\operatorname{Cov}(X,Y)
+=
+\mathbb{E}[XY]
+-
+\mathbb{E}[X]\,\mathbb{E}[Y].
+\]
+This identity often simplifies covariance calculations.
+
+\bigskip
+\textsc{Effect of linear transformations}
+
+Consider a linear function of \(X\),
+\[
+U = aX + b
+\]
+and another random variable \(Y\).  
+Using the definition of covariance and linearity of expectation, one can show
+\[
+\operatorname{Cov}(aX+b,\;Y)
+=
+a\,\operatorname{Cov}(X,Y).
+\]
+Multiplying \(X\) by \(a\) scales the covariance by \(a\), while adding a constant \(b\) does not change the covariance.
+
+\bigskip
+\textsc{Linearity in one argument}
+
+For random variables \(X\), \(Y\) and \(Z\) (assume for simplicity that they have finite second moments),
+\[
+\operatorname{Cov}\big(X,\;Y+Z\big)
+=
+\mathbb{E}\big[X(Y+Z)\big]
+-
+\mathbb{E}[X]\,\mathbb{E}[Y+Z].
+\]
+Expanding both terms and collecting gives
+\[
+\operatorname{Cov}\big(X,\;Y+Z\big)
+=
+\operatorname{Cov}(X,Y)
++
+\operatorname{Cov}(X,Z).
+\]
+So covariance is linear in each argument when the other is held fixed.
+
+
+
+\subsubsection{Variance of a sum of random variables}
+
+Let \(X_1\) and \(X_2\) be random variables and consider their sum
+\[
+S = X_1 + X_2.
+\]
+By definition,
+\[
+\operatorname{Var}(S)
+=
+\mathbb{E}\Big[\big(S-\mathbb{E}[S]\big)^{2}\Big]
+=
+\mathbb{E}\Big[\big((X_1+X_2)-(\mathbb{E}[X_1]+\mathbb{E}[X_2])\big)^{2}\Big].
+\]
+Rewriting inside the square,
+\[
+S-\mathbb{E}[S]
+=
+(X_1-\mathbb{E}[X_1]) + (X_2-\mathbb{E}[X_2]).
+\]
+Expanding the square gives
+\[
+\big(S-\mathbb{E}[S]\big)^{2}
+=
+(X_1-\mathbb{E}[X_1])^{2}
++
+(X_2-\mathbb{E}[X_2])^{2}
++
+2\,(X_1-\mathbb{E}[X_1])(X_2-\mathbb{E}[X_2]).
+\]
+Taking expectations and using linearity,
+\[
+\operatorname{Var}(S)
+=
+\operatorname{Var}(X_1)
++
+\operatorname{Var}(X_2)
++
+2\,\operatorname{Cov}(X_1,X_2).
+\]
+If \(X_1\) and \(X_2\) are independent, then \(\operatorname{Cov}(X_1,X_2)=0\) and
+\[
+\operatorname{Var}(X_1+X_2)
+=
+\operatorname{Var}(X_1)+\operatorname{Var}(X_2).
+\]
+
+\bigskip
+\textsc{Many random variables}
+
+Now consider \(n\) random variables \(X_1,\dots,X_n\) and their sum
+\[
+S_n = X_1 + X_2 + \cdots + X_n.
+\]
+For simplicity assume \(\mathbb{E}[X_i]=0\), so
+\[
+\operatorname{Var}(S_n)
+=
+\mathbb{E}\big[S_n^{2}\big]
+=
+\mathbb{E}\Big[\Big(\sum_{i=1}^{n} X_i\Big)^{2}\Big].
+\]
+Expanding the square,
+\[
+S_n^{2}
+=
+\sum_{i=1}^{n} X_i^{2}
++
+\sum_{\substack{i,j=1\\ i\ne j}}^{n} X_iX_j.
+\]
+Taking expectations,
+\[
+\operatorname{Var}(S_n)
+=
+\sum_{i=1}^{n} \mathbb{E}[X_i^{2}]
++
+\sum_{\substack{i,j=1\\ i\ne j}}^{n} \mathbb{E}[X_iX_j].
+\]
+Because \(\mathbb{E}[X_i]=0\), each \(\mathbb{E}[X_i^{2}] = \operatorname{Var}(X_i)\) and each \(\mathbb{E}[X_iX_j] = \operatorname{Cov}(X_i,X_j)\).  
+Thus
+\[
+\operatorname{Var}(S_n)
+=
+\sum_{i=1}^{n} \operatorname{Var}(X_i)
++
+\sum_{\substack{i,j=1\\ i\ne j}}^{n} \operatorname{Cov}(X_i,X_j).
+\]
+Equivalently, one can write
+\[
+\operatorname{Var}(S_n)
+=
+\sum_{i=1}^{n} \sum_{j=1}^{n} \operatorname{Cov}(X_i,X_j),
+\]
+since the diagonal terms \(\operatorname{Cov}(X_i,X_i)\) are exactly the variances.  
+If all covariances are zero, then the variance of the sum reduces to the sum of the individual variances.  
+This happens in particular when the \(X_i\) are independent, but the formula itself holds regardless of whether they are independent or have nonzero covariances.
+
+
+
+\subsubsection{The correlation coefficient}
+
+The covariance \(\operatorname{Cov}(X,Y)\) indicates whether two random variables tend to move together, but its numerical value is hard to interpret and it depends on the measurement units.  
+If \(X\) and \(Y\) are measured in meters, then the covariance has units of \(\text{meters}^{2}\), which makes comparisons across problems or unit systems difficult.  
+To obtain a dimensionless and more interpretable measure of linear dependence, we normalize the covariance by the standard deviations of the two variables.
+
+\bigskip
+\textsc{Definition and basic properties}
+
+For random variables \(X\) and \(Y\) with standard deviations \(\sigma_X>0\) and \(\sigma_Y>0\), the correlation coefficient is defined as
+\[
+\rho_{X,Y}
+=
+\frac{\operatorname{Cov}(X,Y)}{\sigma_X\,\sigma_Y}.
+\]
+Because the numerator has the same units as the product \(\sigma_X\sigma_Y\), the ratio \(\rho_{X,Y}\) is dimensionless.  
+If either standard deviation is zero, then the corresponding variable is almost surely constant and the correlation coefficient is not defined because the denominator would be zero.  
+A fundamental fact is that
+\[
+-1 \le \rho_{X,Y} \le 1,
+\]
+which provides an absolute scale for judging the strength of linear association between \(X\) and \(Y\).
+
+\bigskip
+\textsc{Interpretation and extreme cases}
+
+If \(X\) and \(Y\) are independent and have finite variances, then \(\operatorname{Cov}(X,Y)=0\) and
+\[
+\rho_{X,Y}=0,
+\]
+and in this case the variables are said to be \textit{uncorrelated}.  
+The converse is not generally true: there exist dependent random variables with zero covariance and therefore zero correlation.  
+At the other extreme, consider the correlation coefficient of a random variable with itself:
+\[
+\rho_{X,X}
+=
+\frac{\operatorname{Cov}(X,X)}{\sigma_X^{2}}
+=
+\frac{\operatorname{Var}(X)}{\sigma_X^{2}}
+=
+1.
+\]
+Similarly, the correlation coefficient of \(X\) with \(-X\) is \(-1\).  
+More generally, if there is a deterministic linear relationship between \(X\) and \(Y\) of the form
+\[
+Y = aX + b
+\]
+with probability one, then
+\[
+|\rho_{X,Y}| = 1,
+\]
+with \(\rho_{X,Y}=1\) when \(a>0\) and \(\rho_{X,Y}=-1\) when \(a<0\).  
+Conversely, if \(|\rho_{X,Y}|=1\), then \(X\) and \(Y\) are related by such a deterministic linear formula, so extreme correlations \(\pm1\) correspond exactly to perfect linear dependence.
+
+\bigskip
+\textsc{Effect of linear transformations}
+
+Let \(U = aX + b\) for real constants \(a\) and \(b\) and consider the correlation between \(U\) and \(Y\).  
+From covariance properties,
+\[
+\operatorname{Cov}(aX+b,\;Y)
+=
+a\,\operatorname{Cov}(X,Y).
+\]
+The standard deviation of \(aX+b\) is \(|a|\,\sigma_X\), because shifting by \(b\) does not change the spread and scaling by \(a\) multiplies the standard deviation by \(|a|\).  
+Therefore,
+\[
+\rho_{aX+b,\;Y}
+=
+\frac{\operatorname{Cov}(aX+b,\;Y)}{\sigma_{aX+b}\,\sigma_Y}
+=
+\frac{a\,\operatorname{Cov}(X,Y)}{|a|\sigma_X\,\sigma_Y}
+=
+\operatorname{sign}(a)\,\rho_{X,Y},
+\]
+where
+\[
+\operatorname{sign}(a)
+=
+\begin{cases}
+1, & a>0,\\[4pt]
+-1, & a<0.
+\end{cases}
+\]
+The magnitude \(|\rho_{aX+b,\;Y}|\) is the same as \(|\rho_{X,Y}|\); only the sign may change if \(a<0\).  
+Thus changing units for a variable (for example, converting a temperature from degrees Celsius to degrees Fahrenheit) does not change the absolute value of the correlation with another variable, reflecting the fact that correlation is unitless and invariant under positive linear rescalings.
+
+
+\subsubsection{Key properties of the correlation coefficient}
+
+\bigskip
+\textsc{Bounded between \(-1\) and \(1\)}
+
+To justify the basic bound on the correlation coefficient, consider a simplified setting in which
+\[
+\mathbb{E}[X]=\mathbb{E}[Y]=0,
+\qquad
+\operatorname{Var}(X)=\operatorname{Var}(Y)=1.
+\]
+In this case the standard deviations are \(1\), so the correlation coefficient reduces to
+\[
+\rho = \rho_{X,Y} = \mathbb{E}[XY].
+\]
+Define the random variable
+\[
+W = X - \rho Y
+\]
+and examine the expectation of its square:
+\[
+\mathbb{E}[W^{2}]
+=
+\mathbb{E}\big[(X-\rho Y)^{2}\big].
+\]
+Expanding the square gives
+\[
+\mathbb{E}[W^{2}]
+=
+\mathbb{E}[X^{2}]
+-
+2\rho\,\mathbb{E}[XY]
++
+\rho^{2}\,\mathbb{E}[Y^{2}].
+\]
+Under our assumptions \(\mathbb{E}[X^{2}] = \operatorname{Var}(X) = 1\) and \(\mathbb{E}[Y^{2}] = 1\).  
+Also \(\mathbb{E}[XY]=\rho\).  
+Substituting,
+\[
+\mathbb{E}[W^{2}]
+=
+1
+-
+2\rho^{2}
++
+\rho^{2}
+=
+1-\rho^{2}.
+\]
+Since \(W^{2}\) is always nonnegative, its expectation must be nonnegative:
+\[
+\mathbb{E}[W^{2}] \ge 0
+\quad\Longrightarrow\quad
+1-\rho^{2} \ge 0.
+\]
+Therefore \(\rho^{2} \le 1\), which implies
+\[
+-1 \le \rho \le 1.
+\]
+With a bit more algebra the same conclusion holds for general random variables \(X\) and \(Y\) with arbitrary means and nonzero variances.
+
+\bigskip
+\textsc{Characterizing the extreme case \(|\rho|=1\)}
+
+Suppose now that the absolute value of the correlation coefficient is equal to \(1\).  
+In the setting above, this means \(\rho^{2}=1\), so from the previous result
+\[
+\mathbb{E}[W^{2}]
+=
+1-\rho^{2}
+=
+0.
+\]
+Again \(W^{2}\) is nonnegative, and a nonnegative random variable with zero expectation must be zero with probability \(1\).  
+Hence
+\[
+W^{2} = 0 \text{ with probability }1,
+\quad\text{so}\quad
+X-\rho Y = 0 \text{ with probability }1.
+\]
+This shows that
+\[
+X = \rho Y
+\quad\text{with probability }1,
+\]
+which is a deterministic linear relation between \(X\) and \(Y\).  
+Because \(|\rho|=1\), there are two possibilities:
+\[
+\rho = 1 \quad\Longrightarrow\quad X = Y \text{ almost surely},
+\]
+\[
+\rho = -1 \quad\Longrightarrow\quad X = -Y \text{ almost surely}.
+\]
+Thus \(|\rho|=1\) corresponds to an extreme form of dependence, in which one random variable is an exact linear function of the other.
+
+
+\subsubsection{Interpreting the correlation coefficient}
+
+A correlation coefficient measures the strength of a \textit{linear association} between two random variables, not a causal relationship.  
+A value such as \(\rho_{X,Y} = 0.5\) indicates that high values of \(X\) tend to be accompanied by high values of \(Y\) and low values of \(X\) tend to be accompanied by low values of \(Y\), in an average sense.  
+However, this does not mean that changing \(X\) will directly cause a change in \(Y\), or vice versa.  
+In many situations a nonzero correlation arises because both variables are influenced by some common underlying factor, rather than one variable directly affecting the other.  
+For example, mathematical aptitude and musical skill may be positively correlated because both are influenced by certain shared cognitive traits, even though studying one does not necessarily cause improvement in the other.
+
+\bigskip
+\textsc{A simple model with a hidden common factor}
+
+To make this idea concrete, consider independent random variables \(Z\), \(V\), and \(W\) with
+\[
+\mathbb{E}[Z] = \mathbb{E}[V] = \mathbb{E}[W] = 0,
+\qquad
+\operatorname{Var}(Z) = \operatorname{Var}(V) = \operatorname{Var}(W) = 1.
+\]
+Define
+\[
+X = Z + V,
+\qquad
+Y = Z + W.
+\]
+Here the underlying factor \(Z\) affects both \(X\) and \(Y\), while \(V\) and \(W\) are independent “noise” terms specific to each variable.  
+There is no direct causal influence from \(X\) to \(Y\) or from \(Y\) to \(X\); the dependence comes entirely from the shared component \(Z\).
+
+\bigskip
+\textsc{Computing the correlation in the example}
+
+First compute the variances.  
+Because \(Z\) and \(V\) are independent,
+\[
+\operatorname{Var}(X)
+=
+\operatorname{Var}(Z) + \operatorname{Var}(V)
+=
+1 + 1
+=
+2,
+\]
+and similarly
+\[
+\operatorname{Var}(Y)
+=
+\operatorname{Var}(Z) + \operatorname{Var}(W)
+=
+2.
+\]
+Thus the standard deviations are
+\[
+\sigma_X = \sigma_Y = \sqrt{2}.
+\]
+Next compute the covariance.  
+Since \(\mathbb{E}[X]=\mathbb{E}[Y]=0\),
+\[
+\operatorname{Cov}(X,Y)
+=
+\mathbb{E}[XY]
+=
+\mathbb{E}[(Z+V)(Z+W)]
+=
+\mathbb{E}[Z^{2}]
++
+\mathbb{E}[ZW]
++
+\mathbb{E}[VZ]
++
+\mathbb{E}[VW].
+\]
+Because \(Z\), \(V\), and \(W\) are independent and have zero means,
+\[
+\mathbb{E}[Z^{2}] = 1,
+\qquad
+\mathbb{E}[ZW] = \mathbb{E}[Z]\mathbb{E}[W] = 0,
+\qquad
+\mathbb{E}[VZ] = 0,
+\qquad
+\mathbb{E}[VW] = 0,
+\]
+so
+\[
+\operatorname{Cov}(X,Y) = 1.
+\]
+The correlation coefficient is then
+\[
+\rho_{X,Y}
+=
+\frac{\operatorname{Cov}(X,Y)}{\sigma_X\sigma_Y}
+=
+\frac{1}{\sqrt{2}\,\sqrt{2}}
+=
+\frac{1}{2}.
+\]
+
+\bigskip
+\textsc{Qualitative meaning of \(\rho = \tfrac{1}{2}\)}
+
+In this model, the common factor \(Z\) and the idiosyncratic parts \(V\) and \(W\) all have the same variance, so the “shared” part and the “individual noise” parts have comparable strength.  
+The resulting correlation \(\rho=\tfrac{1}{2}\) reflects a moderate linear association: \(X\) and \(Y\) tend to move together because of their common component \(Z\), but not perfectly, since the independent noises \(V\) and \(W\) partly obscure that relation.  
+If the noise terms \(V\) and \(W\) were absent, we would have \(X=Y=Z\) and the correlation would be \(1\).  
+If instead \(V\) and \(W\) had very large variances compared to \(Z\), their idiosyncratic fluctuations would dominate, the influence of \(Z\) would be hard to detect, and the correlation would be much smaller, approaching \(0\) in the limit.
+
+
+\subsubsection{Why correlations matter in practice}
+
+Consider an investment company with capital of \(100\) million that is allocated equally across \(10\) different states.  
+Let \(X_i\) denote the random profit (in millions) from state \(i\), so each investment is \(10\) million and
+\[
+\mathbb{E}[X_i] = 1,
+\qquad
+\operatorname{SD}(X_i) = 1.3,
+\qquad
+\operatorname{Var}(X_i) = 1.3^{2} = 1.69.
+\]
+The total profit is
+\[
+S = X_1 + X_2 + \cdots + X_{10}.
+\]
+Its expectation is
+\[
+\mathbb{E}[S] = \sum_{i=1}^{10} \mathbb{E}[X_i] = 10.
+\]
+If the state markets are truly unrelated so that the \(X_i\) are uncorrelated, then all covariances are zero and
+\[
+\operatorname{Var}(S)
+=
+\sum_{i=1}^{10} \operatorname{Var}(X_i)
+=
+10 \times 1.69
+=
+16.9.
+\]
+Thus
+\[
+\operatorname{SD}(S) = \sqrt{16.9} \approx 4.1.
+\]
+Since the mean profit is \(10\), breaking even corresponds to an outcome \(2.5\) standard deviations below the mean (because \(10 - 2.5 \times 4.1 \approx 0\)).  
+Outcomes this far below the mean have relatively small probability for many light-tailed distributions, so in the uncorrelated case diversification gives a high chance of a positive total return.
+
+\bigskip
+\textsc{Effect of strong positive correlations}
+
+Suppose instead that the state markets are strongly linked so that
+\[
+\rho_{X_i,X_j} = 0.9
+\quad\text{for all } i\ne j.
+\]
+Each covariance is then
+\[
+\operatorname{Cov}(X_i,X_j)
+=
+\rho_{X_i,X_j}\,\operatorname{SD}(X_i)\,\operatorname{SD}(X_j)
+=
+0.9 \times 1.3 \times 1.3
+=
+1.52.
+\]
+The variance of the sum becomes
+\[
+\operatorname{Var}(S)
+=
+\sum_{i=1}^{10}\operatorname{Var}(X_i)
++
+\sum_{\substack{i,j=1\\ i\ne j}}^{10}\operatorname{Cov}(X_i,X_j)
+=
+10 \times 1.69
++
+90 \times 1.52.
+\]
+Here the first term accounts for the \(10\) individual variances, and the second term has \(90\) covariance entries because there are \(10\cdot 9\) ordered pairs \((i,j)\) with \(i\ne j\).  
+Carrying out the arithmetic,
+\[
+\operatorname{Var}(S)
+=
+16.9 + 136.8
+=
+153.7 \approx 154,
+\]
+so
+\[
+\operatorname{SD}(S)
+\approx
+\sqrt{154}
+\approx
+12.4.
+\]
+The expected profit is still \(10\), but now a one-standard-deviation drop from the mean (\(10-12.4\)) already leads to a negative total return.  
+Such a deviation has substantial probability, so the overall investment becomes much riskier when returns are highly positively correlated.
+
+\bigskip
+\textsc{Lessons for risk and diversification}
+
+This example illustrates that diversification reduces risk only when the underlying positions are not strongly positively correlated.  
+If the component returns move largely together because of common economic forces, the covariance terms dominate the variance of the aggregate portfolio and the overall risk can remain large even when the portfolio includes many different assets.  
+In the context of real estate, it is not enough to invest in multiple regions if housing markets across regions are driven by shared macroeconomic factors that create high correlations.  
+When such correlations are underestimated or ignored, as in parts of the financial sector before the global financial crisis, portfolios that appear well diversified can still suffer large simultaneous losses.
