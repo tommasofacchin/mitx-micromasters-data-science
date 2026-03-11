@@ -1998,3 +1998,685 @@ This example illustrates that diversification reduces risk only when the underly
 If the component returns move largely together because of common economic forces, the covariance terms dominate the variance of the aggregate portfolio and the overall risk can remain large even when the portfolio includes many different assets.  
 In the context of real estate, it is not enough to invest in multiple regions if housing markets across regions are driven by shared macroeconomic factors that create high correlations.  
 When such correlations are underestimated or ignored, as in parts of the financial sector before the global financial crisis, portfolios that appear well diversified can still suffer large simultaneous losses.
+
+
+
+\subsubsection{Conditional expectation as a random variable}
+
+Consider a random variable \( X \) and a function \( h \) that maps real numbers to real numbers.  
+For example, if \( h(x) = x^2 \), then \( h(X) \) is defined to be the random variable that takes the value \( x^2 \) whenever \( X = x \).  
+Thus, \( h(X) = X^2 \) is itself a random variable.
+
+Now let us move to conditional expectations.  
+For a discrete random variable \( X \) and another random variable \( Y \), the conditional expectation of \( X \) given that \( Y = y \) is defined as
+\[
+\mathbb{E}[X \mid Y = y]
+=
+\sum_{x} x\,\mathbb{P}(X = x \mid Y = y).
+\]
+In the continuous case, the summation would be replaced by an integral and the conditional probability mass function by a conditional probability density function.
+
+If we fix a specific value \( y \), this expression gives a number.  
+However, if \( y \) changes, the result changes too, so this quantity depends on \( y \).  
+Let us define the function
+\[
+g(y) = \mathbb{E}[X \mid Y = y].
+\]
+This is a function of \( y \).  
+If we now apply it to the random variable \( Y \) itself, we obtain a new random variable:
+\[
+\mathbb{E}[X \mid Y] = g(Y).
+\]
+This means that when \( Y = y \), the random variable \( \mathbb{E}[X \mid Y] \) takes the value \( g(y) = \mathbb{E}[X \mid Y = y] \).  
+Hence, \( \mathbb{E}[X \mid Y] \) is itself a random variable that depends only on \( Y \).
+
+\bigskip
+\textsc{Example}
+
+Let \( X \) represent a student's exam score and \( Y \) the number of hours studied.  
+For each fixed \( y \), the term \( \mathbb{E}[X \mid Y = y] \) represents the expected exam score for students who studied \( y \) hours.  
+We can think of \( g(y) = \mathbb{E}[X \mid Y = y] \) as a function that increases with \( y \).  
+Then, for each student, the random variable \( \mathbb{E}[X \mid Y] \) gives the expected score given their own study time \( Y \).  
+
+\bigskip
+\textsc{Interpretation}
+
+The conditional expectation \( \mathbb{E}[X \mid Y] \) is therefore an abstract object—a random variable whose value becomes known once \( Y \) is known.  
+It has all the properties of a random variable: it has a distribution, a mean, and a variance.  
+Understanding conditional expectation in this way provides the foundation for concepts such as variance decomposition and regression analysis.
+
+
+\subsubsection{The law of iterated expectations}
+
+We have previously introduced the conditional expectation of one random variable given another and established that it is itself a random variable.  
+Because it is a random variable, it has an expectation of its own.  
+Our goal is to determine what this expectation equals.
+
+Let \( X \) and \( Y \) be random variables.  
+For each possible value \( y \) of \( Y \), the conditional expectation \( \mathbb{E}[X \mid Y = y] \) is a specific number.  
+Defining
+\[
+g(y) = \mathbb{E}[X \mid Y = y],
+\]
+we obtain a function \( g \) of \( y \).  
+Then the abstract conditional expectation can be written as
+\[
+\mathbb{E}[X \mid Y] = g(Y),
+\]
+which is a random variable that takes the value \( g(y) \) whenever \( Y = y \).
+
+We now wish to compute its expected value:
+\[
+\mathbb{E}[\mathbb{E}[X \mid Y]] = \mathbb{E}[g(Y)].
+\]
+How do we find the expectation of a function of a random variable?  
+By the Expected Value Rule, if \( Y \) is discrete, we have
+\[
+\mathbb{E}[g(Y)] = \sum_{y} g(y)\,\mathbb{P}(Y = y).
+\]
+Substituting the definition of \( g(y) \) gives
+\[
+\mathbb{E}[g(Y)]
+=
+\sum_{y} \mathbb{E}[X \mid Y = y]\,\mathbb{P}(Y = y).
+\]
+This expression matches the form of the Total Expectation Theorem: we take conditional expectations under each possible scenario and weight them by the corresponding probabilities.  
+Hence,
+\[
+\mathbb{E}[\mathbb{E}[X \mid Y]] = \mathbb{E}[X].
+\]
+This fundamental identity is called the \textit{Law of Iterated Expectations}.  
+
+\bigskip
+\textsc{Interpretation}
+
+The Law of Iterated Expectations states that the overall expected value of a random variable can be obtained by first conditioning on another variable and then averaging over all possible outcomes of that conditioning variable.  
+Formally, it generalizes the Total Expectation Theorem and holds for both discrete and continuous random variables (with integrals replacing sums in the continuous case).  
+It provides a unified and abstract perspective: the expectation of a conditional expectation equals the unconditional expectation.
+
+
+\subsubsection{Stick-breaking revisited}
+
+Consider a stick of length \(\ell\) that we first break at a point chosen uniformly at random along its length.  
+Let \(Y\) denote the position of the first break, measured from the left end of the stick.  
+Then \(Y\) is uniformly distributed on the interval \([0,\ell]\), with density
+\[
+f_Y(y) = \frac{1}{\ell},
+\quad 0 \le y \le \ell.
+\]
+
+Next, we take the remaining piece of length \(Y\) and break it again at a point chosen uniformly at random along that remaining piece.  
+Let \(X\) denote the position of this second break measured from the left end of the original stick.  
+Conditioned on \(Y = y\), the second break point \(X\) is uniform on the interval \([0,y]\), so the conditional density is
+\[
+f_{X\mid Y}(x \mid y) = \frac{1}{y},
+\quad 0 \le x \le y.
+\]
+
+For a fixed numerical value \(y\), the conditional distribution of \(X\) given \(Y = y\) is uniform on \([0,y]\).  
+Therefore, its conditional expectation is the midpoint of that interval:
+\[
+\mathbb{E}[X \mid Y = y] = \frac{y}{2}.
+\]
+This is an equality between numbers, valid for each specific value \(y\).
+
+We now rewrite this as an equality between random variables.  
+The abstract conditional expectation \(\mathbb{E}[X \mid Y]\) is the random variable that takes the value \(\mathbb{E}[X \mid Y = y]\) whenever \(Y = y\).  
+From the previous relation, it follows that
+\[
+\mathbb{E}[X \mid Y] = \frac{Y}{2}.
+\]
+Both sides here are random variables: the value of each side is not known until the outcome of \(Y\) is revealed.
+
+Using the Law of Iterated Expectations, we can now compute \(\mathbb{E}[X]\) as follows:
+\[
+\mathbb{E}[X]
+=
+\mathbb{E}\big[\mathbb{E}[X \mid Y]\big]
+=
+\mathbb{E}\Big[\frac{Y}{2}\Big]
+=
+\frac{1}{2}\,\mathbb{E}[Y].
+\]
+Since \(Y\) is uniform on \([0,\ell]\), its expectation is
+\[
+\mathbb{E}[Y] = \frac{\ell}{2},
+\]
+and therefore
+\[
+\mathbb{E}[X] = \frac{1}{2} \cdot \frac{\ell}{2} = \frac{\ell}{4}.
+\]
+
+\bigskip
+\textsc{Key distinction}
+
+The relation
+\[
+\mathbb{E}[X \mid Y = y] = \frac{y}{2}
+\]
+is an equality between numbers: for each fixed \(y\), it gives a specific numerical value.  
+In contrast, the relation
+\[
+\mathbb{E}[X \mid Y] = \frac{Y}{2}
+\]
+is an equality between random variables: both sides are random, and their realized values become known only after the experiment is performed and the outcome of \(Y\) is observed.
+
+
+\subsubsection{The conditional variance}
+
+We have defined the conditional expectation of a random variable given another as an abstract object, which is itself a random variable.  
+We now do something analogous for the notion of conditional variance.
+
+Recall that the variance of a random variable \(X\) is defined as
+\[
+\operatorname{Var}(X)
+=
+\mathbb{E}\big[(X - \mathbb{E}[X])^{2}\big].
+\]
+If we live in a conditional universe where we are told that another random variable \(Y\) has taken the value \(y\), then the conditional variance of \(X\) given \(Y = y\) is defined by
+\[
+\operatorname{Var}(X \mid Y = y)
+=
+\mathbb{E}\big[(X - \mathbb{E}[X \mid Y = y])^{2} \,\big|\, Y = y\big].
+\]
+Here \(\mathbb{E}[X \mid Y = y]\) is the mean of \(X\) in that conditional universe, so \(X - \mathbb{E}[X \mid Y = y]\) is the deviation of \(X\) from its conditional mean.  
+We square this deviation and then take its conditional expectation.  
+For each fixed numerical \(y\), the quantity \(\operatorname{Var}(X \mid Y = y)\) is just a number.
+
+As with conditional expectation, we can view this as defining a function of \(y\).  
+Define
+\[
+v(y) = \operatorname{Var}(X \mid Y = y).
+\]
+This is now a deterministic function of the numerical value \(y\).  
+Using this function, we define the abstract conditional variance as the random variable
+\[
+\operatorname{Var}(X \mid Y) = v(Y),
+\]
+which is the random variable that takes the value \(\operatorname{Var}(X \mid Y = y)\) whenever \(Y = y\).  
+Before the value of \(Y\) is revealed, \(\operatorname{Var}(X \mid Y)\) is unknown and therefore random.
+
+\bigskip
+\textsc{Example: uniform on \([0,Y]\)}
+
+Suppose that \(Y\) is a nonnegative random variable and that, conditioned on \(Y = y\), the random variable \(X\) is uniform on the interval \([0,y]\).  
+Then, for a fixed numerical value \(y\), the conditional distribution of \(X\) given \(Y = y\) is \(\operatorname{Unif}(0,y)\).  
+A uniform random variable on an interval of length \(y\) has variance
+\[
+\operatorname{Var}(X \mid Y = y) = \frac{y^{2}}{12}.
+\]
+This is an equality between numbers: for each specific \(y\), the conditional variance takes the value \(y^{2}/12\).
+
+Turning this into an equality between random variables, we obtain
+\[
+\operatorname{Var}(X \mid Y)
+=
+\frac{Y^{2}}{12},
+\]
+because the random variable \(\operatorname{Var}(X \mid Y)\) takes the value \(y^{2}/12\) whenever \(Y = y\).  
+Thus the conditional variance is itself a random variable, determined by the value of \(Y\).
+
+\bigskip
+\textsc{Total variance decomposition}
+
+For conditional expectations we had the Law of Iterated Expectations,
+\[
+\mathbb{E}\big[\mathbb{E}[X \mid Y]\big] = \mathbb{E}[X].
+\]
+A natural question is whether an analogous identity holds for variances, that is, whether \(\mathbb{E}[\operatorname{Var}(X \mid Y)]\) equals \(\operatorname{Var}(X)\).  
+In general this is not true.  
+Instead, the variance of \(X\) can be decomposed as
+\[
+\operatorname{Var}(X)
+=
+\mathbb{E}\big[\operatorname{Var}(X \mid Y)\big]
++
+\operatorname{Var}\big(\mathbb{E}[X \mid Y]\big).
+\]
+Here \(\operatorname{Var}(X \mid Y)\) is a random variable, so the term \(\mathbb{E}[\operatorname{Var}(X \mid Y)]\) is its mean.  
+Likewise, \(\mathbb{E}[X \mid Y]\) is a random variable, so \(\operatorname{Var}(\mathbb{E}[X \mid Y])\) is the variance of that random variable.  
+This identity is often called the \textit{law of total variance} and expresses the total variability of \(X\) as the sum of the average conditional variability plus the variability of the conditional means.
+
+\newpage
+\subsubsection{Derivation of the law of total variance}
+
+We start from the standard identity for the variance of a random variable \(X\),
+\[
+\operatorname{Var}(X)
+=
+\mathbb{E}[X^{2}]
+-
+\big(\mathbb{E}[X]\big)^{2}.
+\]
+We apply the same identity inside a conditional universe where we are told that \(Y = y\).  
+For each fixed \(y\), the conditional variance is
+\[
+\operatorname{Var}(X \mid Y = y)
+=
+\mathbb{E}\big[X^{2} \mid Y = y\big]
+-
+\big(\mathbb{E}[X \mid Y = y]\big)^{2}.
+\]
+This is an equality between numbers, valid for each specific value \(y\).
+
+We now reinterpret this as an equality between random variables.  
+The abstract conditional variance \(\operatorname{Var}(X \mid Y)\) is defined as the random variable that takes the numerical value \(\operatorname{Var}(X \mid Y = y)\) whenever \(Y = y\).  
+Similarly, the random variable \(\mathbb{E}[X^{2} \mid Y]\) takes the value \(\mathbb{E}[X^{2} \mid Y = y]\) whenever \(Y = y\), and \(\mathbb{E}[X \mid Y]\) takes the value \(\mathbb{E}[X \mid Y = y]\) whenever \(Y = y\).  
+Thus, for all outcomes of \(Y\), the corresponding numerical values match, and we have the equality of random variables
+\[
+\operatorname{Var}(X \mid Y)
+=
+\mathbb{E}[X^{2} \mid Y]
+-
+\big(\mathbb{E}[X \mid Y]\big)^{2}.
+\]
+
+Next, we take expectations of both sides in order to obtain the first term in the law of total variance:
+\[
+\mathbb{E}\big[\operatorname{Var}(X \mid Y)\big]
+=
+\mathbb{E}\big[\mathbb{E}[X^{2} \mid Y]\big]
+-
+\mathbb{E}\big[\big(\mathbb{E}[X \mid Y]\big)^{2}\big].
+\]
+The law of iterated expectations gives
+\[
+\mathbb{E}\big[\mathbb{E}[X^{2} \mid Y]\big] = \mathbb{E}[X^{2}],
+\]
+so we obtain
+\[
+\mathbb{E}\big[\operatorname{Var}(X \mid Y)\big]
+=
+\mathbb{E}[X^{2}]
+-
+\mathbb{E}\big[\big(\mathbb{E}[X \mid Y]\big)^{2}\big].
+\]
+
+We now turn to the second component of the law of total variance, the variance of the conditional expectation.  
+Applying the variance identity to the random variable \(\mathbb{E}[X \mid Y]\), we get
+\[
+\operatorname{Var}\big(\mathbb{E}[X \mid Y]\big)
+=
+\mathbb{E}\big[\big(\mathbb{E}[X \mid Y]\big)^{2}\big]
+-
+\big(\mathbb{E}[\mathbb{E}[X \mid Y]]\big)^{2}.
+\]
+By the law of iterated expectations,
+\[
+\mathbb{E}[\mathbb{E}[X \mid Y]] = \mathbb{E}[X],
+\]
+so
+\[
+\operatorname{Var}\big(\mathbb{E}[X \mid Y]\big)
+=
+\mathbb{E}\big[\big(\mathbb{E}[X \mid Y]\big)^{2}\big]
+-
+\big(\mathbb{E}[X]\big)^{2}.
+\]
+
+We now add the two expressions
+\[
+\mathbb{E}\big[\operatorname{Var}(X \mid Y)\big]
+\quad\text{and}\quad
+\operatorname{Var}\big(\mathbb{E}[X \mid Y]\big].
+\]
+From the previous formulas we have
+\[
+\mathbb{E}\big[\operatorname{Var}(X \mid Y)\big]
++
+\operatorname{Var}\big(\mathbb{E}[X \mid Y]\big)
+=
+\Big(\mathbb{E}[X^{2}]
+-
+\mathbb{E}\big[\big(\mathbb{E}[X \mid Y]\big)^{2}\big]\Big)
++
+\Big(\mathbb{E}\big[\big(\mathbb{E}[X \mid Y]\big)^{2}\big]
+-
+\big(\mathbb{E}[X]\big)^{2}\Big).
+\]
+The middle terms cancel, leaving
+\[
+\mathbb{E}\big[\operatorname{Var}(X \mid Y)\big]
++
+\operatorname{Var}\big(\mathbb{E}[X \mid Y]\big)
+=
+\mathbb{E}[X^{2}]
+-
+\big(\mathbb{E}[X]\big)^{2}
+=
+\operatorname{Var}(X).
+\]
+Therefore, we obtain the law of total variance,
+\[
+\operatorname{Var}(X)
+=
+\mathbb{E}\big[\operatorname{Var}(X \mid Y)\big]
++
+\operatorname{Var}\big(\mathbb{E}[X \mid Y]\big).
+\]
+
+
+\subsubsection{Section means and variances}
+
+Consider a class of 30 students divided into two sections.  
+Let \(x_i\) be the score of student \(i\).  
+We perform the following experiment: pick one student uniformly at random from the class.
+
+Define two random variables.  
+The numerical random variable \(X\) is the score of the selected student, so if student \(i\) is picked we have \(X = x_i\).  
+The random variable \(Y\) is the section of the selected student, so that \(Y \in \{1,2\}\).  
+
+Assume that the average score in section 1 is \(90\) and the average in section 2 is \(60\).  
+Section 1 has 10 students and section 2 has 20 students.  
+The expected score of the randomly selected student can be computed directly by
+\[
+\mathbb{E}[X]
+=
+\frac{1}{30}\sum_{i=1}^{30} x_i
+=
+\frac{1}{30}\Big(10 \cdot 90 + 20 \cdot 60\Big)
+=
+70.
+\]
+
+Now consider conditional expectations.  
+If \(Y = 1\), we know the student comes from section 1, and within that section each of the 10 students is equally likely with probability \(1/10\).  
+Thus
+\[
+\mathbb{E}[X \mid Y = 1] = 90.
+\]
+Similarly, if \(Y = 2\), the student is from section 2 and each of the 20 students is equally likely with probability \(1/20\), so
+\[
+\mathbb{E}[X \mid Y = 2] = 60.
+\]
+
+The abstract conditional expectation \(\mathbb{E}[X \mid Y]\) is then a random variable that takes the value \(90\) if \(Y = 1\) and \(60\) if \(Y = 2\).  
+Since section 1 contains 10 of the 30 students, we have
+\[
+\mathbb{P}(Y = 1) = \frac{1}{3},
+\qquad
+\mathbb{P}(Y = 2) = \frac{2}{3}.
+\]
+Hence \(\mathbb{E}[X \mid Y]\) takes value \(90\) with probability \(1/3\) and \(60\) with probability \(2/3\).  
+Its expectation is
+\[
+\mathbb{E}\big[\mathbb{E}[X \mid Y]\big]
+=
+\frac{1}{3}\cdot 90 + \frac{2}{3}\cdot 60
+=
+70,
+\]
+which matches the overall class average.  
+This is an instance of the law of iterated expectations: the overall mean can be obtained by taking section means and weighting them by the section probabilities.
+
+\bigskip
+\textsc{Variance of the conditional expectation}
+
+We now compute the variance of the random variable \(\mathbb{E}[X \mid Y]\).  
+Its mean is \(70\), and it takes value \(90\) with probability \(1/3\) and \(60\) with probability \(2/3\).  
+Thus
+\[
+\operatorname{Var}\big(\mathbb{E}[X \mid Y]\big)
+=
+\frac{1}{3}(90 - 70)^{2}
++
+\frac{2}{3}(60 - 70)^{2}
+=
+\frac{1}{3}\cdot 20^{2}
++
+\frac{2}{3}\cdot (-10)^{2}
+=
+\frac{400}{3}
++
+\frac{200}{3}
+=
+200.
+\]
+
+Next, suppose we are given the variances within each section.  
+Let
+\[
+\frac{1}{10}\sum_{i \in \text{sec 1}} (x_i - 90)^{2} = 10,
+\qquad
+\frac{1}{20}\sum_{i \in \text{sec 2}} (x_i - 60)^{2} = 20.
+\]
+The first expression is the variance of the scores within section 1 (the variance of the score of a randomly selected student, given \(Y = 1\)).  
+Thus
+\[
+\operatorname{Var}(X \mid Y = 1) = 10.
+\]
+Similarly, the second expression is the variance within section 2, so
+\[
+\operatorname{Var}(X \mid Y = 2) = 20.
+\]
+
+The abstract conditional variance \(\operatorname{Var}(X \mid Y)\) is a random variable that takes the value \(10\) if \(Y = 1\) and \(20\) if \(Y = 2\).  
+Using the section probabilities, we find its expectation:
+\[
+\mathbb{E}\big[\operatorname{Var}(X \mid Y)\big]
+=
+\frac{1}{3}\cdot 10
++
+\frac{2}{3}\cdot 20
+=
+\frac{10}{3}
++
+\frac{40}{3}
+=
+\frac{50}{3}.
+\]
+
+\bigskip
+\textsc{Applying the law of total variance}
+
+We now have the two components needed to use the law of total variance,
+\[
+\operatorname{Var}(X)
+=
+\mathbb{E}\big[\operatorname{Var}(X \mid Y)\big]
++
+\operatorname{Var}\big(\mathbb{E}[X \mid Y]\big).
+\]
+Substituting the values obtained above gives
+\[
+\operatorname{Var}(X)
+=
+\frac{50}{3}
++
+200.
+\]
+This is the variance of the scores of a randomly selected student from the entire class.
+
+In this context, the law of total variance has a natural interpretation.  
+The overall variability of scores in the class has two components.  
+The first term, \(\mathbb{E}[\operatorname{Var}(X \mid Y)]\), measures the average variability \textit{within} a typical section, averaged over sections.  
+The second term, \(\operatorname{Var}(\mathbb{E}[X \mid Y])\), measures how much the section means themselves differ from the overall class mean, that is, the variability \textit{between} sections.  
+Together, these two sources of randomness add up to the total variance of student scores in the class.
+
+
+\subsubsection{Mean of the sum of a random number of random variables}
+
+Consider a shopping experiment in which you visit a random number of stores.  
+Let \(N\) be the (integer-valued) random variable denoting how many stores you visit.  
+At each store \(i\), you spend a random amount \(X_i\).  
+
+Assume that the \(X_i\) are identically distributed and independent of each other, and that they are also independent of \(N\).  
+Let
+\[
+\mu = \mathbb{E}[X_i]
+\]
+denote their common mean.  
+Define the total amount of money spent as
+\[
+Y = \sum_{i=1}^{N} X_i.
+\]
+
+To find \(\mathbb{E}[Y]\), we condition on the value of \(N\).  
+For a fixed numerical value \(n\), the conditional total becomes
+\[
+Y \mid (N = n)
+=
+\sum_{i=1}^{n} X_i,
+\]
+which is now a sum of a fixed number \(n\) of random variables.  
+Using linearity of expectation and the fact that conditioning on \(N = n\) does not change the distribution of the \(X_i\) (by independence of \(N\) and the \(X_i\)), we obtain
+\[
+\mathbb{E}[Y \mid N = n]
+=
+\mathbb{E}\Big[\sum_{i=1}^{n} X_i \,\Big|\, N = n\Big]
+=
+\sum_{i=1}^{n} \mathbb{E}[X_i \mid N = n]
+=
+\sum_{i=1}^{n} \mathbb{E}[X_i]
+=
+n \mu.
+\]
+This is an equality between numbers, valid for each specific \(n\).
+
+We can now apply the Total Expectation Theorem:
+\[
+\mathbb{E}[Y]
+=
+\mathbb{E}\big[\mathbb{E}[Y \mid N]\big]
+=
+\sum_{n} \mathbb{E}[Y \mid N = n] \,\mathbb{P}(N = n)
+=
+\sum_{n} n \mu \,\mathbb{P}(N = n).
+\]
+Since \(\mu\) is a constant, we factor it out:
+\[
+\mathbb{E}[Y]
+=
+\mu \sum_{n} n \,\mathbb{P}(N = n)
+=
+\mu \,\mathbb{E}[N].
+\]
+Thus the expected total spending is
+\[
+\mathbb{E}[Y]
+=
+\mathbb{E}[N] \,\mathbb{E}[X_i].
+\]
+
+We can arrive at the same result using the Law of Iterated Expectations in a more abstract form.  
+From the calculation above, for each \(n\) we have \(\mathbb{E}[Y \mid N = n] = n \mu\).  
+The abstract conditional expectation \(\mathbb{E}[Y \mid N]\) is therefore the random variable that takes the value \(n \mu\) whenever \(N = n\), that is,
+\[
+\mathbb{E}[Y \mid N] = N \mu.
+\]
+Applying the law of iterated expectations,
+\[
+\mathbb{E}[Y]
+=
+\mathbb{E}\big[\mathbb{E}[Y \mid N]\big]
+=
+\mathbb{E}[N \mu]
+=
+\mu \,\mathbb{E}[N],
+\]
+since \(\mu\) is a constant and can be pulled outside the expectation.  
+This confirms that the mean of the sum of a random number of i.i.d. terms equals the mean number of terms times the mean of each term.
+
+
+\subsubsection{Variance of the sum of a random number of random variables}
+
+We continue with the shopping model in which you visit a random number \(N\) of stores and spend an amount \(X_i\) in store \(i\).  
+The total amount spent is
+\[
+Y = \sum_{i=1}^{N} X_i.
+\]
+We assume that the \(X_i\) are i.i.d., with
+\[
+\mu = \mathbb{E}[X_i],
+\qquad
+\sigma^{2} = \operatorname{Var}(X_i),
+\]
+and that they are independent of \(N\).
+
+To find \(\operatorname{Var}(Y)\), we use the law of total variance:
+\[
+\operatorname{Var}(Y)
+=
+\mathbb{E}\big[\operatorname{Var}(Y \mid N)\big]
++
+\operatorname{Var}\big(\mathbb{E}[Y \mid N]\big).
+\]
+
+We already know that, for each fixed \(n\),
+\[
+\mathbb{E}[Y \mid N = n]
+=
+n \mu.
+\]
+Therefore, the abstract conditional expectation is
+\[
+\mathbb{E}[Y \mid N] = N \mu.
+\]
+The second term in the law of total variance is then
+\[
+\operatorname{Var}\big(\mathbb{E}[Y \mid N]\big)
+=
+\operatorname{Var}(N \mu)
+=
+\mu^{2}\operatorname{Var}(N),
+\]
+because multiplying a random variable by a constant multiplies its variance by the square of that constant.
+
+For the first term, condition again on \(N = n\).  
+Given \(N = n\), the total is a sum of \(n\) i.i.d. variables:
+\[
+Y \mid (N = n)
+=
+\sum_{i=1}^{n} X_i.
+\]
+Using independence and identical distributions, we have
+\[
+\operatorname{Var}(Y \mid N = n)
+=
+\operatorname{Var}\Big(\sum_{i=1}^{n} X_i\Big)
+=
+n \sigma^{2}.
+\]
+This is an equality between numbers, valid for each fixed \(n\).  
+As an equality between random variables, it becomes
+\[
+\operatorname{Var}(Y \mid N)
+=
+N \sigma^{2},
+\]
+since \(\operatorname{Var}(Y \mid N)\) takes value \(n \sigma^{2}\) whenever \(N = n\).
+
+We can now compute the first term in the law of total variance:
+\[
+\mathbb{E}\big[\operatorname{Var}(Y \mid N)\big]
+=
+\mathbb{E}[N \sigma^{2}]
+=
+\sigma^{2}\mathbb{E}[N],
+\]
+where \(\sigma^{2}\) is a constant and comes outside the expectation.
+
+Putting the two pieces together, we obtain
+\[
+\operatorname{Var}(Y)
+=
+\underbrace{\sigma^{2}\mathbb{E}[N]}_{\mathbb{E}[\operatorname{Var}(Y \mid N)]}
++
+\underbrace{\mu^{2}\operatorname{Var}(N)}_{\operatorname{Var}(\mathbb{E}[Y \mid N])}.
+\]
+Equivalently,
+\[
+\operatorname{Var}\Big(\sum_{i=1}^{N} X_i\Big)
+=
+\mathbb{E}[N]\,\operatorname{Var}(X_1)
++
+\operatorname{Var}(N)\,\big(\mathbb{E}[X_1]\big)^{2}.
+\]
+
+\bigskip
+\textsc{Interpretation}
+
+The variance of the total amount spent \(Y\) has two distinct components.  
+The term \(\mathbb{E}[N]\sigma^{2}\) captures the variability coming from how much you spend in a typical store, averaged over the random number of stores.  
+The term \(\mu^{2}\operatorname{Var}(N)\) captures the extra variability caused by the randomness in the number of stores itself.  
+Together, these two sources of randomness determine the total variance of \(Y\).
