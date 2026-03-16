@@ -887,3 +887,1210 @@ while the LMS estimate is
 0.7.
 \]
 In this moderate-sample regime, the two estimates are close but not identical, with the LMS estimate being slightly more conservative and closer to the center of the interval.
+
+
+
+\subsubsection{Recognizing normal PDFs}
+
+Recall that a normal random variable \(X \sim \mathcal{N}(\mu,\sigma^{2})\) has a PDF of the form
+\[
+f_{X}(x)
+=
+\frac{1}{\sqrt{2\pi\sigma^{2}}}
+\exp\Big(-\frac{(x-\mu)^{2}}{2\sigma^{2}}\Big).
+\]
+Sometimes, we are given a density that already looks like a normal density, and we want to recognize its mean and variance by matching it to this standard form.
+
+Suppose we are told that a random variable \(X\) has PDF
+\[
+f_{X}(x)
+=
+c \exp\Big(-8(x-3)^{2}\Big),
+\]
+for some normalizing constant \(c\).  
+To identify the mean and variance, we compare the exponent with the canonical normal form.  
+We can write
+\[
+-8(x-3)^{2}
+=
+-\frac{(x-3)^{2}}{2\sigma^{2}},
+\]
+which implies
+\[
+\frac{1}{2\sigma^{2}}
+=
+8
+\quad\Rightarrow\quad
+\sigma^{2}
+=
+\frac{1}{16}.
+\]
+The term \(x-3\) in the exponent shows that the distribution is centered at \(3\), so \(\mu = 3\).  
+Finally, to find \(c\), we note that the PDF must integrate to \(1\) and that the normalizing constant for a normal distribution is \(1/(\sqrt{2\pi\sigma^{2}})\).  
+Since \(\sigma^{2} = 1/16\), we have \(\sigma = 1/4\), and hence
+\[
+c
+=
+\frac{1}{\sqrt{2\pi\sigma^{2}}}
+=
+\frac{1}{\sigma\sqrt{2\pi}}
+=
+\frac{1}{\tfrac{1}{4}\sqrt{2\pi}}
+=
+\frac{4}{\sqrt{2\pi}}.
+\]
+
+\bigskip
+\textsc{Recognizing a general quadratic exponent}
+
+Consider now a more general PDF of the form
+\[
+f_{X}(x)
+=
+c \exp\big(-\alpha x^{2} - \beta x - \gamma\big),
+\]
+where \(\alpha > 0\) and \(c\) is a normalizing constant.  
+We will show that this is also a normal PDF and identify its mean and variance.
+
+The key step is to rewrite the quadratic term in the exponent by \textit{completing the square}.  
+We start from
+\[
+\alpha x^{2} + \beta x + \gamma.
+\]
+Factor out \(\alpha\) from the first two terms:
+\[
+\alpha x^{2} + \beta x + \gamma
+=
+\alpha\Big(x^{2} + \frac{\beta}{\alpha}x\Big) + \gamma.
+\]
+We now complete the square inside the parentheses.  
+Observe that
+\[
+x^{2} + \frac{\beta}{\alpha}x
+=
+\Big(x + \frac{\beta}{2\alpha}\Big)^{2}
+-
+\Big(\frac{\beta}{2\alpha}\Big)^{2}.
+\]
+Substituting this identity, we obtain
+\[
+\alpha x^{2} + \beta x + \gamma
+=
+\alpha\Big(x + \frac{\beta}{2\alpha}\Big)^{2}
+-
+\alpha\Big(\frac{\beta}{2\alpha}\Big)^{2}
++
+\gamma
+=
+\alpha\Big(x + \frac{\beta}{2\alpha}\Big)^{2}
+-
+\frac{\beta^{2}}{4\alpha}
++
+\gamma.
+\]
+Therefore, the exponent in the PDF can be rewritten as
+\[
+-\alpha x^{2} - \beta x - \gamma
+=
+-\alpha\Big(x + \frac{\beta}{2\alpha}\Big)^{2}
++
+\frac{\beta^{2}}{4\alpha}
+-
+\gamma.
+\]
+This leads to the expression
+\[
+f_{X}(x)
+=
+c \exp\Big(-\alpha\Big(x + \frac{\beta}{2\alpha}\Big)^{2}\Big)
+\exp\Big(\frac{\beta^{2}}{4\alpha} - \gamma\Big).
+\]
+The second exponential factor does not depend on \(x\), so it can be absorbed into the constant by defining
+\[
+c'
+=
+c \exp\Big(\frac{\beta^{2}}{4\alpha} - \gamma\Big).
+\]
+Thus, the PDF becomes
+\[
+f_{X}(x)
+=
+c'
+\exp\Big(-\alpha\Big(x + \frac{\beta}{2\alpha}\Big)^{2}\Big).
+\]
+
+We can now match this with the standard normal form.  
+We want to write the exponent as
+\[
+-\frac{(x-\mu)^{2}}{2\sigma^{2}}.
+\]
+Comparing this expression with
+\[
+-\alpha\Big(x + \frac{\beta}{2\alpha}\Big)^{2},
+\]
+we see that
+\[
+x - \mu
+=
+x + \frac{\beta}{2\alpha},
+\]
+so that
+\[
+\mu
+=
+-\frac{\beta}{2\alpha}.
+\]
+For the variance, we equate the coefficients of the squared term in the exponent:
+\[
+\alpha
+=
+\frac{1}{2\sigma^{2}}
+\quad\Rightarrow\quad
+\sigma^{2}
+=
+\frac{1}{2\alpha}.
+\]
+Therefore, \(X\) is normally distributed with mean \(\mu = -\beta/(2\alpha)\) and variance \(\sigma^{2} = 1/(2\alpha)\).  
+The normalizing constant \(c'\) must then equal \(1/\sqrt{2\pi\sigma^{2}}\).  
+From this, if desired, one can solve for the original constant \(c\).
+
+\bigskip
+\textsc{Using the peak to identify the mean}
+
+Once we know that a density is normal, there is a faster way to identify its mean.  
+The mean of a normal random variable coincides with the location of the peak of its PDF.  
+Thus, rather than completing the square in full, we can instead find the point \(x\) where the exponent is maximized (or, equivalently, where the quadratic inside the minus sign is minimized).
+
+For the PDF
+\[
+f_{X}(x)
+=
+c \exp\big(-\alpha x^{2} - \beta x - \gamma\big),
+\]
+the exponent is
+\[
+-\alpha x^{2} - \beta x - \gamma.
+\]
+Maximizing this expression is equivalent to minimizing the quadratic
+\[
+\alpha x^{2} + \beta x + \gamma.
+\]
+To find the minimizing point, we differentiate with respect to \(x\) and set the derivative equal to zero:
+\[
+\frac{d}{dx}\big(\alpha x^{2} + \beta x + \gamma\big)
+=
+2\alpha x + \beta
+=
+0.
+\]
+Solving for \(x\) gives
+\[
+x
+=
+-\frac{\beta}{2\alpha}.
+\]
+This is the location of the minimum of the quadratic, hence the location of the maximum of the exponent and the peak of the PDF.  
+Since the distribution is normal, this point is exactly the mean:
+\[
+\mu
+=
+-\frac{\beta}{2\alpha}.
+\]
+The variance can still be recovered by matching the quadratic coefficient \(\alpha\) to the standard form, yielding again
+\[
+\sigma^{2}
+=
+\frac{1}{2\alpha}.
+\]
+
+
+\subsubsection{Normal unknown and additive noise}
+
+We consider a simple linear model with additive noise.  
+There is an unknown parameter, modeled as a random variable \(\Theta\), that we wish to estimate.  
+What we observe is a noisy version of \(\Theta\), given by
+\[
+X
+=
+\Theta + W,
+\]
+where \(W\) is an additive noise term.
+
+We assume that \(\Theta\) and \(W\) are independent standard normal random variables, that is,
+\[
+\Theta \sim \mathcal{N}(0,1),
+\qquad
+W \sim \mathcal{N}(0,1),
+\qquad
+\Theta \perp W.
+\]
+According to the Bayesian approach, inference about \(\Theta\) is based on the posterior distribution of \(\Theta\) given the observation \(X = x\).  
+To obtain this posterior, we first write down the prior and the likelihood.
+
+The prior density of \(\Theta\) is the standard normal density
+\[
+f_{\Theta}(\theta)
+=
+\frac{1}{\sqrt{2\pi}}
+\exp\Big(-\frac{\theta^{2}}{2}\Big).
+\]
+Next, we determine the conditional distribution of \(X\) given \(\Theta\).  
+Condition on the event \(\{\Theta = \theta\}\).  
+In this conditional universe, the observation satisfies
+\[
+X
+\mid (\Theta = \theta)
+=
+\theta + W.
+\]
+Since \(W\) is independent of \(\Theta\), conditioning on \(\Theta = \theta\) does not change the distribution of \(W\).  
+Thus \(W\) remains standard normal, and \(X\) is the sum of a constant \(\theta\) and a standard normal random variable.  
+This implies
+\[
+X \mid (\Theta = \theta)
+\sim
+\mathcal{N}(\theta,1).
+\]
+
+The corresponding conditional density of \(X\) given \(\Theta = \theta\) is
+\[
+f_{X\mid\Theta}(x\mid\theta)
+=
+\frac{1}{\sqrt{2\pi}}
+\exp\Big(-\frac{(x-\theta)^{2}}{2}\Big).
+\]
+Bayes' rule gives the posterior density of \(\Theta\) given \(X=x\) as
+\[
+f_{\Theta\mid X}(\theta\mid x)
+=
+\frac{f_{X\mid\Theta}(x\mid\theta)\,f_{\Theta}(\theta)}{f_{X}(x)},
+\]
+where \(f_{X}(x)\) is the marginal density of \(X\).  
+For purposes of identifying the posterior form, we can ignore the denominator \(f_{X}(x)\), which is just a normalizing constant depending on \(x\) but not on \(\theta\).  
+Thus, up to a proportionality constant,
+\[
+f_{\Theta\mid X}(\theta\mid x)
+\propto
+f_{X\mid\Theta}(x\mid\theta)\,f_{\Theta}(\theta).
+\]
+
+Substituting the expressions for the prior and the likelihood, we obtain
+\[
+f_{\Theta\mid X}(\theta\mid x)
+\propto
+\exp\Big(-\frac{(x-\theta)^{2}}{2}\Big)
+\exp\Big(-\frac{\theta^{2}}{2}\Big).
+\]
+Combining the exponents, we get
+\[
+f_{\Theta\mid X}(\theta\mid x)
+\propto
+\exp\Big(-\frac{(x-\theta)^{2} + \theta^{2}}{2}\Big).
+\]
+We now expand the quadratic in \(\theta\):
+\[
+(x-\theta)^{2} + \theta^{2}
+=
+(x^{2} - 2x\theta + \theta^{2}) + \theta^{2}
+=
+x^{2} - 2x\theta + 2\theta^{2}.
+\]
+Thus
+\[
+f_{\Theta\mid X}(\theta\mid x)
+\propto
+\exp\Big(-\frac{x^{2} - 2x\theta + 2\theta^{2}}{2}\Big).
+\]
+We rearrange the exponent by separating the terms that depend on \(\theta\) from the ones that depend only on \(x\):
+\[
+-\frac{x^{2} - 2x\theta + 2\theta^{2}}{2}
+=
+-\frac{x^{2}}{2}
++
+x\theta
+-
+\theta^{2}.
+\]
+Hence
+\[
+f_{\Theta\mid X}(\theta\mid x)
+\propto
+\exp\Big(-\frac{x^{2}}{2}\Big)
+\exp\big(x\theta - \theta^{2}\big).
+\]
+The factor \(\exp(-x^{2}/2)\) does not involve \(\theta\) and can be absorbed into the normalizing constant.  
+Therefore, as a function of \(\theta\),
+\[
+f_{\Theta\mid X}(\theta\mid x)
+\propto
+\exp\big(x\theta - \theta^{2}\big).
+\]
+
+We rewrite the exponent \(x\theta - \theta^{2}\) by completing the square in \(\theta\).  
+Observe that
+\[
+x\theta - \theta^{2}
+=
+-\theta^{2} + x\theta
+=
+-\Big(\theta^{2} - x\theta\Big)
+=
+-\Big[\theta^{2} - x\theta + \Big(\frac{x}{2}\Big)^{2} - \Big(\frac{x}{2}\Big)^{2}\Big]
+=
+-\Big(\theta - \frac{x}{2}\Big)^{2}
++
+\Big(\frac{x}{2}\Big)^{2}.
+\]
+Substituting into the exponent gives
+\[
+f_{\Theta\mid X}(\theta\mid x)
+\propto
+\exp\Big(-\Big(\theta - \frac{x}{2}\Big)^{2} + \Big(\frac{x}{2}\Big)^{2}\Big)
+=
+\exp\Big(\Big(\frac{x}{2}\Big)^{2}\Big)
+\exp\Big(-\Big(\theta - \frac{x}{2}\Big)^{2}\Big).
+\]
+Again, the factor \(\exp\big((x/2)^{2}\big)\) is a constant with respect to \(\theta\) and can be absorbed into the normalization.  
+Thus the posterior density has the form
+\[
+f_{\Theta\mid X}(\theta\mid x)
+\propto
+\exp\Big(-\Big(\theta - \frac{x}{2}\Big)^{2}\Big).
+\]
+We recognize this as the kernel of a normal density with mean \(x/2\) and variance \(1/2\).  
+Indeed, a normal density with mean \(m\) and variance \(\sigma^{2}\) has exponent \(-(\theta-m)^{2}/(2\sigma^{2})\).  
+In our case, the exponent is \(-(\theta - x/2)^{2}\), which corresponds to
+\[
+\frac{1}{2\sigma^{2}}
+=
+1
+\quad\Rightarrow\quad
+\sigma^{2}
+=
+\frac{1}{2}.
+\]
+Therefore, the posterior distribution is
+\[
+\Theta \mid (X = x)
+\sim
+\mathcal{N}\Big(\frac{x}{2}, \frac{1}{2}\Big).
+\]
+
+Since the posterior is normal, the conditional expectation and the mode coincide.  
+Thus, the least mean squares estimator (posterior mean) and the maximum a posteriori (MAP) estimator are the same:
+\[
+\mathbb{E}[\Theta \mid X = x]
+=
+\frac{x}{2}.
+\]
+Equivalently, we can obtain this value by locating the peak of the posterior density.  
+Because the posterior kernel is
+\[
+\exp\big(x\theta - \theta^{2}\big),
+\]
+we can find the peak by minimizing the quadratic term inside the negative exponent.  
+Ignoring constants that do not depend on \(\theta\), the relevant function is
+\[
+q(\theta)
+=
+\theta^{2} - x\theta.
+\]
+To minimize \(q(\theta)\), we take the derivative with respect to \(\theta\) and set it equal to zero:
+\[
+\frac{d}{d\theta}q(\theta)
+=
+2\theta - x
+=
+0.
+\]
+Solving for \(\theta\) yields
+\[
+\theta
+=
+\frac{x}{2}.
+\]
+This is the location of the maximum of the posterior density and therefore the posterior mean and MAP estimate.
+
+From the perspective of estimators (random variables), we define the estimator \(\hat{\Theta}(X)\) as
+\[
+\hat{\Theta}(X)
+=
+\mathbb{E}[\Theta \mid X]
+=
+\frac{X}{2}.
+\]
+When we observe a particular numerical value \(X = x\), the corresponding estimate is the number \(x/2\).  
+This estimator balances prior information (that \(\Theta\) is centered at \(0\)) with the observed data \(X\), producing an estimate that lies halfway between the prior mean \(0\) and the observation \(x\).
+
+\bigskip
+\textsc{Generalizations}
+
+The same structure arises in more general settings where \(\Theta\) and \(W\) are independent normal random variables with arbitrary means and variances.  
+In such cases, one can show, by repeating the same type of calculation, that the posterior distribution of \(\Theta\) given \(X\) is still normal.  
+Because the posterior is normal, its mean coincides with its mode, so the least mean squares estimator and the MAP estimator are again identical.  
+Moreover, the resulting estimator of \(\Theta\) turns out to be a linear function of the observation \(X\), reflecting a general feature of linear models with Gaussian priors and Gaussian noise.
+
+
+
+\subsubsection{The case of multiple observations}
+
+We consider a model in which an unknown parameter \(\Theta\) is observed through multiple noisy measurements.  
+For \(i = 1,\dots,n\), each observation satisfies
+\[
+X_i
+=
+\Theta + W_i,
+\]
+where \(W_i\) is an additive noise term.
+
+We assume that \(\Theta\) is a normal random variable with mean \(x_0\) and variance \(\sigma_{0}^{2}\):
+\[
+\Theta \sim \mathcal{N}(x_0,\sigma_{0}^{2}).
+\]
+For each \(i\), the noise term is also normal with mean \(0\) and variance \(\sigma_{i}^{2}\):
+\[
+W_i \sim \mathcal{N}(0,\sigma_{i}^{2}),
+\]
+and we assume that \(\Theta,W_1,\dots,W_n\) are all mutually independent.  
+Our goal is to estimate \(\Theta\) on the basis of the observations \(X_1,\dots,X_n\).
+
+In the Bayesian framework, estimation is based on the posterior distribution of \(\Theta\) given the observations.  
+Let \(\mathbf{X} = (X_1,\dots,X_n)\) and \(\mathbf{x} = (x_1,\dots,x_n)\).  
+Bayes' rule for continuous random variables gives
+\[
+f_{\Theta\mid \mathbf{X}}(\theta\mid \mathbf{x})
+=
+\frac{f_{\mathbf{X}\mid\Theta}(\mathbf{x}\mid\theta)\,f_{\Theta}(\theta)}{f_{\mathbf{X}}(\mathbf{x})},
+\]
+where \(f_{\Theta}\) is the prior density of \(\Theta\), \(f_{\mathbf{X}\mid\Theta}\) is the conditional joint density of the measurements given \(\Theta\), and \(f_{\mathbf{X}}\) is the marginal density of \(\mathbf{X}\).
+
+We start by determining the conditional distribution of a single observation \(X_i\) given \(\Theta\).  
+Condition on \(\{\Theta = \theta\}\).  
+In this conditional universe, we have
+\[
+X_i \mid (\Theta = \theta)
+=
+\theta + W_i.
+\]
+Since \(W_i\) is independent of \(\Theta\), its distribution is unaffected by conditioning and remains \(\mathcal{N}(0,\sigma_{i}^{2})\).  
+Thus
+\[
+X_i \mid (\Theta = \theta)
+\sim
+\mathcal{N}(\theta,\sigma_{i}^{2}).
+\]
+The conditional density of \(X_i\) given \(\Theta = \theta\) is therefore
+\[
+f_{X_i\mid\Theta}(x_i\mid\theta)
+=
+\frac{1}{\sqrt{2\pi\sigma_{i}^{2}}}
+\exp\Big(-\frac{(x_i-\theta)^{2}}{2\sigma_{i}^{2}}\Big).
+\]
+
+We now turn to the conditional joint density \(f_{\mathbf{X}\mid\Theta}(\mathbf{x}\mid\theta)\).  
+Given \(\Theta = \theta\), the measurement equations are
+\[
+X_i
+=
+\theta + W_i,
+\quad
+i=1,\dots,n.
+\]
+The noise variables \(W_1,\dots,W_n\) are independent, and conditioning on \(\Theta = \theta\) does not change this independence.  
+Since each \(X_i\) is obtained from \(W_i\) by adding the constant \(\theta\), the random variables \(X_1,\dots,X_n\) are also independent in the conditional universe.  
+Therefore, the conditional joint density factors as
+\[
+f_{\mathbf{X}\mid\Theta}(\mathbf{x}\mid\theta)
+=
+\prod_{i=1}^{n} f_{X_i\mid\Theta}(x_i\mid\theta)
+=
+\prod_{i=1}^{n}
+\frac{1}{\sqrt{2\pi\sigma_{i}^{2}}}
+\exp\Big(-\frac{(x_i-\theta)^{2}}{2\sigma_{i}^{2}}\Big).
+\]
+
+The prior density of \(\Theta\) is
+\[
+f_{\Theta}(\theta)
+=
+\frac{1}{\sqrt{2\pi\sigma_{0}^{2}}}
+\exp\Big(-\frac{(\theta - x_0)^{2}}{2\sigma_{0}^{2}}\Big).
+\]
+Plugging these expressions into Bayes' rule, we obtain, up to a normalizing constant,
+\[
+f_{\Theta\mid \mathbf{X}}(\theta\mid \mathbf{x})
+\propto
+f_{\mathbf{X}\mid\Theta}(\mathbf{x}\mid\theta)\,f_{\Theta}(\theta)
+=
+\Bigg[
+\prod_{i=1}^{n}
+\frac{1}{\sqrt{2\pi\sigma_{i}^{2}}}
+\exp\Big(-\frac{(x_i-\theta)^{2}}{2\sigma_{i}^{2}}\Big)
+\Bigg]
+\frac{1}{\sqrt{2\pi\sigma_{0}^{2}}}
+\exp\Big(-\frac{(\theta - x_0)^{2}}{2\sigma_{0}^{2}}\Big).
+\]
+The prefactors involving \(1/\sqrt{2\pi\sigma_{i}^{2}}\) and \(1/\sqrt{2\pi\sigma_{0}^{2}}\) do not depend on \(\theta\) and can be absorbed into a constant.  
+Thus
+\[
+f_{\Theta\mid \mathbf{X}}(\theta\mid \mathbf{x})
+\propto
+\exp\Bigg(
+-\frac{(\theta - x_0)^{2}}{2\sigma_{0}^{2}}
+-
+\sum_{i=1}^{n}\frac{(x_i-\theta)^{2}}{2\sigma_{i}^{2}}
+\Bigg).
+\]
+
+To identify the posterior distribution, we focus on the exponent as a function of \(\theta\).  
+Let
+\[
+Q(\theta)
+=
+\frac{(\theta - x_0)^{2}}{2\sigma_{0}^{2}}
++
+\sum_{i=1}^{n}\frac{(x_i-\theta)^{2}}{2\sigma_{i}^{2}}.
+\]
+Then
+\[
+f_{\Theta\mid \mathbf{X}}(\theta\mid \mathbf{x})
+\propto
+\exp\big(-Q(\theta)\big).
+\]
+We expand \(Q(\theta)\) and collect terms that are quadratic, linear, and constant in \(\theta\).  
+First, for the prior term,
+\[
+\frac{(\theta - x_0)^{2}}{2\sigma_{0}^{2}}
+=
+\frac{1}{2\sigma_{0}^{2}}\big(\theta^{2} - 2x_0\theta + x_0^{2}\big)
+=
+\frac{\theta^{2}}{2\sigma_{0}^{2}}
+-
+\frac{x_0}{\sigma_{0}^{2}}\theta
++
+\frac{x_0^{2}}{2\sigma_{0}^{2}}.
+\]
+Similarly, each measurement term expands as
+\[
+\frac{(x_i-\theta)^{2}}{2\sigma_{i}^{2}}
+=
+\frac{1}{2\sigma_{i}^{2}}\big(x_i^{2} - 2x_i\theta + \theta^{2}\big)
+=
+\frac{\theta^{2}}{2\sigma_{i}^{2}}
+-
+\frac{x_i}{\sigma_{i}^{2}}\theta
++
+\frac{x_i^{2}}{2\sigma_{i}^{2}}.
+\]
+Summing over \(i\), we obtain
+\[
+\sum_{i=1}^{n}\frac{(x_i-\theta)^{2}}{2\sigma_{i}^{2}}
+=
+\theta^{2}\sum_{i=1}^{n}\frac{1}{2\sigma_{i}^{2}}
+-
+\theta\sum_{i=1}^{n}\frac{x_i}{\sigma_{i}^{2}}
++
+\sum_{i=1}^{n}\frac{x_i^{2}}{2\sigma_{i}^{2}}.
+\]
+
+Combining the prior term and the measurement terms, the quadratic function \(Q(\theta)\) takes the form
+\[
+Q(\theta)
+=
+\frac{1}{2}\Bigg(
+\Big(\frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}\Big)\theta^{2}
+-
+2\Big(\frac{x_0}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{x_i}{\sigma_{i}^{2}}\Big)\theta
+\Big)
++
+\text{(constant in \(\theta\))}.
+\]
+The constant term does not affect the shape of the posterior density as a function of \(\theta\), so we omit it.  
+Thus, up to an additive constant,
+\[
+Q(\theta)
+=
+\frac{1}{2}A\theta^{2} - B\theta,
+\]
+where
+\[
+A
+=
+\frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}},
+\qquad
+B
+=
+\frac{x_0}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{x_i}{\sigma_{i}^{2}}.
+\]
+Hence,
+\[
+f_{\Theta\mid \mathbf{X}}(\theta\mid \mathbf{x})
+\propto
+\exp\Big(-\frac{1}{2}A\theta^{2} + B\theta\Big).
+\]
+
+We now complete the square in \(\theta\).  
+Consider the exponent
+\[
+-\frac{1}{2}A\theta^{2} + B\theta
+=
+-\frac{A}{2}\theta^{2} + B\theta.
+\]
+Factor out \(-\frac{A}{2}\):
+\[
+-\frac{A}{2}\theta^{2} + B\theta
+=
+-\frac{A}{2}\Big(\theta^{2} - \frac{2B}{A}\theta\Big).
+\]
+We write the quadratic inside the parentheses as a complete square:
+\[
+\theta^{2} - \frac{2B}{A}\theta
+=
+\Big(\theta - \frac{B}{A}\Big)^{2}
+-
+\Big(\frac{B}{A}\Big)^{2}.
+\]
+Substituting,
+\[
+-\frac{A}{2}\theta^{2} + B\theta
+=
+-\frac{A}{2}\Big(\Big(\theta - \frac{B}{A}\Big)^{2} - \Big(\frac{B}{A}\Big)^{2}\Big)
+=
+-\frac{A}{2}\Big(\theta - \frac{B}{A}\Big)^{2}
++
+\frac{A}{2}\Big(\frac{B}{A}\Big)^{2}.
+\]
+Therefore,
+\[
+f_{\Theta\mid \mathbf{X}}(\theta\mid \mathbf{x})
+\propto
+\exp\Big(-\frac{A}{2}\Big(\theta - \frac{B}{A}\Big)^{2}\Big)
+\exp\Big(\frac{A}{2}\Big(\frac{B}{A}\Big)^{2}\Big).
+\]
+The second exponential factor does not depend on \(\theta\) and can be absorbed into the normalizing constant.  
+Thus the posterior density has the form
+\[
+f_{\Theta\mid \mathbf{X}}(\theta\mid \mathbf{x})
+\propto
+\exp\Big(-\frac{A}{2}\Big(\theta - \frac{B}{A}\Big)^{2}\Big).
+\]
+Comparing with the standard normal kernel
+\[
+\exp\Big(-\frac{(\theta - m)^{2}}{2\sigma^{2}}\Big),
+\]
+we identify
+\[
+\frac{1}{2\sigma^{2}}
+=
+\frac{A}{2}
+\quad\Rightarrow\quad
+\sigma^{2}
+=
+\frac{1}{A},
+\]
+and
+\[
+m
+=
+\frac{B}{A}.
+\]
+Therefore, the posterior distribution is normal:
+\[
+\Theta \mid \mathbf{X} = \mathbf{x}
+\sim
+\mathcal{N}\Big(\frac{B}{A}, \frac{1}{A}\Big),
+\]
+that is,
+\[
+\Theta \mid \mathbf{X} = \mathbf{x}
+\sim
+\mathcal{N}\Bigg(
+\frac{\displaystyle \frac{x_0}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{x_i}{\sigma_{i}^{2}}}{\displaystyle \frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}},
+\;
+\frac{1}{\displaystyle \frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}}
+\Bigg).
+\]
+
+Because the posterior is normal, the conditional expectation and the mode coincide.  
+Thus, the least mean squares estimator (posterior mean) and the maximum a posteriori (MAP) estimator are identical.  
+The posterior mean is
+\[
+\mathbb{E}[\Theta \mid \mathbf{X} = \mathbf{x}]
+=
+\frac{\displaystyle \frac{x_0}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{x_i}{\sigma_{i}^{2}}}{\displaystyle \frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}}.
+\]
+Interpreted as an estimator (a random variable), we write
+\[
+\hat{\Theta}(\mathbf{X})
+=
+\mathbb{E}[\Theta \mid \mathbf{X}]
+=
+\frac{\displaystyle \frac{x_0}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{X_i}{\sigma_{i}^{2}}}{\displaystyle \frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}}.
+\]
+
+This expression has a natural interpretation as a weighted average.  
+Each term \(X_i\) is multiplied by the weight \(1/\sigma_{i}^{2}\), and the prior mean \(x_0\) is multiplied by the weight \(1/\sigma_{0}^{2}\).  
+The denominator is the sum of all these weights, so we can write
+\[
+\hat{\Theta}(\mathbf{X})
+=
+\sum_{i=0}^{n} w_i Z_i,
+\]
+where
+\[
+Z_0 = x_0,\quad Z_i = X_i\ \text{for } i\ge 1,
+\]
+and
+\[
+w_i
+=
+\frac{1/\sigma_{i}^{2}}{\displaystyle \sum_{j=0}^{n}1/\sigma_{j}^{2}},
+\quad
+i = 0,\dots,n,
+\]
+with the convention that \(\sigma_{0}^{2}\) is the prior variance.  
+The prior mean \(x_0\) thus acts as an additional observation, and all pieces of information are combined in a symmetric and linear fashion.
+
+The dependence of the weights on the variances matches our intuition.  
+If a particular variance \(\sigma_{i}^{2}\) is large, the corresponding observation \(X_i\) is very noisy and should receive a small weight.  
+Conversely, observations with small noise variance contribute more to the final estimate.  
+In summary, the Bayesian estimator in this normal model is a linear function of the measurements and the prior mean, and the posterior distribution of \(\Theta\) remains normal.
+
+
+
+\subsubsection{The mean squared error}
+
+We continue with the model in which an unknown parameter \(\Theta\) is observed through multiple noisy measurements.  
+For \(i = 1,\dots,n\),
+\[
+X_i
+=
+\Theta + W_i,
+\]
+where \(\Theta \sim \mathcal{N}(x_0,\sigma_{0}^{2})\), \(W_i \sim \mathcal{N}(0,\sigma_{i}^{2})\), and \(\Theta,W_1,\dots,W_n\) are independent.  
+We have seen that the posterior distribution of \(\Theta\) given the observations \(\mathbf{X} = (X_1,\dots,X_n)\) is normal with density
+\[
+f_{\Theta\mid \mathbf{X}}(\theta\mid \mathbf{x})
+\propto
+\exp\Bigg(
+-\frac{(\theta - x_0)^{2}}{2\sigma_{0}^{2}}
+-
+\sum_{i=1}^{n}\frac{(x_i-\theta)^{2}}{2\sigma_{i}^{2}}
+\Bigg).
+\]
+
+The posterior mean, which is also the maximum a posteriori (MAP) estimate, is
+\[
+\hat{\theta}
+=
+\mathbb{E}[\Theta \mid \mathbf{X} = \mathbf{x}]
+=
+\frac{\displaystyle \frac{x_0}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{x_i}{\sigma_{i}^{2}}}{\displaystyle \frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}}.
+\]
+As an estimator (a function of the random vector \(\mathbf{X}\)), we write
+\[
+\hat{\Theta}(\mathbf{X})
+=
+\frac{\displaystyle \frac{x_0}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{X_i}{\sigma_{i}^{2}}}{\displaystyle \frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}}.
+\]
+
+We now assess the performance of this estimator in terms of the mean squared error (MSE).  
+Given that we have observed \(\mathbf{X} = \mathbf{x}\), the estimator \(\hat{\Theta}(\mathbf{X})\) takes the numerical value \(\hat{\theta}\), and the remaining uncertainty about \(\Theta\) is described by the posterior distribution.  
+The conditional mean squared error is defined as
+\[
+\mathbb{E}\big[(\Theta - \hat{\Theta}(\mathbf{X}))^{2} \,\big|\, \mathbf{X} = \mathbf{x}\big].
+\]
+In the conditional universe where \(\mathbf{X} = \mathbf{x}\) is fixed, \(\hat{\Theta}(\mathbf{X}) = \hat{\theta}\) is a constant.  
+Moreover, \(\hat{\theta}\) is the mean of the posterior distribution of \(\Theta\) given \(\mathbf{X} = \mathbf{x}\).  
+Thus we are taking the expectation of the squared distance from the mean:
+\[
+\mathbb{E}\big[(\Theta - \hat{\Theta}(\mathbf{X}))^{2} \,\big|\, \mathbf{X} = \mathbf{x}\big]
+=
+\mathbb{E}\big[(\Theta - \hat{\theta})^{2} \,\big|\, \mathbf{X} = \mathbf{x}\big],
+\]
+which is exactly the variance of the posterior distribution:
+\[
+\mathbb{E}\big[(\Theta - \hat{\Theta}(\mathbf{X}))^{2} \,\big|\, \mathbf{X} = \mathbf{x}\big]
+=
+\operatorname{Var}(\Theta \mid \mathbf{X} = \mathbf{x}).
+\]
+Therefore, the conditional mean squared error is the posterior variance of \(\Theta\).
+
+We now compute this posterior variance.  
+Recall that the exponent in the posterior density can be written as a quadratic function of \(\theta\):
+\[
+-\frac{(\theta - x_0)^{2}}{2\sigma_{0}^{2}}
+-
+\sum_{i=1}^{n}\frac{(x_i-\theta)^{2}}{2\sigma_{i}^{2}}
+=
+-\frac{1}{2}A\theta^{2} + B\theta + \text{(constant)},
+\]
+where
+\[
+A
+=
+\frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}.
+\]
+From the previous derivation, we know that
+\[
+\Theta \mid \mathbf{X} = \mathbf{x}
+\sim
+\mathcal{N}\Big(\frac{B}{A},\frac{1}{A}\Big).
+\]
+Thus the posterior variance is
+\[
+\operatorname{Var}(\Theta \mid \mathbf{X} = \mathbf{x})
+=
+\frac{1}{A}
+=
+\frac{1}{\displaystyle \frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}}.
+\]
+This is the conditional mean squared error of the estimator \(\hat{\Theta}(\mathbf{X})\) given the specific observations \(\mathbf{X} = \mathbf{x}\):
+\[
+\mathbb{E}\big[(\Theta - \hat{\Theta}(\mathbf{X}))^{2} \,\big|\, \mathbf{X} = \mathbf{x}\big]
+=
+\frac{1}{\displaystyle \frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}}.
+\]
+A remarkable property of this model is that this quantity does not depend on the particular observed values \(x_1,\dots,x_n\); it depends only on the variances.  
+Thus, regardless of what data we observe, the remaining uncertainty about \(\Theta\), measured by the posterior variance, is always the same.
+
+We now consider the unconditional mean squared error, that is, the MSE before performing any measurements.  
+This is
+\[
+\mathbb{E}\big[(\Theta - \hat{\Theta}(\mathbf{X}))^{2}\big].
+\]
+Using the law of total expectation,
+\[
+\mathbb{E}\big[(\Theta - \hat{\Theta}(\mathbf{X}))^{2}\big]
+=
+\mathbb{E}\Big[\mathbb{E}\big[(\Theta - \hat{\Theta}(\mathbf{X}))^{2} \,\big|\, \mathbf{X}\big]\Big].
+\]
+For each realization \(\mathbf{X} = \mathbf{x}\), the inner expectation is the conditional MSE, which we have found to be equal to the constant
+\[
+\frac{1}{\displaystyle \frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}}.
+\]
+Since this does not depend on \(\mathbf{X}\), we can pull it out of the expectation:
+\[
+\mathbb{E}\big[(\Theta - \hat{\Theta}(\mathbf{X}))^{2}\big]
+=
+\frac{1}{\displaystyle \frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}}
+\cdot
+\mathbb{E} [statswithr.github](https://statswithr.github.io/book/inference-and-decision-making-with-multiple-parameters.html)
+=
+\frac{1}{\displaystyle \frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}}.
+\]
+Thus the unconditional mean squared error equals the conditional mean squared error.  
+In other words, the expected performance of the estimator, before making any measurements, is equal to the posterior variance obtained after the measurements, and this value is the same for every possible outcome of the measurements.
+
+Let us now interpret this expression and examine some special cases.  
+First, suppose that at least one of the noise variances \(\sigma_{i}^{2}\) is very small.  
+Then the corresponding term \(1/\sigma_{i}^{2}\) is very large.  
+Consequently, the sum
+\[
+\frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}
+\]
+is large, and its reciprocal, the mean squared error, is small.  
+This reflects the fact that if we have even a single high-quality (low-noise) measurement, we can estimate \(\Theta\) quite accurately.
+
+On the other hand, if all noise variances \(\sigma_{i}^{2}\) are large, then each term \(1/\sigma_{i}^{2}\) is small.  
+The sum of these small terms is also small, so its reciprocal is large.  
+In this case, all measurements are very noisy, and we cannot expect to estimate \(\Theta\) well; the mean squared error is large.
+
+Next, consider the special case where all variances, including the prior variance, are equal:
+\[
+\sigma_{0}^{2}
+=
+\sigma_{1}^{2}
+=
+\dots
+=
+\sigma_{n}^{2}
+=
+\sigma^{2}.
+\]
+Then
+\[
+\frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}
+=
+\frac{1}{\sigma^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma^{2}}
+=
+\frac{n+1}{\sigma^{2}}.
+\]
+Therefore, the mean squared error simplifies to
+\[
+\mathbb{E}\big[(\Theta - \hat{\Theta}(\mathbf{X}))^{2}\big]
+=
+\frac{1}{(n+1)/\sigma^{2}}
+=
+\frac{\sigma^{2}}{n+1}.
+\]
+This expression shows explicitly how the estimation error decreases as the number of observations \(n\) increases.  
+Each additional measurement contributes an extra term \(1/\sigma^{2}\) to the denominator, reducing the overall variance and improving the quality of the estimate.
+
+\bigskip
+\textsc{A concrete example: single observation and standard normals}
+
+To better appreciate the invariance of the conditional variance with respect to the data, let us revisit the simple model with a single observation and standard normals.  
+Assume
+\[
+\Theta \sim \mathcal{N}(0,1),
+\qquad
+W \sim \mathcal{N}(0,1),
+\qquad
+\Theta \perp W,
+\]
+and
+\[
+X
+=
+\Theta + W.
+\]
+In this case, \(n=1\), \(\sigma_{0}^{2} = 1\), and \(\sigma_{1}^{2} = 1\).  
+The general formula gives
+\[
+\operatorname{Var}(\Theta \mid X = x)
+=
+\frac{1}{\displaystyle \frac{1}{1} + \frac{1}{1}}
+=
+\frac{1}{2}.
+\]
+Thus, starting from a prior variance of \(1\), the variance after observing \(X\) is reduced to \(1/2\).  
+This reduction in variance reflects the information gained from the measurement.
+
+Importantly, the conditional variance is equal to \(1/2\) for every value of \(x\).  
+Whether the observed value \(x\) is close to \(0\) or far away from \(0\), the remaining uncertainty about \(\Theta\), as measured by the posterior variance, is the same.  
+If we observe \(x=0\), our estimate is \(\hat{\theta} = x/2 = 0\), and the posterior distribution of \(\Theta\) is \(\mathcal{N}(0,1/2)\), which is narrower than the prior \(\mathcal{N}(0,1)\).  
+If instead we observe, say, \(x\) far from \(0\), then the estimate \(\hat{\theta} = x/2\) will be correspondingly far from \(0\), and the posterior distribution will be \(\mathcal{N}(x/2,1/2)\).  
+In this latter case, the observation is surprising in light of the prior, but once it is observed, the remaining uncertainty about \(\Theta\) is again characterized by a normal distribution with variance \(1/2\).
+
+This behavior is a distinctive feature of linear Gaussian models.  
+The combination of normal priors with normal likelihoods leads to posterior distributions that are also normal, with a variance that depends only on the prior and noise variances, and not on the particular observed values.  
+As a result, the performance of the MAP or least mean squares estimator can be fully characterized by a single number, the posterior variance
+\[
+\frac{1}{\displaystyle \frac{1}{\sigma_{0}^{2}} + \sum_{i=1}^{n}\frac{1}{\sigma_{i}^{2}}},
+\]
+which serves both as the conditional and unconditional mean squared error.
+
+
+
+\subsubsection{Multiple parameters; trajectory estimation}
+
+We now consider a model with multiple parameters and multiple observations, motivated by a simple physical scenario.  
+A ball is thrown upwards and follows a trajectory determined by Newton's laws.  
+The vertical displacement \(x(t)\) of the ball at time \(t\) is modeled by a quadratic function
+\[
+x(t)
+=
+\Theta_{0} + \Theta_{1} t + \Theta_{2} t^{2},
+\]
+where:
+\[
+\Theta_{0} \text{ is the initial height},
+\quad
+\Theta_{1} \text{ is the initial vertical velocity},
+\quad
+\Theta_{2} \text{ is related to the gravitational acceleration (typically negative)}.
+\]
+
+Suppose that the parameters \(\Theta_{0},\Theta_{1},\Theta_{2}\) are unknown.  
+We model them as random variables and treat the actual physical values as realizations of these random variables.  
+To apply Bayesian inference, we specify a joint prior distribution for the parameter vector
+\[
+\boldsymbol{\Theta}
+=
+(\Theta_{0},\Theta_{1},\Theta_{2})^{\top}.
+\]
+A common assumption is that the parameters are independent and normally distributed:
+\[
+\Theta_{k} \sim \mathcal{N}(0,\sigma_{\Theta_{k}}^{2}),
+\quad
+k=0,1,2,
+\]
+with independence across \(k\).  
+The prior variances \(\sigma_{\Theta_{k}}^{2}\) are chosen to reflect our initial uncertainty about the parameters (for example, how well we know the initial height or velocity).
+
+We observe the ball at times \(t_{1},\dots,t_{n}\).  
+At each time \(t_{i}\), we measure the vertical position with noise, obtaining
+\[
+X_{i}
+=
+\Theta_{0} + \Theta_{1} t_{i} + \Theta_{2} t_{i}^{2} + W_{i},
+\quad
+i = 1,\dots,n,
+\]
+where \(W_{i}\) is the measurement noise.  
+We assume that
+\[
+W_{i} \sim \mathcal{N}(0,\sigma_{i}^{2}),
+\]
+and that the noise variables \(W_{1},\dots,W_{n}\) are independent of each other and independent of \(\boldsymbol{\Theta}\).  
+This is often a realistic model for repeated measurements made by a sensor.
+
+Let
+\[
+\mathbf{X}
+=
+(X_{1},\dots,X_{n})^{\top},
+\quad
+\mathbf{x}
+=
+(x_{1},\dots,x_{n})^{\top},
+\]
+and
+\[
+\boldsymbol{\Theta}
+=
+(\Theta_{0},\Theta_{1},\Theta_{2})^{\top},
+\quad
+\boldsymbol{\theta}
+=
+(\theta_{0},\theta_{1},\theta_{2})^{\top}.
+\]
+Our goal is to estimate \(\boldsymbol{\Theta}\) from the observations \(\mathbf{X}\) using Bayesian inference, that is, to compute the posterior density \(f_{\boldsymbol{\Theta}\mid \mathbf{X}}(\boldsymbol{\theta}\mid \mathbf{x})\).  
+Bayes' rule for continuous random vectors gives
+\[
+f_{\boldsymbol{\Theta}\mid \mathbf{X}}(\boldsymbol{\theta}\mid \mathbf{x})
+=
+\frac{f_{\mathbf{X}\mid \boldsymbol{\Theta}}(\mathbf{x}\mid \boldsymbol{\theta})\,f_{\boldsymbol{\Theta}}(\boldsymbol{\theta})}{f_{\mathbf{X}}(\mathbf{x})}.
+\]
+Here:
+\begin{itemize}
+\item \(f_{\boldsymbol{\Theta}}(\boldsymbol{\theta})\) is the prior density of the parameter vector,
+\item \(f_{\mathbf{X}\mid \boldsymbol{\Theta}}(\mathbf{x}\mid \boldsymbol{\theta})\) is the conditional joint density of the measurements given the parameters,
+\item \(f_{\mathbf{X}}(\mathbf{x})\) is the marginal density of the observations.
+\end{itemize}
+
+We first determine the conditional distribution of a single observation \(X_{i}\) given \(\boldsymbol{\Theta} = \boldsymbol{\theta}\).  
+Conditioning on \(\boldsymbol{\Theta} = \boldsymbol{\theta}\), the measurement model becomes
+\[
+X_{i} \mid (\boldsymbol{\Theta} = \boldsymbol{\theta})
+=
+\theta_{0} + \theta_{1} t_{i} + \theta_{2} t_{i}^{2} + W_{i}.
+\]
+The noise term \(W_{i}\) remains \(\mathcal{N}(0,\sigma_{i}^{2})\) under this conditioning because \(W_{i}\) is independent of \(\boldsymbol{\Theta}\).  
+Therefore,
+\[
+X_{i} \mid (\boldsymbol{\Theta} = \boldsymbol{\theta})
+\sim
+\mathcal{N}\big(\theta_{0} + \theta_{1} t_{i} + \theta_{2} t_{i}^{2},\ \sigma_{i}^{2}\big),
+\]
+and the conditional density is
+\[
+f_{X_{i}\mid \boldsymbol{\Theta}}(x_{i}\mid \boldsymbol{\theta})
+=
+\frac{1}{\sqrt{2\pi\sigma_{i}^{2}}}
+\exp\Bigg(
+-\frac{\big(x_{i} - (\theta_{0} + \theta_{1} t_{i} + \theta_{2} t_{i}^{2})\big)^{2}}{2\sigma_{i}^{2}}
+\Bigg).
+\]
+
+Next, we determine the conditional joint density \(f_{\mathbf{X}\mid \boldsymbol{\Theta}}(\mathbf{x}\mid \boldsymbol{\theta})\).  
+Given \(\boldsymbol{\Theta} = \boldsymbol{\theta}\), each \(X_{i}\) is obtained from the corresponding noise variable \(W_{i}\) by adding the deterministic quantity \(\theta_{0} + \theta_{1} t_{i} + \theta_{2} t_{i}^{2}\).  
+The noise variables \(W_{1},\dots,W_{n}\) are independent, so the measurements \(X_{1},\dots,X_{n}\) are also independent in the conditional universe where \(\boldsymbol{\Theta}\) is fixed.  
+It follows that
+\[
+f_{\mathbf{X}\mid \boldsymbol{\Theta}}(\mathbf{x}\mid \boldsymbol{\theta})
+=
+\prod_{i=1}^{n}
+f_{X_{i}\mid \boldsymbol{\Theta}}(x_{i}\mid \boldsymbol{\theta})
+=
+\prod_{i=1}^{n}
+\frac{1}{\sqrt{2\pi\sigma_{i}^{2}}}
+\exp\Bigg(
+-\frac{\big(x_{i} - (\theta_{0} + \theta_{1} t_{i} + \theta_{2} t_{i}^{2})\big)^{2}}{2\sigma_{i}^{2}}
+\Bigg).
+\]
+
+For the prior, assuming independent normal components with zero means, we have
+\[
+f_{\boldsymbol{\Theta}}(\boldsymbol{\theta})
+=
+\prod_{k=0}^{2}
+\frac{1}{\sqrt{2\pi\sigma_{\Theta_{k}}^{2}}}
+\exp\Big(-\frac{\theta_{k}^{2}}{2\sigma_{\Theta_{k}}^{2}}\Big).
+\]
+Putting these pieces into Bayes' rule and ignoring the marginal density \(f_{\mathbf{X}}(\mathbf{x})\), which does not depend on \(\boldsymbol{\theta}\), we obtain, up to a normalizing constant,
+\[
+f_{\boldsymbol{\Theta}\mid \mathbf{X}}(\boldsymbol{\theta}\mid \mathbf{x})
+\propto
+f_{\mathbf{X}\mid \boldsymbol{\Theta}}(\mathbf{x}\mid \boldsymbol{\theta})\,f_{\boldsymbol{\Theta}}(\boldsymbol{\theta})
+\]
+\[
+\propto
+\Bigg[
+\prod_{i=1}^{n}
+\frac{1}{\sqrt{2\pi\sigma_{i}^{2}}}
+\exp\Bigg(
+-\frac{\big(x_{i} - (\theta_{0} + \theta_{1} t_{i} + \theta_{2} t_{i}^{2})\big)^{2}}{2\sigma_{i}^{2}}
+\Bigg)
+\Bigg]
+\Bigg[
+\prod_{k=0}^{2}
+\frac{1}{\sqrt{2\pi\sigma_{\Theta_{k}}^{2}}}
+\exp\Big(-\frac{\theta_{k}^{2}}{2\sigma_{\Theta_{k}}^{2}}\Big)
+\Bigg].
+\]
+The multiplicative constants in front of the exponentials do not depend on \(\boldsymbol{\theta}\) and can be absorbed into a single constant.  
+Therefore, the posterior density is proportional to
+\[
+\exp\Bigg(
+-\sum_{k=0}^{2}\frac{\theta_{k}^{2}}{2\sigma_{\Theta_{k}}^{2}}
+-
+\sum_{i=1}^{n}
+\frac{\big(x_{i} - (\theta_{0} + \theta_{1} t_{i} + \theta_{2} t_{i}^{2})\big)^{2}}{2\sigma_{i}^{2}}
+\Bigg).
+\]
+
+This is the exponential of the negative of a quadratic function of \(\boldsymbol{\theta}\).  
+Because the exponent is a quadratic form in the parameters, the posterior distribution of \(\boldsymbol{\Theta}\) is a multivariate normal distribution.  
+Although we do not explicitly write its mean vector and covariance matrix here, the structure matches the general result: a normal prior combined with a linear-Gaussian observation model produces a normal posterior.
+
+To obtain a point estimate of the parameters, a natural choice is the maximum a posteriori (MAP) estimate.  
+The MAP estimate
+\[
+\hat{\boldsymbol{\theta}}_{\text{MAP}}
+=
+\arg\max_{\boldsymbol{\theta}} f_{\boldsymbol{\Theta}\mid \mathbf{X}}(\boldsymbol{\theta}\mid \mathbf{x})
+\]
+is the value of \(\boldsymbol{\theta}\) that maximizes the posterior density.  
+Since the exponential function is strictly increasing, maximizing the posterior is equivalent to minimizing the negative of the exponent.  
+Thus we consider the quadratic cost function
+\[
+J(\boldsymbol{\theta})
+=
+\sum_{k=0}^{2}\frac{\theta_{k}^{2}}{2\sigma_{\Theta_{k}}^{2}}
++
+\sum_{i=1}^{n}
+\frac{\big(x_{i} - (\theta_{0} + \theta_{1} t_{i} + \theta_{2} t_{i}^{2})\big)^{2}}{2\sigma_{i}^{2}}.
+\]
+The MAP estimate is
+\[
+\hat{\boldsymbol{\theta}}_{\text{MAP}}
+=
+\arg\min_{\boldsymbol{\theta}} J(\boldsymbol{\theta}).
+\]
+
+The function \(J(\boldsymbol{\theta})\) is a quadratic function of \(\theta_{0},\theta_{1},\theta_{2}\).  
+To find its minimum, we take the partial derivatives with respect to each parameter and set them equal to zero:
+\[
+\frac{\partial J}{\partial \theta_{k}}(\boldsymbol{\theta}) = 0,
+\quad
+k = 0,1,2.
+\]
+Each partial derivative is a linear function of \(\theta_{0},\theta_{1},\theta_{2}\), because the derivative of a quadratic function is linear.  
+Therefore, we obtain a system of three linear equations in the three unknowns \(\theta_{0},\theta_{1},\theta_{2}\).  
+In matrix form, this can be written as
+\[
+\mathbf{A}\boldsymbol{\theta}
+=
+\mathbf{b},
+\]
+for an appropriate \(3 \times 3\) matrix \(\mathbf{A}\) and vector \(\mathbf{b}\) determined by the times \(t_{i}\), the observations \(x_{i}\), the noise variances \(\sigma_{i}^{2}\), and the prior variances \(\sigma_{\Theta_{k}}^{2}\).  
+Solving this linear system yields the MAP estimate \(\hat{\boldsymbol{\theta}}_{\text{MAP}}\).
+
+In practice, this solution is computed numerically using standard linear algebra methods.  
+The resulting estimator has several important properties that extend those seen in the single-parameter case.  
+The posterior distribution remains Gaussian, the MAP estimate coincides with the posterior mean, and the estimator is a linear function of the observations \(\mathbf{X}\).  
+These features make such linear-Gaussian models particularly attractive for applications such as trajectory estimation and tracking.
+
+
