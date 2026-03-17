@@ -2094,3 +2094,532 @@ The posterior distribution remains Gaussian, the MAP estimate coincides with the
 These features make such linear-Gaussian models particularly attractive for applications such as trajectory estimation and tracking.
 
 
+\subsubsection{LMS estimation without any observations}
+
+Suppose that we wish to estimate a random variable \(\Theta\) and that we know its probability distribution, given either by a probability mass function (if \(\Theta\) is discrete) or by a probability density function (if \(\Theta\) is continuous).  
+We are interested in a point estimate \(\hat{\theta}\) of \(\Theta\), in the special case where there are no observations available: all we have is the prior distribution of \(\Theta\).
+
+As a concrete example, assume that \(\Theta\) is uniformly distributed over the interval \([4,10]\).  
+We can consider different estimation rules that use only this prior.  
+One possibility is the maximum a posteriori (MAP) rule, which selects a value \(\hat{\theta}\) at which the posterior density of \(\Theta\) is maximized.  
+Since there are no observations, the posterior coincides with the prior, which is flat on \([4,10]\), so every point in \([4,10]\) is a maximizer and the MAP rule does not yield a unique estimate.
+
+Another possibility is to use the conditional expectation estimator.  
+Again, with no observations, the conditional expectation reduces to the ordinary expectation, so in this example we obtain
+\[
+\hat{\theta}
+=
+\mathbb{E}[\Theta]
+=
+\frac{4 + 10}{2}
+=
+7.
+\]
+In contrast to the MAP rule, this rule produces a unique numerical estimate.
+
+To decide systematically between such candidates, we introduce a performance criterion.  
+The criterion we adopt is the mean squared error (MSE) of an estimator \(\hat{\theta}\), defined by
+\[
+\operatorname{MSE}(\hat{\theta})
+=
+\mathbb{E}\big[(\Theta - \hat{\theta})^{2}\big],
+\]
+where the expectation is with respect to the distribution of \(\Theta\).  
+Our goal is to find the value of \(\hat{\theta}\) that minimizes this quantity.
+
+We view \(\operatorname{MSE}(\hat{\theta})\) as a function of the scalar variable \(\hat{\theta}\).  
+Expanding the square inside the expectation gives
+\[
+(\Theta - \hat{\theta})^{2}
+=
+\Theta^{2}
+-
+2\Theta\hat{\theta}
++
+\hat{\theta}^{2}.
+\]
+Taking expectations and using linearity, we obtain
+\[
+\operatorname{MSE}(\hat{\theta})
+=
+\mathbb{E}[\Theta^{2}]
+-
+2\hat{\theta}\,\mathbb{E}[\Theta]
++
+\hat{\theta}^{2},
+\]
+because \(\hat{\theta}\) is a constant and can be taken outside the expectation.  
+Thus the mean squared error is a quadratic function of \(\hat{\theta}\).
+
+To minimize this quadratic function, we differentiate it with respect to \(\hat{\theta}\) and set the derivative equal to zero:
+\[
+\frac{d}{d\hat{\theta}}\,\operatorname{MSE}(\hat{\theta})
+=
+-2\,\mathbb{E}[\Theta]
++
+2\hat{\theta}
+=
+0.
+\]
+Solving for \(\hat{\theta}\) yields
+\[
+\hat{\theta}^{\ast}
+=
+\mathbb{E}[\Theta].
+\]
+Therefore, the estimator that minimizes the mean squared error is the expected value of the random variable \(\Theta\).
+
+It is useful to derive the same result in a second, more probabilistic way.  
+We start from the defining criterion
+\[
+\operatorname{MSE}(\hat{\theta})
+=
+\mathbb{E}\big[(\Theta - \hat{\theta})^{2}\big].
+\]
+Using the general identity
+\[
+\mathbb{E}\big[Z^{2}\big]
+=
+\operatorname{Var}(Z)
++
+\big(\mathbb{E}[Z]\big)^{2}
+\]
+for any random variable \(Z\), we apply it to the random variable \(Z = \Theta - \hat{\theta}\) and obtain
+\[
+\mathbb{E}\big[(\Theta - \hat{\theta})^{2}\big]
+=
+\operatorname{Var}(\Theta - \hat{\theta})
++
+\big(\mathbb{E}[\Theta - \hat{\theta}]\big)^{2}.
+\]
+Since subtracting a constant does not change the variance, we have
+\[
+\operatorname{Var}(\Theta - \hat{\theta})
+=
+\operatorname{Var}(\Theta),
+\]
+which does not depend on \(\hat{\theta}\).  
+Furthermore,
+\[
+\mathbb{E}[\Theta - \hat{\theta}]
+=
+\mathbb{E}[\Theta] - \hat{\theta}.
+\]
+Combining these facts, we rewrite the mean squared error as
+\[
+\operatorname{MSE}(\hat{\theta})
+=
+\operatorname{Var}(\Theta)
++
+\big(\mathbb{E}[\Theta] - \hat{\theta}\big)^{2}.
+\]
+
+The first term, \(\operatorname{Var}(\Theta)\), is independent of \(\hat{\theta}\), so there is nothing we can do about it.  
+To minimize \(\operatorname{MSE}(\hat{\theta})\), we only need to minimize the second term, which is a square of a real quantity.  
+A square is minimized by making its argument equal to zero, so we choose \(\hat{\theta}\) so that
+\[
+\mathbb{E}[\Theta] - \hat{\theta} = 0,
+\]
+that is,
+\[
+\hat{\theta}^{\ast}
+=
+\mathbb{E}[\Theta].
+\]
+This confirms, without using calculus, that the mean-square optimal estimate of \(\Theta\) is its expectation.
+
+Once we adopt the estimate \(\hat{\theta}^{\ast} = \mathbb{E}[\Theta]\), the corresponding minimum mean squared error is obtained by substituting this value into the expression above.  
+In that case, the squared term vanishes and we obtain
+\[
+\operatorname{MSE}(\hat{\theta}^{\ast})
+=
+\operatorname{Var}(\Theta).
+\]
+Thus, when we estimate \(\Theta\) by its mean, the least possible value of the mean squared error, over all constant estimators, is equal to the variance of \(\Theta\).
+
+\bigskip
+\textsc{Summary of the LMS rule without observations}
+
+In the special case in which no observations are available and only the prior distribution of \(\Theta\) is known, the least mean squares estimator is obtained by setting the estimate equal to the expected value of \(\Theta\).  
+Among all constant estimates \(\hat{\theta}\), the choice \(\hat{\theta} = \mathbb{E}[\Theta]\) uniquely minimizes the mean squared error, and the minimum attainable mean squared error is equal to \(\operatorname{Var}(\Theta)\).
+
+
+\subsubsection{LMS estimation with a single observation}
+
+We now consider a random variable \(\Theta\) with a known prior distribution, together with an observation \(X\) whose conditional distribution given \(\Theta\) is known.  
+After observing a particular numerical value \(x\) of \(X\), we want to produce a point estimate \(\hat{\theta}\) of \(\Theta\) based on this information.
+
+Bayes' rule allows us to combine the prior distribution of \(\Theta\) with the likelihood of the observation \(X = x\) and obtain the posterior distribution of \(\Theta\) given \(X = x\).  
+This posterior can be discrete or continuous, depending on the model.  
+Once we have this posterior distribution, we wish to choose a point estimate of \(\Theta\) that is optimal under a mean squared error criterion, within the \textit{conditional} universe determined by the event \(X = x\).
+
+Recall that in the absence of any observations, the estimator that minimizes the mean squared error is the unconditional expectation \(\mathbb{E}[\Theta]\).  
+In the present setting, for a fixed observation \(X = x\), we work within the conditional universe determined by that event and consider the conditional mean squared error
+\[
+\mathbb{E}\big[(\Theta - \hat{\theta})^{2} \mid X = x\big]
+\]
+as a function of the scalar \(\hat{\theta}\).  
+By repeating the same algebraic steps as in the unconditional case, but now in this conditional universe, we find that the minimizing choice is
+\[
+\hat{\theta}^{\ast}(x)
+=
+\mathbb{E}[\Theta \mid X = x].
+\]
+
+More abstractly, we can view the LMS estimator as the random variable
+\[
+\hat{\Theta}_{\text{LMS}}
+=
+\mathbb{E}[\Theta \mid X],
+\]
+which is a function of the random observation \(X\).  
+For each realized value \(x\), the estimator outputs the numerical value \(\mathbb{E}[\Theta \mid X = x]\).  
+Thus, the optimal estimate in the sense of minimizing conditional mean squared error is the conditional expectation of \(\Theta\) given the observed data.
+
+We can make this optimality statement precise using inequalities.  
+In the unconditional setting, the fact that \(\mathbb{E}[\Theta]\) minimizes the mean squared error can be written as
+\[
+\mathbb{E}\big[(\Theta - \mathbb{E}[\Theta])^{2}\big]
+\leq
+\mathbb{E}\big[(\Theta - c)^{2}\big],
+\qquad
+\text{for all constants } c.
+\]
+In the conditional setting, for a fixed observation \(X = x\), the analogous statement is
+\[
+\mathbb{E}\big[(\Theta - \mathbb{E}[\Theta \mid X = x])^{2} \mid X = x\big]
+\leq
+\mathbb{E}\big[(\Theta - g(x))^{2} \mid X = x\big],
+\]
+for any alternative numerical estimate \(g(x)\).
+
+We usually think of an estimator as a function \(g\) that maps each possible observation \(x\) to an estimate \(g(x)\).  
+In this language, the inequality above says that, for each fixed \(x\), the choice \(g(x) = \mathbb{E}[\Theta \mid X = x]\) yields the smallest possible conditional mean squared error.  
+Equivalently, for every \(x\),
+\[
+\mathbb{E}\big[(\Theta - \mathbb{E}[\Theta \mid X = x])^{2} \mid X = x\big]
+\leq
+\mathbb{E}\big[(\Theta - g(x))^{2} \mid X = x\big].
+\]
+
+To interpret this more abstractly, notice that both sides of the inequality can be viewed as random variables.  
+The left-hand side is the random variable that takes the value
+\[
+\mathbb{E}\big[(\Theta - \mathbb{E}[\Theta \mid X = x])^{2} \mid X = x\big]
+\]
+whenever \(X = x\), while the right-hand side is the random variable that takes the value
+\[
+\mathbb{E}\big[(\Theta - g(x))^{2} \mid X = x\big]
+\]
+whenever \(X = x\).  
+Thus we have an inequality between two conditional expectations, viewed as random variables indexed by \(X\).
+
+Since these are random variables, we can take expectations on both sides.  
+Using the law of iterated expectations, the expectation of a conditional expectation becomes an unconditional expectation, so we obtain
+\[
+\mathbb{E}\big[(\Theta - \mathbb{E}[\Theta \mid X])^{2}\big]
+\leq
+\mathbb{E}\big[(\Theta - g(X))^{2}\big],
+\]
+for any estimator of the form \(g(X)\).  
+The left-hand side is the overall mean squared error of the LMS estimator \(\mathbb{E}[\Theta \mid X]\), and the right-hand side is the mean squared error of an arbitrary estimator \(g(X)\).
+
+This inequality expresses the global optimality of the LMS estimator.  
+It states that among all estimators that are functions of the observation \(X\), the estimator
+\[
+\hat{\Theta}_{\text{LMS}}
+=
+\mathbb{E}[\Theta \mid X]
+\]
+achieves the smallest possible mean squared error.  
+Any other estimator \(g(X)\) can do no better (and typically does worse) in terms of mean squared error.
+
+\bigskip
+\textsc{LMS estimator with one observation}
+
+In summary, when a single observation \(X\) is available and the joint distribution of \(\Theta\) and \(X\) is known, the least mean squares estimator of \(\Theta\) is the conditional expectation \(\mathbb{E}[\Theta \mid X]\), viewed as a function of the observed value of \(X\).  
+This estimator minimizes the mean squared error over all possible estimators of the form \(g(X)\), both in each conditional universe where \(X = x\) and in terms of the overall, unconditional mean squared error.
+
+
+\subsubsection{LMS performance evaluation}
+
+Least mean squares (LMS) estimation provides a particularly simple and useful rule: if we wish to keep the mean squared error small, we should use the conditional expectation of the quantity of interest given the available data as our estimate.  
+Concretely, if \(\Theta\) is the random variable to be estimated and \(X\) is the observation, then the LMS estimator is given by \(\mathbb{E}[\Theta \mid X]\), which becomes a numerical value once a specific observation is available.
+
+Suppose that we have already observed a particular value \(X = x\), and we use the estimate
+\[
+\hat{\theta}(x)
+=
+\mathbb{E}[\Theta \mid X = x].
+\]
+The corresponding conditional mean squared error in this conditional universe is
+\[
+\mathbb{E}\big[(\Theta - \hat{\theta}(x))^{2} \mid X = x\big].
+\]
+By the definition of variance, this quantity is equal to the conditional variance of \(\Theta\) given \(X = x\), that is,
+\[
+\mathbb{E}\big[(\Theta - \mathbb{E}[\Theta \mid X = x])^{2} \mid X = x\big]
+=
+\operatorname{Var}(\Theta \mid X = x).
+\]
+
+Thus, for each specific measurement \(x\), the \textit{optimal} mean squared error achieved by the LMS estimator is precisely \(\operatorname{Var}(\Theta \mid X = x)\).  
+If we have already observed \(x\) and are asked to quantify the quality of our estimate, this conditional variance is the appropriate performance measure to report, since it describes the remaining uncertainty about \(\Theta\) after using the observation.
+
+Now consider the situation before any measurement is taken.  
+At this stage, \(X\) is still a random variable, and therefore the conditional variance \(\operatorname{Var}(\Theta \mid X)\) is itself a random variable that depends on the eventual value of \(X\).  
+If we want to evaluate in advance the overall performance of the LMS estimator, we should average the conditional mean squared error over all possible observations.
+
+Formally, the overall mean squared error of the LMS estimator is
+\[
+\mathbb{E}\big[(\Theta - \mathbb{E}[\Theta \mid X])^{2}\big].
+\]
+Using the law of iterated expectations, this can be written as
+\[
+\mathbb{E}\Big[\,
+\mathbb{E}\big[(\Theta - \mathbb{E}[\Theta \mid X])^{2} \,\big|\, X\big]
+\Big]
+=
+\mathbb{E}\big[\operatorname{Var}(\Theta \mid X)\big].
+\]
+In words, the overall mean squared error of the LMS estimator equals the expectation of the conditional variance, averaged over the distribution of \(X\).
+
+We can interpret \(\operatorname{Var}(\Theta \mid X)\) as the \textit{abstract} conditional variance: it is a random variable that takes the numerical value \(\operatorname{Var}(\Theta \mid X = x)\) whenever \(X\) happens to be equal to \(x\).  
+The overall performance of the LMS estimator, prior to observing \(X\), is then given by \(\mathbb{E}[\operatorname{Var}(\Theta \mid X)]\), the average of these conditional variances over all possible outcomes of \(X\).
+
+It is also important to emphasize when LMS estimation is applicable.  
+LMS methods are designed for estimation problems in which the quality of an estimator is measured by mean squared error.  
+In contrast, in hypothesis testing problems, the primary performance metric is usually the probability of error, rather than mean squared error, so LMS considerations are generally not central in that context.
+
+There are interesting cases in which the LMS estimator and the maximum a posteriori (MAP) estimator coincide.  
+If the posterior distribution of \(\Theta\) given \(X\) has a single mode and is symmetric around some point, then the mode (used by the MAP rule) and the center of symmetry (the mean, used by LMS) coincide, so both estimators produce the same numerical value.  
+An important example arises in linear-normal models, in which the posterior distribution of \(\Theta\) given \(X\) is normal.
+
+\bigskip
+\textsc{LMS performance and MAP coincidence}
+
+For each realized observation, the LMS estimator achieves a conditional mean squared error equal to the conditional variance \(\operatorname{Var}(\Theta \mid X = x)\), and the overall mean squared error is the expectation \(\mathbb{E}[\operatorname{Var}(\Theta \mid X)]\).  
+In symmetric, unimodal posterior distributions such as those arising in linear-normal models, the LMS and MAP estimators coincide, since they both select the common point where the posterior is centered and maximized.
+
+
+\subsubsection{The multidimensional case}
+
+In our discussion so far, we have focused on the case of a single unknown random variable \(\Theta\) and a single observation \(X\), and we have seen that the LMS estimator that minimizes the mean squared error is the conditional expectation \(\mathbb{E}[\Theta \mid X]\).  
+We now consider what happens when we have multiple observations and possibly multiple parameters.
+
+Suppose that instead of a single observation, we observe a vector \(X = (X_{1},\dots,X_{n})\), for which we have a probabilistic model relating \(X\) to the unknowns.  
+Once a numerical vector \(x = (x_{1},\dots,x_{n})\) is observed, we move to the conditional universe corresponding to \(X = x\).  
+The arguments used in the one-dimensional case do not rely on the fact that \(X\) is scalar, so they extend directly to this vector setting.
+
+In particular, if \(\Theta\) is still a single unknown parameter (possibly random), and \(X\) is a vector of observations, the LMS estimator is again given by the conditional expectation
+\[
+\hat{\Theta}_{\text{LMS}}
+=
+\mathbb{E}[\Theta \mid X].
+\]
+Thus, in the presence of multiple observations, the optimal estimate (in the mean squared error sense) of the scalar parameter \(\Theta\) is the conditional expectation of \(\Theta\) given the entire observation vector.
+
+Next, consider the case in which the unknown parameter itself is a vector
+\[
+\Theta
+=
+(\Theta_{1},\dots,\Theta_{m}).
+\]
+We are interested in estimating each component \(\Theta_{j}\) on the basis of the observed data \(X\).  
+By applying the same LMS argument component-wise, we find that the LMS estimate of the \(j\)-th component is
+\[
+\hat{\Theta}_{j,\text{LMS}}
+=
+\mathbb{E}[\Theta_{j} \mid X],
+\qquad
+j = 1,\dots,m.
+\]
+Equivalently, the LMS estimator of the entire vector \(\Theta\) is the conditional expectation vector \(\mathbb{E}[\Theta \mid X]\), whose components are these conditional expectations.
+
+In summary, the least mean squares principle yields a simple and unified prescription: regardless of how many observations or parameters are involved, the LMS estimate of any particular parameter (or component) is the conditional expectation of that parameter given all available observations.  
+This provides a general solution to LMS estimation with multiple parameters and multiple observations.
+
+However, despite its conceptual simplicity and generality, LMS estimation can be difficult to carry out in practice.  
+The first challenge is modeling: in many real-world applications, we may not have a reliable or tractable probabilistic model for the joint behavior of \(\Theta\) and the observation vector \(X\), especially when these are high-dimensional.
+
+Even when an accurate model is available, there are often serious computational obstacles.  
+The LMS estimator \(\mathbb{E}[\Theta \mid X]\) is, in general, a nonlinear function of the observations, which can make both analysis and numerical evaluation difficult.  
+Moreover, to obtain the posterior distribution needed for this conditional expectation, we must apply Bayes' rule.
+
+Bayes' rule expresses the posterior density as
+\[
+f_{\Theta \mid X}(\theta \mid x)
+=
+\frac{f_{X \mid \Theta}(x \mid \theta)\,f_{\Theta}(\theta)}{f_{X}(x)},
+\]
+where the denominator
+\[
+f_{X}(x)
+=
+\int f_{X \mid \Theta}(x \mid \theta)\,f_{\Theta}(\theta)\,d\theta
+\]
+is obtained by integrating over all possible parameter values.  
+If \(\Theta\) is multi-dimensional, this integral becomes a multi-dimensional integral, which may be very challenging or practically impossible to compute.
+
+Furthermore, once the posterior \(f_{\Theta \mid X}(\theta \mid x)\) is known, computing the LMS estimator for a component \(\Theta_{j}\) requires evaluating
+\[
+\mathbb{E}[\Theta_{j} \mid X = x]
+=
+\int \theta_{j}\, f_{\Theta \mid X}(\theta \mid x)\,d\theta,
+\]
+which is again a multi-dimensional integral over the parameter space.  
+Therefore, in high-dimensional problems, both the normalization step in Bayes' rule and the computation of the conditional expectations can be computationally demanding.
+
+These modeling and computational difficulties motivate the search for alternative estimation methods that are easier to apply in practice.  
+In particular, it is often desirable to use approaches that require less detailed probabilistic modeling or that are computationally simpler than full LMS estimation, even if they may not achieve the absolute minimum possible mean squared error.
+
+
+
+\subsubsection{Properties of the LMS estimation error}
+
+Let \(\Theta\) be the random variable that we wish to estimate, and let \(X\) denote the observation (or collection of observations).  
+The least mean squares estimator of \(\Theta\) based on \(X\) is
+\[
+\hat{\Theta}
+=
+\mathbb{E}[\Theta \mid X].
+\]
+We define the estimation error as
+\[
+\tilde{\Theta}
+=
+\hat{\Theta} - \Theta.
+\]
+
+We begin by examining the expectation of the estimator and of the estimation error.  
+Using the law of iterated expectations,
+\[
+\mathbb{E}[\hat{\Theta}]
+=
+\mathbb{E}\big[\mathbb{E}[\Theta \mid X]\big]
+=
+\mathbb{E}[\Theta].
+\]
+Thus, the LMS estimator has the same mean as the random variable \(\Theta\).  
+It follows that
+\[
+\mathbb{E}[\tilde{\Theta}]
+=
+\mathbb{E}[\hat{\Theta} - \Theta]
+=
+\mathbb{E}[\hat{\Theta}] - \mathbb{E}[\Theta]
+=
+0,
+\]
+so the estimation error has zero mean.
+
+In fact, a stronger statement holds: the conditional expectation of the estimation error given the observation is also zero.  
+Indeed,
+\[
+\mathbb{E}[\tilde{\Theta} \mid X]
+=
+\mathbb{E}[\hat{\Theta} - \Theta \mid X]
+=
+\mathbb{E}[\hat{\Theta} \mid X]
+-
+\mathbb{E}[\Theta \mid X].
+\]
+In the conditional universe where \(X\) is known, \(\hat{\Theta} = \mathbb{E}[\Theta \mid X]\) is a deterministic function of \(X\), so
+\[
+\mathbb{E}[\hat{\Theta} \mid X]
+=
+\hat{\Theta}
+=
+\mathbb{E}[\Theta \mid X],
+\]
+and therefore
+\[
+\mathbb{E}[\tilde{\Theta} \mid X]
+=
+\mathbb{E}[\Theta \mid X]
+-
+\mathbb{E}[\Theta \mid X]
+=
+0.
+\]
+
+Next, we study the covariance between the estimation error \(\tilde{\Theta}\) and the estimator \(\hat{\Theta}\).  
+By definition,
+\[
+\operatorname{Cov}(\tilde{\Theta},\hat{\Theta})
+=
+\mathbb{E}[\tilde{\Theta}\,\hat{\Theta}]
+-
+\mathbb{E}[\tilde{\Theta}]\,\mathbb{E}[\hat{\Theta}].
+\]
+We already know that \(\mathbb{E}[\tilde{\Theta}] = 0\), so the second term is zero, and we only need to evaluate \(\mathbb{E}[\tilde{\Theta}\,\hat{\Theta}]\).
+
+To do this, we use conditioning.  
+Consider the conditional expectation
+\[
+\mathbb{E}[\tilde{\Theta}\,\hat{\Theta} \mid X].
+\]
+In the conditional universe determined by \(X\), the estimator \(\hat{\Theta}\) is a constant (a deterministic function of \(X\)), so it can be factored out:
+\[
+\mathbb{E}[\tilde{\Theta}\,\hat{\Theta} \mid X]
+=
+\hat{\Theta}\,\mathbb{E}[\tilde{\Theta} \mid X].
+\]
+But we have already established that \(\mathbb{E}[\tilde{\Theta} \mid X] = 0\), and hence
+\[
+\mathbb{E}[\tilde{\Theta}\,\hat{\Theta} \mid X]
+=
+0.
+\]
+Applying the law of iterated expectations, we obtain
+\[
+\mathbb{E}[\tilde{\Theta}\,\hat{\Theta}]
+=
+\mathbb{E}\big[\mathbb{E}[\tilde{\Theta}\,\hat{\Theta} \mid X]\big]
+=
+\mathbb{E}
+=
+0.
+\]
+Therefore,
+\[
+\operatorname{Cov}(\tilde{\Theta},\hat{\Theta})
+=
+0,
+\]
+so the estimation error and the LMS estimator are uncorrelated.
+
+We can now use this fact to relate variances.  
+From the definition of \(\tilde{\Theta}\), we can write
+\[
+\Theta
+=
+\hat{\Theta} - \tilde{\Theta}.
+\]
+Thus, \(\Theta\) is the difference of two random variables that have zero covariance.  
+For any two random variables \(A\) and \(B\) with \(\operatorname{Cov}(A,B) = 0\), we have
+\[
+\operatorname{Var}(A \pm B)
+=
+\operatorname{Var}(A) + \operatorname{Var}(B).
+\]
+Applying this to \(A = \hat{\Theta}\) and \(B = -\tilde{\Theta}\), we obtain
+\[
+\operatorname{Var}(\Theta)
+=
+\operatorname{Var}(\hat{\Theta} - \tilde{\Theta})
+=
+\operatorname{Var}(\hat{\Theta})
++
+\operatorname{Var}(\tilde{\Theta}).
+\]
+
+This identity shows that the total variance of \(\Theta\) decomposes into two parts: the variance of the estimator \(\hat{\Theta}\) and the variance of the estimation error \(\tilde{\Theta}\).  
+It can also be viewed as a particular manifestation of the law of total variance, expressed here in terms of the LMS estimator and its error.  
+These properties form an important theoretical foundation for more advanced developments in least-squares estimation, even if we do not exploit them further in simple applications.
+
+\bigskip
+\textsc{Key properties of the LMS error}
+
+The LMS estimator \(\hat{\Theta} = \mathbb{E}[\Theta \mid X]\) has the same mean as \(\Theta\), and the corresponding estimation error \(\tilde{\Theta} = \hat{\Theta} - \Theta\) has zero mean, both unconditionally and conditionally on the observation.  
+Moreover, the error is uncorrelated with the estimator, and the variance of \(\Theta\) decomposes as \(\operatorname{Var}(\Theta) = \operatorname{Var}(\hat{\Theta}) + \operatorname{Var}(\tilde{\Theta})\), highlighting how the total uncertainty splits between the variability of the estimate and the residual estimation error.
