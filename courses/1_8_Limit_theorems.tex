@@ -1,0 +1,772 @@
+
+\subsection{Limit Theorems and classical statistics}
+
+\subsubsection{Markov inequality and tail bounds}
+
+Let \(X\) be a non\,-negative random variable with finite expectation \(\mathbb{E}[X]\) and let \(a > 0\).  
+We are interested in bounding the probability of the \textit{extreme} event \(\{X \ge a\}\), that is, the event that \(X\) takes a very large value compared to its typical scale.  
+
+The Markov inequality provides such a bound:
+\[
+\mathbb{P}(X \ge a) \le \frac{\mathbb{E}[X]}{a}.
+\]
+Intuitively, if the average value \(\mathbb{E}[X]\) is small, then the random variable cannot be very large too often, so the probability of exceeding a large threshold \(a\) must be small.  
+
+We now give two derivations of this inequality.
+
+\subsubsection{Integral-based derivation}
+
+Assume that \(X\) is a continuous, non\,-negative random variable with probability density function \(f_X(x)\).  
+Then the expectation of \(X\) is
+\[
+\mathbb{E}[X] = \int_{0}^{\infty} x f_X(x) \, dx.
+\]
+We are interested in the event \(\{X \ge a\}\), so we consider the restricted integral
+\[
+\int_{a}^{\infty} x f_X(x) \, dx.
+\]
+Because we are integrating a non\,-negative function over a smaller region, we have
+\[
+\int_{a}^{\infty} x f_X(x) \, dx \le \int_{0}^{\infty} x f_X(x) \, dx = \mathbb{E}[X].
+\]
+On the other hand, for every \(x \ge a\) we have \(x \ge a\), so on the interval \([a,\infty)\) we obtain the pointwise inequality
+\[
+x f_X(x) \ge a f_X(x).
+\]
+Hence
+\[
+\int_{a}^{\infty} x f_X(x) \, dx
+\ge
+\int_{a}^{\infty} a f_X(x) \, dx
+=
+a \int_{a}^{\infty} f_X(x) \, dx
+=
+a \,\mathbb{P}(X \ge a).
+\]
+Combining the two inequalities yields
+\[
+a \,\mathbb{P}(X \ge a)
+\le
+\mathbb{E}[X],
+\]
+and therefore
+\[
+\mathbb{P}(X \ge a) \le \frac{\mathbb{E}[X]}{a}.
+\]
+The same argument applies in the discrete case by replacing the integral with a sum, and in full generality by using the language of expectations of non\,-negative random variables.
+
+\bigskip
+\textsc{Indicator-based derivation}
+
+We now present a more abstract derivation that does not rely on integrals or sums.  
+Fix \(a > 0\) and define a new random variable \(Y\) by
+\[
+Y =
+\begin{cases}
+0, & \text{if } X < a,\\
+a, & \text{if } X \ge a.
+\end{cases}
+\]
+By construction, \(Y\) only takes values \(0\) and \(a\).  
+We claim that
+\[
+Y \le X
+\quad\text{for all outcomes.}
+\]
+Indeed, if \(X < a\), then \(Y = 0 \le X\).  
+If \(X \ge a\), then \(Y = a \le X\).  
+Thus \(Y(\omega) \le X(\omega)\) for every outcome \(\omega\), which implies
+\[
+\mathbb{E}[Y] \le \mathbb{E}[X].
+\]
+
+On the other hand, since \(Y\) is equal to \(a\) on the event \(\{X \ge a\}\) and equal to zero otherwise, its expectation is
+\[
+\mathbb{E}[Y]
+=
+a \,\mathbb{P}(X \ge a).
+\]
+Combining the two expressions for \(\mathbb{E}[Y]\) yields
+\[
+a \,\mathbb{P}(X \ge a)
+\le
+\mathbb{E}[X],
+\]
+and therefore
+\[
+\mathbb{P}(X \ge a) \le \frac{\mathbb{E}[X]}{a},
+\]
+which is again the Markov inequality.
+
+\bigskip
+\textsc{Example: Exponential distribution}
+
+Suppose \(X\) is exponentially distributed with parameter \(\lambda = 1\).  
+Then
+\[
+\mathbb{E}[X] = 1
+\quad\text{and}\quad
+\mathbb{P}(X \ge a) = e^{-a}
+\quad\text{for } a \ge 0.
+\]
+The Markov inequality gives
+\[
+\mathbb{P}(X \ge a) \le \frac{\mathbb{E}[X]}{a} = \frac{1}{a},
+\quad a > 0.
+\]
+In this case the true tail probability \(e^{-a}\) decays exponentially in \(a\), whereas the Markov bound \(1/a\) decays only polynomially, so the bound is valid but quite loose for large \(a\).  
+This illustrates that Markov inequality often provides a conservative tail bound when limited information about the distribution is available.
+
+\bigskip
+\textsc{Example: Uniform distribution and symmetry trick}
+
+Let \(X\) be uniformly distributed on the interval \([-4,4]\).  
+The density of \(X\) is constant and equal to \(1/8\) on this interval, so the true probability of the event \(\{X \ge 3\}\) is
+\[
+\mathbb{P}(X \ge 3) = \frac{\text{length of }[3,4]}{\text{length of }[-4,4]} = \frac{1}{8}.
+\]
+
+We cannot directly apply Markov inequality to \(X\) because it takes negative values.  
+However,
+\[
+\{X \ge 3\} \subseteq \{|X| \ge 3\},
+\]
+so
+\[
+\mathbb{P}(X \ge 3) \le \mathbb{P}(|X| \ge 3).
+\]
+The random variable \(|X|\) is non\,-negative, so we can apply Markov inequality to \(|X|\).  
+The distribution of \(|X|\) is uniform on \([0,4]\), hence
+\[
+\mathbb{E}[|X|] = 2.
+\]
+Using Markov inequality with \(a = 3\) we obtain
+\[
+\mathbb{P}(|X| \ge 3) \le \frac{\mathbb{E}[|X|]}{3} = \frac{2}{3},
+\]
+and therefore
+\[
+\mathbb{P}(X \ge 3) \le \frac{2}{3}.
+\]
+This is a correct but very loose upper bound compared to the true value \(1/8\).  
+
+We can improve the bound by exploiting the symmetry of the uniform distribution on \([-4,4]\).  
+By symmetry around zero,
+\[
+\mathbb{P}(X \ge 3) = \mathbb{P}(X \le -3),
+\]
+and the event \(\{|X| \ge 3\}\) is the union of \(\{X \ge 3\}\) and \(\{X \le -3\}\), which are disjoint and have equal probability.  
+Hence
+\[
+\mathbb{P}(|X| \ge 3)
+=
+\mathbb{P}(X \ge 3) + \mathbb{P}(X \le -3)
+=
+2 \,\mathbb{P}(X \ge 3),
+\]
+so
+\[
+\mathbb{P}(X \ge 3)
+=
+\frac{1}{2}\,\mathbb{P}(|X| \ge 3)
+\le
+\frac{1}{2}\cdot \frac{2}{3}
+=
+\frac{1}{3}.
+\]
+The improved bound \(1/3\) is still loose but noticeably closer to the true value \(1/8\) than the original \(2/3\).  
+This example shows that Markov inequality can sometimes be sharpened by combining it with additional structural information, such as symmetry.
+
+
+\subsubsection{Chebyshev inequality}
+
+Let \(X\) be a random variable with finite mean \(\mu = \mathbb{E}[X]\) and variance \(\sigma^{2} = \operatorname{Var}(X)\).  
+The Chebyshev inequality states that for any \(c > 0\),
+\[
+\mathbb{P}\big(|X - \mu| \ge c\big)
+\le
+\frac{\sigma^{2}}{c^{2}}.
+\]
+This expresses the idea that if the variance \(\sigma^{2}\) is small, then the random variable \(X\) is unlikely to deviate far from its mean, and that the probability of being at distance at least \(c\) from the mean decays at least on the order of \(1/c^{2}\).  
+
+\subsubsection{Derivation from the Markov inequality}
+
+To prove Chebyshev inequality, we apply the Markov inequality to a suitable non\,-negative random variable.  
+Consider the squared deviation from the mean,
+\[
+Y = (X - \mu)^{2},
+\]
+which is always non\,-negative.  
+The event that \(|X - \mu|\) is at least \(c\) can be written in terms of \(Y\) as
+\[
+\{|X - \mu| \ge c\} = \{(X - \mu)^{2} \ge c^{2}\} = \{Y \ge c^{2}\}.
+\]
+Thus
+\[
+\mathbb{P}\big(|X - \mu| \ge c\big)
+=
+\mathbb{P}\big(Y \ge c^{2}\big).
+\]
+Since \(Y \ge 0\), we may apply the Markov inequality to \(Y\) with threshold \(a = c^{2}\),
+\[
+\mathbb{P}\big(Y \ge c^{2}\big)
+\le
+\frac{\mathbb{E}[Y]}{c^{2}}.
+\]
+But
+\[
+\mathbb{E}[Y] = \mathbb{E}\big[(X - \mu)^{2}\big] = \operatorname{Var}(X) = \sigma^{2},
+\]
+so we obtain
+\[
+\mathbb{P}\big(|X - \mu| \ge c\big)
+\le
+\frac{\sigma^{2}}{c^{2}},
+\]
+which is precisely Chebyshev inequality.  
+
+\bigskip
+\textsc{Deviation in standard deviation units}
+
+A common way to interpret Chebyshev inequality is in terms of the number of standard deviations away from the mean.  
+Let \(\sigma = \sqrt{\operatorname{Var}(X)}\) be the standard deviation of \(X\), and fix \(k > 0\).  
+We consider the event that \(X\) lies at least \(k\) standard deviations away from its mean,
+\[
+\{|X - \mu| \ge k \sigma\}.
+\]
+Applying Chebyshev inequality with \(c = k \sigma\), we obtain
+\[
+\mathbb{P}\big(|X - \mu| \ge k \sigma\big)
+\le
+\frac{\sigma^{2}}{(k \sigma)^{2}}
+=
+\frac{1}{k^{2}}.
+\]
+For example, if \(k = 3\), then
+\[
+\mathbb{P}\big(|X - \mu| \ge 3 \sigma\big) \le \frac{1}{9}.
+\]
+This bound holds for \textit{any} distribution with finite variance, regardless of its shape.  
+
+\bigskip
+\textsc{Exponential example and comparison with Markov}
+
+We now revisit the exponential example from the Markov inequality discussion.  
+Suppose that \(X\) is an exponential random variable with parameter \(1\), so that
+\[
+\mathbb{E}[X] = 1,
+\qquad
+\operatorname{Var}(X) = 1,
+\qquad
+\sigma = 1.
+\]
+We are interested in bounding the probability
+\[
+\mathbb{P}(X \ge a),
+\]
+where \(a > 1\).  
+
+First, recall the Markov inequality bound for this probability.  
+Writing
+\[
+\mathbb{P}(X \ge a)
+\le
+\frac{\mathbb{E}[X]}{a}
+=
+\frac{1}{a},
+\]
+we see that Markov inequality gives a tail bound that decays like \(1/a\).  
+
+We now use Chebyshev inequality to obtain a different bound.  
+Since \(\mu = 1\), the event \(\{X \ge a\}\) corresponds to being at least a distance \(a - 1\) above the mean:
+\[
+\{X \ge a\}
+=
+\{X - \mu \ge a - 1\}.
+\]
+Therefore,
+\[
+\{X \ge a\}
+\subseteq
+\{|X - \mu| \ge a - 1\},
+\]
+and hence
+\[
+\mathbb{P}(X \ge a)
+\le
+\mathbb{P}\big(|X - \mu| \ge a - 1\big).
+\]
+Applying Chebyshev inequality with \(c = a - 1\), we obtain
+\[
+\mathbb{P}\big(|X - \mu| \ge a - 1\big)
+\le
+\frac{\sigma^{2}}{(a - 1)^{2}}
+=
+\frac{1}{(a - 1)^{2}}.
+\]
+Thus
+\[
+\mathbb{P}(X \ge a)
+\le
+\frac{1}{(a - 1)^{2}},
+\qquad a > 1.
+\]
+
+For large \(a\), the Markov bound behaves like \(1/a\), while the Chebyshev bound behaves like \(1/a^{2}\).  
+Since \(1/a^{2}\) tends to zero faster than \(1/a\), the Chebyshev inequality gives a smaller and therefore more informative upper bound in the tail for large \(a\).  
+
+This improvement reflects the fact that Chebyshev inequality uses more information about the distribution of \(X\): it depends not only on the mean \(\mu\) but also on the variance \(\sigma^{2}\).
+
+
+\subsubsection{Weak law of large numbers}
+
+Let \(X_{1}, X_{2}, \dots, X_{n}\) be independent and identically distributed random variables drawn from a common distribution with finite mean \(\mu = \mathbb{E}[X_i]\) and finite variance \(\sigma^{2} = \operatorname{Var}(X_i)\).  
+We define the sample mean
+\[
+\overline{X}_{n}
+=
+\frac{1}{n} \sum_{i=1}^{n} X_i.
+\]
+The sample mean \(\overline{X}_{n}\) is itself a random variable, since it is a function of the random variables \(X_1,\dots,X_n\).  
+It is important to distinguish it from the true mean \(\mu\), which is a fixed number determined by the underlying distribution.  
+
+We begin by computing the expectation of the sample mean.  
+Using linearity of expectation,
+\[
+\mathbb{E}[\overline{X}_{n}]
+=
+\mathbb{E}\Bigg[\frac{1}{n} \sum_{i=1}^{n} X_i\Bigg]
+=
+\frac{1}{n}\sum_{i=1}^{n} \mathbb{E}[X_i]
+=
+\frac{1}{n}\sum_{i=1}^{n} \mu
+=
+\frac{n\mu}{n}
+=
+\mu.
+\]
+Thus, the expected value of the sample mean is equal to the true mean, so \(\overline{X}_{n}\) is an \textit{unbiased} estimator of \(\mu\).  
+
+Next, we compute the variance of the sample mean.  
+Recall that for a constant \(a\) and a random variable \(Z\),
+\[
+\operatorname{Var}(a Z)
+=
+a^{2}\operatorname{Var}(Z).
+\]
+We have
+\[
+\operatorname{Var}(\overline{X}_{n})
+=
+\operatorname{Var}\Bigg(\frac{1}{n} \sum_{i=1}^{n} X_i\Bigg)
+=
+\frac{1}{n^{2}} \operatorname{Var}\Bigg(\sum_{i=1}^{n} X_i\Bigg).
+\]
+Because the \(X_i\) are independent, the variance of their sum is the sum of their variances,
+\[
+\operatorname{Var}\Bigg(\sum_{i=1}^{n} X_i\Bigg)
+=
+\sum_{i=1}^{n} \operatorname{Var}(X_i)
+=
+\sum_{i=1}^{n} \sigma^{2}
+=
+n \sigma^{2}.
+\]
+Therefore,
+\[
+\operatorname{Var}(\overline{X}_{n})
+=
+\frac{1}{n^{2}} \cdot n \sigma^{2}
+=
+\frac{\sigma^{2}}{n}.
+\]
+As \(n\) increases, the variance of the sample mean decreases proportionally to \(1/n\), which means that the distribution of \(\overline{X}_{n}\) becomes more and more concentrated around \(\mu\).  
+
+We now apply Chebyshev inequality to the random variable \(\overline{X}_{n}\).  
+For any \(\varepsilon > 0\), Chebyshev inequality tells us that
+\[
+\mathbb{P}\big(|\overline{X}_{n} - \mathbb{E}[\overline{X}_{n}]| \ge \varepsilon\big)
+\le
+\frac{\operatorname{Var}(\overline{X}_{n})}{\varepsilon^{2}}.
+\]
+Using \(\mathbb{E}[\overline{X}_{n}] = \mu\) and \(\operatorname{Var}(\overline{X}_{n}) = \sigma^{2}/n\), we obtain
+\[
+\mathbb{P}\big(|\overline{X}_{n} - \mu| \ge \varepsilon\big)
+\le
+\frac{\sigma^{2}/n}{\varepsilon^{2}}
+=
+\frac{\sigma^{2}}{n \varepsilon^{2}}.
+\]
+For fixed \(\varepsilon > 0\), as \(n \to \infty\) the right-hand side converges to zero,
+\[
+\lim_{n \to \infty} \frac{\sigma^{2}}{n \varepsilon^{2}} = 0.
+\]
+Hence
+\[
+\lim_{n \to \infty} \mathbb{P}\big(|\overline{X}_{n} - \mu| \ge \varepsilon\big) = 0.
+\]
+This statement is the \textit{weak law of large numbers}: for any fixed tolerance \(\varepsilon > 0\), the probability that the sample mean differs from the true mean by more than \(\varepsilon\) goes to zero as the number of samples \(n\) grows.  
+
+Equivalently, we can rewrite the inequality in a more suggestive form.  
+For each \(n\),
+\[
+\mathbb{P}\big(|\overline{X}_{n} - \mu| < \varepsilon\big)
+=
+1 - \mathbb{P}\big(|\overline{X}_{n} - \mu| \ge \varepsilon\big)
+\ge
+1 - \frac{\sigma^{2}}{n \varepsilon^{2}}.
+\]
+Taking limits as \(n \to \infty\), we obtain
+\[
+\lim_{n \to \infty} \mathbb{P}\big(|\overline{X}_{n} - \mu| < \varepsilon\big)
+=
+1,
+\]
+which says that the sample mean \(\overline{X}_{n}\) converges in probability to the true mean \(\mu\).  
+
+\bigskip
+\textsc{Interpretation and Bernoulli model}
+
+We can interpret the weak law of large numbers in terms of measurement and noise.  
+Each observation \(X_i\) can be decomposed as
+\[
+X_i = \mu + W_i,
+\]
+where \(W_i\) represents the random \textit{noise} in the \(i\)-th measurement, with \(\mathbb{E}[W_i] = 0\) and \(\operatorname{Var}(W_i) = \sigma^{2}\).  
+The sample mean becomes
+\[
+\overline{X}_{n}
+=
+\frac{1}{n} \sum_{i=1}^{n} X_i
+=
+\frac{1}{n} \sum_{i=1}^{n} (\mu + W_i)
+=
+\mu + \frac{1}{n} \sum_{i=1}^{n} W_i.
+\]
+The average of the noise terms, \(\frac{1}{n}\sum_{i=1}^{n} W_i\), has mean zero and variance \(\sigma^{2}/n\), so as \(n\) grows these fluctuations become smaller and the sample mean \(\overline{X}_{n}\) becomes increasingly close to \(\mu\) with high probability.  
+
+A particularly important special case is the Bernoulli model for repeated experiments.  
+Suppose we repeat the same experiment \(n\) times, and let \(A\) be an event with probability \(\mathbb{P}(A) = p\).  
+For each trial \(i\), define the indicator random variable
+\[
+X_i
+=
+\begin{cases}
+1, & \text{if event } A \text{ occurs on trial } i,\\
+0, & \text{otherwise.}
+\end{cases}
+\]
+Then \(\mathbb{E}[X_i] = p\), and the sample mean
+\[
+\overline{X}_{n}
+=
+\frac{1}{n}\sum_{i=1}^{n} X_i
+\]
+is the \textit{empirical frequency} of event \(A\), that is, the fraction of trials on which \(A\) occurs.  
+By the weak law of large numbers, for any \(\varepsilon > 0\),
+\[
+\lim_{n \to \infty} \mathbb{P}\big(|\overline{X}_{n} - p| \ge \varepsilon\big) = 0,
+\]
+which means that the empirical frequency of event \(A\) will be close to its probability \(p\) with high probability when the number of trials is large.  
+In this sense, the weak law of large numbers formalizes and justifies the interpretation of probabilities as long-run relative frequencies.
+
+
+\subsubsection{Polling and the weak law of large numbers}
+
+Consider a referendum in which each voter intends either to vote \textit{yes} or \textit{no}.  
+Let \(p\) denote the (unknown) fraction of the population that intends to vote \textit{yes}.  
+
+We model a poll as follows.  
+We select \(n\) individuals independently and uniformly at random from the population, and for each person \(i\) we define a Bernoulli random variable
+\[
+X_i
+=
+\begin{cases}
+1, & \text{if person } i \text{ intends to vote yes},\\
+0, & \text{if person } i \text{ intends to vote no}.
+\end{cases}
+\]
+Then
+\[
+\mathbb{P}(X_i = 1) = p,
+\qquad
+\mathbb{P}(X_i = 0) = 1 - p.
+\]
+Hence
+\[
+\mathbb{E}[X_i] = p,
+\qquad
+\operatorname{Var}(X_i) = p(1-p).
+\]
+
+The empirical fraction of \textit{yes} answers in the poll is the sample mean
+\[
+\overline{X}_n
+=
+\frac{1}{n} \sum_{i=1}^{n} X_i.
+\]
+This is a natural estimator for the unknown parameter \(p\).  
+Using the general formulas from the weak law of large numbers, we have
+\[
+\mathbb{E}[\overline{X}_n] = p,
+\qquad
+\operatorname{Var}(\overline{X}_n) = \frac{p(1-p)}{n}.
+\]
+
+Suppose we want to understand how accurate the poll is as an estimator of \(p\).  
+Fix an accuracy level \(\varepsilon > 0\), for example \(\varepsilon = 0.01\) corresponding to \(\pm 1\) percentage point.  
+We are interested in the probability that the estimation error exceeds \(\varepsilon\),
+\[
+\mathbb{P}\big(|\overline{X}_n - p| \ge \varepsilon\big).
+\]
+By Chebyshev inequality applied to \(\overline{X}_n\), we have
+\[
+\mathbb{P}\big(|\overline{X}_n - p| \ge \varepsilon\big)
+\le
+\frac{\operatorname{Var}(\overline{X}_n)}{\varepsilon^{2}}
+=
+\frac{p(1-p)}{n \varepsilon^{2}}.
+\]
+
+\bigskip
+\textsc{Bounding the variance without knowing \(p\)}
+
+The bound above still depends on the unknown parameter \(p\).  
+However, the variance of a Bernoulli random variable is maximized at \(p = 1/2\).  
+Indeed, the function \(p(1-p)\) is a concave parabola on \([0,1]\) with maximum
+\[
+p(1-p) \le \frac{1}{4}
+\quad
+\text{for all } p \in [0,1].
+\]
+Therefore
+\[
+\mathbb{P}\big(|\overline{X}_n - p| \ge \varepsilon\big)
+\le
+\frac{1}{4 n \varepsilon^{2}}.
+\]
+This gives a worst-case bound that does not require knowledge of \(p\).  
+
+Now take \(\varepsilon = 0.01\) (one percentage point) and \(n = 10{,}000\).  
+Then
+\[
+\varepsilon^{2} = 10^{-4},
+\quad
+n \varepsilon^{2} = 10{,}000 \cdot 10^{-4} = 1,
+\]
+so
+\[
+\mathbb{P}\big(|\overline{X}_{10000} - p| \ge 0.01\big)
+\le
+\frac{1}{4}.
+\]
+Thus, with a sample size of \(10{,}000\), the probability that the poll is off by more than \(1\) percentage point is at most \(25\%\) according to this Chebyshev-based bound.  
+Equivalently,
+\[
+\mathbb{P}\big(|\overline{X}_{10000} - p| < 0.01\big)
+\ge
+1 - \frac{1}{4}
+=
+\frac{3}{4},
+\]
+so the confidence level is at least \(75\%\).  
+
+\bigskip
+\textsc{Choosing the sample size for a desired accuracy and confidence}
+
+Suppose now that we want to design the poll so that the probability of a large error is at most some target \(\delta\), for a given accuracy \(\varepsilon\).  
+Starting from
+\[
+\mathbb{P}\big(|\overline{X}_n - p| \ge \varepsilon\big)
+\le
+\frac{1}{4 n \varepsilon^{2}},
+\]
+it is enough to choose \(n\) such that
+\[
+\frac{1}{4 n \varepsilon^{2}} \le \delta.
+\]
+Solving for \(n\), we get
+\[
+n
+\ge
+\frac{1}{4 \delta \varepsilon^{2}}.
+\]
+
+In the numerical example from the video, we take
+\[
+\varepsilon = 0.01,
+\qquad
+\delta = 0.05.
+\]
+Then
+\[
+\varepsilon^{2} = 10^{-4},
+\quad
+4 \delta \varepsilon^{2}
+=
+4 \cdot 0.05 \cdot 10^{-4}
+=
+0.2 \cdot 10^{-4}
+=
+2 \cdot 10^{-5},
+\]
+so
+\[
+n
+\ge
+\frac{1}{2 \cdot 10^{-5}}
+=
+\frac{10^{5}}{2}
+=
+50{,}000.
+\]
+Thus, taking
+\[
+n = 50{,}000
+\]
+is sufficient to ensure that
+\[
+\mathbb{P}\big(|\overline{X}_n - p| \ge 0.01\big)
+\le
+0.05,
+\]
+that is, the probability that the estimation error exceeds one percentage point is at most \(5\%\).  
+
+The poll specifications involve two parameters.  
+\textit{Accuracy} is determined by \(\varepsilon\), the allowed absolute error in estimating \(p\).  
+\textit{Confidence} is determined by \(1 - \delta\), the probability with which the error is guaranteed to be within \(\varepsilon\).  
+Using the Chebyshev bound, we see that achieving higher accuracy (smaller \(\varepsilon\)) or higher confidence (smaller \(\delta\)) requires a larger sample size \(n\).  
+
+In practice, the Chebyshev-based sample sizes are quite conservative because Chebyshev inequality is not very tight.  
+Real-world polling often uses more refined approximations (for example, based on the normal distribution and the central limit theorem), which yield substantially smaller required sample sizes for the same nominal accuracy and confidence levels.
+
+\subsubsection{Convergence in probability}
+
+Let \(\{Y_n\}_{n \ge 1}\) be a sequence of random variables (not necessarily independent) and let \(a\) be a real number.  
+We say that \(Y_n\) \textit{converges in probability} to \(a\) if, for every \(\varepsilon > 0\),
+\[
+\lim_{n \to \infty} \mathbb{P}\big(|Y_n - a| \ge \varepsilon\big) = 0.
+\]
+Equivalently, for every fixed \(\varepsilon > 0\), the probability that \(Y_n\) lies within the band \((a - \varepsilon, a + \varepsilon)\) tends to \(1\) as \(n\) increases.  
+
+In terms of the weak law of large numbers, if \(\overline{X}_n\) is the sample mean of i.i.d.\ random variables with mean \(\mu\), then
+\[
+\lim_{n \to \infty} \mathbb{P}\big(|\overline{X}_n - \mu| \ge \varepsilon\big) = 0
+\quad\text{for all } \varepsilon > 0,
+\]
+so \(\overline{X}_n\) converges in probability to \(\mu\).  
+
+\subsubsection{Comparison with convergence of numbers}
+
+For sequences of real numbers \(\{x_n\}\), the statement \(x_n \to a\) means that for every \(\varepsilon > 0\) there exists an index \(n_0\) such that for all \(n \ge n_0\),
+\[
+|x_n - a| < \varepsilon.
+\]
+Geometrically, if we draw a band \((a - \varepsilon, a + \varepsilon)\) around the limit \(a\), then beyond some index \(n_0\) all terms \(x_n\) stay inside this band.  
+
+In the random-variable setting, for each \(n\) the quantity \(Y_n\) is not a fixed number but a random outcome.  
+Instead of requiring that \(Y_n\) always lies inside the band, we require that the \textit{probability} of being outside the band becomes arbitrarily small as \(n\) grows.  
+In other words, for large \(n\), almost all of the probability mass of \(Y_n\) is concentrated inside any prescribed band around the limit \(a\).  
+
+\bigskip
+\textsc{Intuitive picture}
+
+Fix \(\varepsilon > 0\), and consider the interval \((a - \varepsilon, a + \varepsilon)\).  
+For each \(n\), the distribution of \(Y_n\) may place some probability mass outside this band.  
+Convergence in probability requires that
+\[
+\mathbb{P}\big(|Y_n - a| \ge \varepsilon\big)
+\]
+become smaller and smaller as \(n\) increases, eventually getting arbitrarily close to zero.  
+
+Equivalently, if we draw the probability density (or mass function) of \(Y_n\), then as \(n\) grows, the bulk of that distribution must migrate into the band around \(a\), leaving only a vanishingly small tail outside.  
+This must happen for \textit{every} choice of \(\varepsilon > 0\), no matter how small, although for smaller \(\varepsilon\) we may need to go to larger \(n\) to see this concentration.  
+
+\bigskip
+\textsc{Basic properties}
+
+Convergence in probability behaves similarly to ordinary convergence of numbers in many respects.  
+Suppose that \(X_n \to a\) in probability and \(Y_n \to b\) in probability, where \(a\) and \(b\) are constants.  
+
+First, if \(g\) is a continuous function, then
+\[
+X_n \to a \text{ in probability}
+\quad\Longrightarrow\quad
+g(X_n) \to g(a) \text{ in probability}.
+\]
+For example, if \(g(x) = x^{2}\), then \(X_n^{2}\) converges in probability to \(a^{2}\).  
+
+Second, sums behave well under convergence in probability.  
+If \(X_n \to a\) in probability and \(Y_n \to b\) in probability, then
+\[
+X_n + Y_n \to a + b \text{ in probability}.
+\]
+These properties are direct analogues of the familiar facts for deterministic sequences.  
+
+However, there is an important caveat.  
+If \(X_n\) converges in probability to some number \(a\), it does \textit{not} necessarily follow that \(\mathbb{E}[X_n]\) converges to \(a\).  
+Convergence in probability is a statement about the distributions of \(X_n\) concentrating near \(a\), but it does not by itself guarantee convergence of expectations, and additional conditions are often required to relate the two.
+
+\subsubsection{Related topics: stronger inequalities and modes of convergence}
+
+The tools developed so far, such as Markov and Chebyshev inequalities and convergence in probability, can be extended in several directions.  
+We briefly discuss stronger tail bounds and other notions of convergence for random variables.  
+
+\bigskip
+\textsc{Sharper tail bounds: Chernoff and the central limit theorem}
+
+One limitation of Markov and Chebyshev inequalities is that they often produce loose bounds on tail probabilities, and these bounds typically decay only on the order of \(1/n\) as the number of samples \(n\) increases.  
+For example, Chebyshev inequality tells us that for the sample mean \(\overline{X}_n\) of i.i.d.\ random variables with mean \(\mu\) and variance \(\sigma^{2}\),
+\[
+\mathbb{P}\big(|\overline{X}_n - \mu| \ge a\big)
+\le
+\frac{\sigma^{2}}{n a^{2}},
+\]
+so the upper bound decreases like \(1/n\).  
+
+Under additional assumptions, one can obtain much stronger, exponentially decaying bounds.  
+Chernoff bounds are a family of inequalities that state that for suitable random variables (for example, sums of bounded or sub\,-Gaussian i.i.d.\ random variables),
+\[
+\mathbb{P}\big(|\overline{X}_n - \mu| \ge a\big)
+\le
+\exp\big(-c(a)\,n\big),
+\]
+where \(c(a) > 0\) depends on \(a\) and on the underlying distribution.  
+Because the right-hand side decays exponentially fast in \(n\), these bounds can show that large deviations of the sample mean are far less likely than Chebyshev inequality suggests.  
+
+Another type of approximation for tail probabilities is provided by the central limit theorem.  
+Very loosely, the central limit theorem says that, under mild conditions, the sample mean \(\overline{X}_n\) behaves approximately like a normal random variable with the same mean and variance as \(\overline{X}_n\).  
+Concretely, after centering at \(\mu\) and scaling by \(\sigma/\sqrt{n}\), the resulting normalized sample mean has a distribution that approaches the standard normal distribution as \(n\) becomes large.  
+This allows us to approximate probabilities involving \(\overline{X}_n\) using the normal distribution, leading to more accurate estimates than those given by Chebyshev inequality.  
+
+\bigskip
+\textsc{Almost sure convergence and the strong law}
+
+Convergence in probability is not the only way in which random variables can converge.  
+Another important notion is \textit{convergence with probability one}, also called \textit{almost sure convergence}.  
+
+Let \(\{Y_n\}\) be a sequence of random variables defined on a common probability space, and let \(Y\) be another random variable.  
+We say that \(Y_n\) converges to \(Y\) \textit{with probability one} if
+\[
+\mathbb{P}\Big(\big\{\omega : \lim_{n \to \infty} Y_n(\omega) = Y(\omega)\big\}\Big) = 1.
+\]
+In words, for almost every outcome \(\omega\) of the underlying experiment, the sequence of real numbers \(Y_1(\omega), Y_2(\omega), \dots\) converges to the real number \(Y(\omega)\).  
+Convergence with probability one is a stronger requirement than convergence in probability: whenever \(Y_n\) converges to \(Y\) with probability one, it also converges to \(Y\) in probability.  
+
+The law of large numbers also holds under this stronger notion of convergence.  
+Specifically, the \textit{strong law of large numbers} states that for a sequence of i.i.d.\ random variables with finite mean \(\mu\), the sample mean \(\overline{X}_n\) converges to \(\mu\) with probability one.  
+Because almost sure convergence is more demanding than convergence in probability, this result is called the strong law of large numbers.  
+
+\bigskip
+\textsc{Convergence in distribution}
+
+A third notion of convergence concerns the distributions of random variables rather than their pointwise behavior.  
+Let \(\{X_n\}\) be a sequence of random variables with cumulative distribution functions (CDFs) \(F_{X_n}\), and let \(X\) be a random variable with CDF \(F_X\).  
+We say that \(X_n\) \textit{converges in distribution} to \(X\) if, for all points \(x\) at which \(F_X\) is continuous,
+\[
+\lim_{n \to \infty} F_{X_n}(x) = F_X(x).
+\]
+This means that the distributions of the \(X_n\) approach the distribution of \(X\) in the sense that their CDFs converge pointwise at continuity points of the limiting CDF.  
+
+Convergence in distribution is weaker than convergence in probability: if \(X_n\) converges to \(X\) in probability, then it also converges to \(X\) in distribution, but not conversely in general.  
+This type of convergence is central in the central limit theorem, where the statement is that the distribution of the appropriately normalized sample mean converges to the standard normal distribution.
