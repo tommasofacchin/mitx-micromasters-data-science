@@ -770,3 +770,699 @@ This means that the distributions of the \(X_n\) approach the distribution of \(
 
 Convergence in distribution is weaker than convergence in probability: if \(X_n\) converges to \(X\) in probability, then it also converges to \(X\) in distribution, but not conversely in general.  
 This type of convergence is central in the central limit theorem, where the statement is that the distribution of the appropriately normalized sample mean converges to the standard normal distribution.
+
+
+
+\subsubsection{Sums and averages of i.i.d.\ random variables}
+
+Let \(X_1, X_2, \ldots, X_n\) be independent and identically distributed random variables with common mean \(\mu\) and variance \(\sigma^2\).  
+Define the sum
+\[
+S_n = \sum_{i=1}^{n} X_i
+\]
+and the sample mean
+\[
+\overline{X}_n = \frac{1}{n}\sum_{i=1}^{n} X_i.
+\]
+
+By linearity of expectation,
+\[
+\mathbb{E}[S_n] = \sum_{i=1}^{n} \mathbb{E}[X_i] = n\mu
+\]
+and
+\[
+\mathbb{E}[\overline{X}_n] = \mathbb{E}\Big[\frac{1}{n}\sum_{i=1}^{n} X_i\Big] = \frac{1}{n}\sum_{i=1}^{n} \mathbb{E}[X_i] = \mu.
+\]
+Thus the expected value of the sum grows linearly with \(n\) while the sample mean keeps the same expectation \(\mu\).
+
+For the variances, independence implies that the covariance terms vanish and the variances add up.  
+Therefore,
+\[
+\operatorname{Var}(S_n)
+=
+\sum_{i=1}^{n} \operatorname{Var}(X_i)
+=
+n\sigma^2
+\]
+and
+\[
+\operatorname{Var}(\overline{X}_n)
+=
+\operatorname{Var}\Big(\frac{1}{n}\sum_{i=1}^{n} X_i\Big)
+=
+\frac{1}{n^2}\operatorname{Var}\Big(\sum_{i=1}^{n} X_i\Big)
+=
+\frac{1}{n^2}\,n\sigma^2
+=
+\frac{\sigma^2}{n}.
+\]
+Hence the standard deviation of the sum is \(\sqrt{n}\sigma\) while the standard deviation of the sample mean is \(\sigma/\sqrt{n}\).
+
+\bigskip
+\textsc{Three ways to scale the sum}
+
+The same underlying random variables can be viewed in three different ways.  
+Each view corresponds to a different scaling of the sum and leads to a different limiting behavior as \(n\) becomes large.
+
+\textit{1.\ The raw sum}.  
+Consider the unscaled sum \(S_n\).  
+Its variance is \(n\sigma^2\) and its standard deviation is \(\sqrt{n}\sigma\).  
+As \(n\) increases, the distribution of \(S_n\) spreads out more and more.  
+If the \(X_i\) take values in some fixed interval, say between \(-1\) and \(1\), then \(S_n\) takes values between \(-n\) and \(n\) and this range grows linearly with \(n\).  
+Thus, in this picture, the total variability increases without bound.
+
+\textit{2.\ The sample mean}.  
+Now consider the sample mean \(\overline{X}_n = S_n/n\).  
+Its variance is \(\sigma^2/n\) and its standard deviation is \(\sigma/\sqrt{n}\).  
+As \(n\) grows, the distribution of \(\overline{X}_n\) becomes more and more concentrated around \(\mu\).  
+In fact, the variance tends to zero and \(\overline{X}_n\) converges in probability to \(\mu\) by the weak law of large numbers.  
+The limiting distribution in this scaling is degenerate: all the probability mass accumulates at the single point \(\mu\).
+
+\textit{3.\ The centered and \(\sqrt{n}\)-scaled sum}.  
+Between these two extremes, there is a more interesting normalization obtained by centering the sum by its mean and scaling by \(\sqrt{n}\).  
+Define
+\[
+T_n
+=
+\frac{S_n - n\mu}{\sqrt{n}}.
+\]
+The expectation of \(T_n\) is zero and the variance is
+\[
+\operatorname{Var}(T_n)
+=
+\frac{1}{n}\operatorname{Var}(S_n)
+=
+\frac{1}{n}\,n\sigma^2
+=
+\sigma^2.
+\]
+Thus the distribution of \(T_n\) stays centered at zero and its spread, as measured by the variance, remains constant as \(n\) increases.  
+The detailed shape of the distribution may change with \(n\), but its location and overall width do not blow up or collapse.
+
+\bigskip
+\textsc{From sums to standardized sums}
+
+The normalization in terms of \(T_n\) can be pushed one step further by scaling also by the standard deviation \(\sigma\).  
+Assuming \(\sigma > 0\), define the standardized sum
+\[
+Z_n
+=
+\frac{S_n - n\mu}{\sqrt{n}\,\sigma}.
+\]
+Equivalently, since \(\overline{X}_n = S_n/n\), we can write
+\[
+Z_n
+=
+\frac{\overline{X}_n - \mu}{\sigma/\sqrt{n}}.
+\]
+By construction, the random variable \(Z_n\) has mean \(0\) and variance \(1\).  
+Its distribution is centered at zero, it does not drift as \(n\) changes, and its spread remains fixed at unit variance.  
+The question is whether there is a limiting shape for the distribution of \(Z_n\) as \(n\) tends to infinity, and if so, what that shape is.
+
+\bigskip
+\textsc{Statement of the Central Limit Theorem}
+
+The Central Limit Theorem (CLT) answers this question.  
+Under the assumptions above, it asserts that the standardized sum \(Z_n\) converges in distribution to a standard normal random variable.  
+Formally, if \(X_1, X_2, \ldots, X_n\) are i.i.d.\ with mean \(\mu\) and variance \(\sigma^2\) where \(0 < \sigma^2 < \infty\), then for every real number \(z\),
+\[
+\lim_{n \to \infty} \mathbb{P}(Z_n \leq z)
+=
+\Phi(z),
+\]
+where \(\Phi\) is the cumulative distribution function of a standard normal random variable.  
+In words, for large \(n\) the distribution of \(Z_n\) is approximately standard normal.
+
+The CLT provides a powerful approximation tool.  
+When \(n\) is large, probabilities involving sums or averages of i.i.d.\ random variables can be approximated using the normal distribution.  
+For example, to approximate
+\[
+\mathbb{P}(a \leq S_n \leq b),
+\]
+we rewrite this probability in terms of \(Z_n\).  
+Specifically,
+\[
+\mathbb{P}(a \leq S_n \leq b)
+=
+\mathbb{P}\Big(\frac{a - n\mu}{\sqrt{n}\,\sigma} \leq Z_n \leq \frac{b - n\mu}{\sqrt{n}\,\sigma}\Big),
+\]
+and for large \(n\) this is approximately
+\[
+\Phi\Big(\frac{b - n\mu}{\sqrt{n}\,\sigma}\Big)
+-
+\Phi\Big(\frac{a - n\mu}{\sqrt{n}\,\sigma}\Big).
+\]
+The approximation improves as the sample size \(n\) increases, provided that the underlying distribution of the \(X_i\) has finite variance and is not too heavy-tailed.
+
+\bigskip
+\textsc{Interpretation and relation to the law of large numbers}
+
+The law of large numbers and the central limit theorem describe complementary aspects of the behavior of sums of i.i.d.\ random variables.  
+The weak law of large numbers states that \(\overline{X}_n\) converges in probability to \(\mu\).  
+Equivalently, for any \(\varepsilon > 0\),
+\[
+\lim_{n \to \infty} \mathbb{P}\big(|\overline{X}_n - \mu| > \varepsilon\big) = 0.
+\]
+This tells us that for large \(n\), \(\overline{X}_n\) is very likely to be close to \(\mu\), but it does not describe the detailed shape of the distribution of the fluctuations around \(\mu\).
+
+The central limit theorem refines this picture by zooming in on fluctuations of order \(1/\sqrt{n}\) around the mean.  
+By considering the scaled variable
+\[
+\frac{\overline{X}_n - \mu}{\sigma/\sqrt{n}},
+\]
+the CLT tells us that these normalized fluctuations converge in distribution to a standard normal random variable.  
+Thus, while the law of large numbers gives a qualitative statement about convergence to a constant, the CLT gives a quantitative description of how the distribution concentrates and what the limiting shape of that concentration is.
+
+Together, these results explain why the normal distribution appears so frequently when dealing with sums, averages, and aggregate quantities built from many small, independent contributions.
+
+
+\subsubsection{Discussion of the Central Limit Theorem}
+
+The central limit theorem is a deep and highly nonintuitive result.  
+At first sight, there is no obvious reason why a standardized sum of many random variables should have an approximately normal distribution.  
+What makes the theorem especially remarkable is its \textit{universality}.  
+In its classical form, it does not require us to know the full distribution of the individual \(X_i\).  
+As long as the \(X_i\) are i.i.d.\ with finite mean \(\mu\) and variance \(\sigma^2\), the standardized sum behaves, for large \(n\), like a normal random variable.  
+When applying the theorem in practice, the only properties of the underlying distribution that we actually need are the mean and variance.
+
+From a computational point of view, the CLT is an extremely convenient shortcut.  
+Even if we know the exact distribution of each \(X_i\), computing the distribution of \(S_n\) exactly would involve convolving that distribution with itself \(n\) times, which quickly becomes intractable as \(n\) grows.  
+In contrast, using the CLT reduces the calculation to a normal approximation, which involves only standard normal tables or built-in functions.  
+Despite being an approximation, the CLT is typically very accurate for reasonably large \(n\), as numerous examples show.
+
+On a more philosophical level, the CLT explains why models based on normal random variables are so natural.  
+Many real-world quantities are affected by the combined influence of many small, independent noise sources.  
+Each individual noise source may be far from normal, but their cumulative effect is well modeled by a normal random variable.  
+This explains the ubiquity of the normal distribution across very different fields and applications, from physics and engineering to finance and biology.
+
+\bigskip
+\textsc{What the CLT actually says}
+
+The mathematical content of the CLT is a statement about convergence of distribution functions.  
+We consider the standardized sum
+\[
+Z_n
+=
+\frac{S_n - n\mu}{\sqrt{n}\,\sigma},
+\]
+where \(S_n = X_1 + \cdots + X_n\).  
+The theorem states that for every real number \(z\),
+\[
+\lim_{n \to \infty} \mathbb{P}(Z_n \leq z)
+=
+\Phi(z),
+\]
+where \(\Phi\) is the CDF of a standard normal random variable.  
+Equivalently, the CDF of \(Z_n\) converges pointwise (at all continuity points of \(\Phi\)) to the CDF of a standard normal random variable.
+
+It is important to notice what the theorem \textit{does not} say.  
+The basic statement is about CDFs and does not itself assert convergence of PDFs or PMFs.  
+If the \(X_i\) are continuous, so that \(Z_n\) has a PDF \(f_{Z_n}\), one might ask whether \(f_{Z_n}\) converges to the standard normal density.  
+Such results do exist, but they require additional regularity assumptions on the distribution of the \(X_i\).  
+In practice, however, it is common and convenient to visualize the CLT through plots of PDFs or histograms, even though the underlying theorem is formulated at the level of CDFs.
+
+\bigskip
+\textsc{Generalizations beyond the i.i.d.\ case}
+
+The classical CLT assumes that the \(X_i\) are independent and identically distributed with finite variance.  
+It is natural to ask how far these assumptions can be relaxed.  
+There are versions of the CLT that apply when the \(X_i\) are not identically distributed.  
+In such cases, one typically requires conditions on the sequence of means and variances, such as Lindeberg or Lyapunov conditions, that prevent a small number of terms from dominating the sum.  
+Under suitable assumptions, a suitably standardized sum still converges in distribution to a normal random variable.
+
+The assumption of complete independence can also be weakened.  
+There are central limit theorems for sequences with \textit{weak dependence}, where random variables that are far apart in the index are nearly independent, even though nearby ones may be correlated.  
+In many time series or spatial processes, this type of weak dependence is a more realistic assumption than exact independence.  
+Under appropriate mixing or dependence conditions, one can still obtain a CLT for partial sums.
+
+Finally, one may ask how the theorem is proved.  
+For simple special cases, such as sums of Bernoulli random variables (leading to binomial distributions), the CLT can be derived by careful manipulations of binomial coefficients and limits.  
+However, such derivations do not extend to general distributions.  
+The modern general proofs rely on transform methods: one studies expectations of the form \(\mathbb{E}[e^{s Z_n}]\) (moment generating functions) or \(\mathbb{E}[e^{it Z_n}]\) (characteristic functions) and shows that they converge to the corresponding quantity for the standard normal.  
+Deep results from analysis then imply that convergence of these transforms entails convergence of the associated CDFs.
+
+\bigskip
+\textsc{Practical use of the CLT}
+
+From a practical standpoint, the CLT allows us to treat the standardized sum \(Z_n\) as if it were exactly standard normal when \(n\) is large.  
+Recalling the definition,
+\[
+Z_n
+=
+\frac{S_n - n\mu}{\sqrt{n}\,\sigma},
+\]
+we can solve for \(S_n\) to obtain
+\[
+S_n
+=
+n\mu + \sqrt{n}\,\sigma\,Z_n.
+\]
+Thus \(S_n\) is an affine (linear plus constant) function of \(Z_n\).  
+If we approximate \(Z_n\) as standard normal, then \(S_n\) is approximated as normal with mean \(n\mu\) and variance \(n\sigma^2\).  
+In practice, we therefore often proceed by simply assuming that \(S_n \sim \mathcal{N}(n\mu, n\sigma^2)\) when \(n\) is large enough.
+
+This approximation is surprisingly good even for moderate values of \(n\).  
+Values of \(n\) on the order of \(30\) can already yield useful accuracy, though the precise quality of the approximation depends on the distribution of the individual \(X_i\).  
+If the \(X_i\) are themselves normal, then \(S_n\) is exactly normal for all \(n\), and no approximation is involved.  
+If the \(X_i\) have distributions that are roughly symmetric around their mean and unimodal (a single peak), then the CLT approximation tends to become accurate for smaller \(n\).  
+On the other hand, very heavy tails, strong skewness, or multimodality can slow down the convergence to the normal shape and may require larger sample sizes before the approximation is reliable.
+
+\subsubsection{Illustration of the Central Limit Theorem}
+
+We now look at numerical examples that illustrate how the central limit theorem behaves in practice.  
+Consider first a discrete random variable that is uniformly distributed on the set \(\{1,2,\ldots,8\}\).  
+Let \(X_1, X_2, \ldots\) be i.i.d.\ with this distribution and consider the sum
+\[
+S_n = X_1 + X_2 + \cdots + X_n.
+\]
+
+For \(n = 2\), the PMF of \(S_2\) is the convolution of the PMF of \(X_1\) with itself and can be computed explicitly by hand.  
+The resulting PMF has a triangular shape: small probabilities at the extremes and larger probabilities near the middle.  
+As \(n\) increases, we repeatedly convolve the original PMF with itself.  
+For \(n = 4\), the PMF of \(S_4\) already starts to resemble the familiar bell shape of a normal distribution.  
+By the time we take \(n = 32\), the PMF of \(S_{32}\) is visually almost indistinguishable from a normal curve with the same mean and variance.
+
+This convergence is so fast that one can use it in practice to generate samples that are approximately normal.  
+One simple idea is to draw \(32\) independent samples from the discrete uniform on \(\{1,\ldots,8\}\), add them up, and then (if desired) apply an affine transformation so that the resulting random variable has the desired mean and variance.  
+The distribution of this sum is then very close to normal, and the approximation improves further if we increase \(n\).
+
+\bigskip
+\textsc{Effect of asymmetry: truncated geometric example}
+
+The previous example started from a symmetric distribution, which is particularly favorable for fast convergence to the normal shape.  
+Next, consider a different starting point: a truncated geometric distribution supported on \(\{1,2,\ldots,k\}\) for some integer \(k\).  
+This distribution is markedly asymmetric, with a heavy concentration of probability near the lower values and a long tail towards the higher values.
+
+Let \(X_1, X_2, \ldots\) be i.i.d.\ with this truncated geometric distribution and again consider the sums \(S_n\).  
+If we add \(n = 8\) such random variables, the PMF of \(S_8\) does \textit{not} look very close to a normal shape.  
+The distribution remains visibly skewed: one tail is much heavier than the other.  
+Increasing to \(n = 16\) yields a PMF that is somewhat closer to symmetric and has a smoother shape, but the asymmetry is still clearly noticeable.  
+Even at \(n = 32\), the PMF of \(S_{32}\) continues to show a difference between the two tails, and the fit to a normal curve is not nearly as good as in the symmetric discrete-uniform example.
+
+In this case, the slow convergence is due to the strong asymmetry of the original distribution.  
+The central limit theorem still holds, but more terms are needed before the distribution of the sum becomes well-approximated by a normal distribution.  
+This example highlights an important practical lesson: while the CLT guarantees convergence in distribution as \(n \to \infty\), the rate at which the approximation becomes accurate for finite \(n\) depends strongly on properties of the underlying distribution, such as symmetry, skewness, and tail behavior.
+
+\subsubsection{Normal approximation to the binomial}
+
+Consider independent Bernoulli random variables \(X_1, X_2, \ldots, X_n\) with parameter \(p\).  
+The sum
+\[
+S_n = X_1 + X_2 + \cdots + X_n
+\]
+has a binomial distribution with parameters \(n\) and \(p\).  
+We know that
+\[
+\mathbb{E}[S_n] = np,
+\qquad
+\operatorname{Var}(S_n) = np(1-p).
+\]
+The central limit theorem tells us that the standardized version of \(S_n\),
+\[
+Z_n
+=
+\frac{S_n - np}{\sqrt{np(1-p)}},
+\]
+has a distribution function that, as \(n \to \infty\), approaches the CDF \(\Phi\) of a standard normal random variable.  
+In practice, for moderately large \(n\), we approximate \(Z_n\) as standard normal and hence \(S_n\) as normal with mean \(np\) and variance \(np(1-p)\).
+
+\bigskip
+\textsc{Approximating a binomial tail probability}
+
+Let us see how this works for a concrete numerical example.  
+Take \(n = 36\) and \(p = 0.5\), so
+\[
+\mathbb{E}[S_n] = np = 18,
+\qquad
+\sqrt{\operatorname{Var}(S_n)} = \sqrt{np(1-p)} = \sqrt{9} = 3.
+\]
+We wish to approximate
+\[
+\mathbb{P}(S_n \leq 21).
+\]
+
+\textit{First attempt (direct CLT with cutoff at 21)}.  
+We write
+\[
+\mathbb{P}(S_n \leq 21)
+=
+\mathbb{P}\Big(\frac{S_n - 18}{3} \leq \frac{21 - 18}{3}\Big)
+=
+\mathbb{P}\Big(Z_n \leq 1\Big).
+\]
+Approximating \(Z_n\) by a standard normal \(Z\), we get
+\[
+\mathbb{P}(S_n \leq 21)
+\approx
+\mathbb{P}(Z \leq 1)
+=
+\Phi(1)
+\approx 0.8413.
+\]
+This is a reasonable but not very accurate approximation of the exact binomial probability.
+
+\textit{Second attempt (cutoff at 22)}.  
+Observe that, because \(S_n\) takes only integer values,
+\[
+\{S_n \leq 21\}
+=
+\{S_n < 22\}.
+\]
+We can therefore approximate instead
+\[
+\mathbb{P}(S_n < 22)
+=
+\mathbb{P}\Big(\frac{S_n - 18}{3} < \frac{22 - 18}{3}\Big)
+=
+\mathbb{P}(Z_n < 1.33).
+\]
+Using again the standard normal approximation, we get
+\[
+\mathbb{P}(S_n \leq 21)
+=
+\mathbb{P}(S_n < 22)
+\approx
+\Phi(1.33)
+\approx 0.9082.
+\]
+This second approximation overshoots the exact value, whereas the first approximation undershoots it.  
+This suggests that a more accurate answer may lie between these two numbers.
+
+\bigskip
+\textsc{Continuity correction}
+
+To understand how to improve the approximation, it is useful to compare the discrete binomial distribution with its continuous normal approximation.  
+The binomial PMF can be visualized as a collection of bars centered at integer points, while the normal approximation replaces these bars by a smooth bell curve with the same mean and variance.  
+When we compute a probability such as \(\mathbb{P}(S_n \leq 21)\) exactly, we are summing the probabilities of the bars at all integer points \(k \leq 21\).  
+In the first approximation above, we used the normal area from \(-\infty\) up to \(21\).  
+In the second, we used the area from \(-\infty\) up to \(22\).  
+Neither choice fully aligns the area under the normal curve with the discrete mass of the binomial.
+
+A more sensible choice is to separate the bar at \(21\) from the bar at \(22\) by using the midpoint \(21.5\).  
+In other words, instead of approximating \(\mathbb{P}(S_n \leq 21)\) by the area under the normal curve up to \(21\) or up to \(22\), we use the area up to \(21.5\).  
+Formally, we write
+\[
+\mathbb{P}(S_n \leq 21)
+=
+\mathbb{P}(S_n < 21.5),
+\]
+and approximate
+\[
+\mathbb{P}(S_n \leq 21)
+\approx
+\mathbb{P}\Big(Z_n \leq \frac{21.5 - 18}{3}\Big)
+=
+\mathbb{P}(Z_n \leq 1.17)
+\approx
+\Phi(1.17)
+\approx 0.8790.
+\]
+This value is much closer to the exact binomial probability than either of the previous two approximations.  
+The adjustment of \(\pm 0.5\) in the argument of the normal CDF is called a \textit{continuity correction}.  
+It systematically improves normal approximations to binomial probabilities, especially when \(n\) is not extremely large or when the probability mass changes noticeably from one integer point to the next.
+
+\bigskip
+\textsc{Approximating individual binomial probabilities}
+
+The continuity correction idea can also be used to approximate individual probabilities of the binomial PMF.  
+For example, to approximate
+\[
+\mathbb{P}(S_n = 19),
+\]
+we view the event \(\{S_n = 19\}\) as corresponding to the interval between midpoints \(18.5\) and \(19.5\).  
+In terms of the normal approximation, we write
+\[
+\mathbb{P}(S_n = 19)
+=
+\mathbb{P}(18.5 \leq S_n \leq 19.5)
+\approx
+\mathbb{P}(18.5 \leq S_n \leq 19.5 \text{ under the normal model}).
+\]
+Standardizing, we subtract the mean \(18\) and divide by the standard deviation \(3\):
+\[
+\mathbb{P}(S_n = 19)
+\approx
+\mathbb{P}\Big(\frac{18.5 - 18}{3} \leq Z \leq \frac{19.5 - 18}{3}\Big)
+=
+\mathbb{P}(0.17 \leq Z \leq 0.5),
+\]
+where \(Z\) is a standard normal random variable.  
+Using the CDF \(\Phi\),
+\[
+\mathbb{P}(0.17 \leq Z \leq 0.5)
+=
+\Phi(0.5) - \Phi(0.17)
+\approx
+0.6915 - 0.5675
+=
+0.1240
+\]
+(rounded to three decimal places).  
+The exact binomial probability \(\mathbb{P}(S_n = 19)\) is very close to this approximate value.
+
+In general, to approximate \(\mathbb{P}(S_n = k)\) for a binomial random variable \(S_n\), we use
+\[
+\mathbb{P}(S_n = k)
+\approx
+\mathbb{P}(k - 0.5 \leq S_n \leq k + 0.5)
+\approx
+\Phi\Big(\frac{k + 0.5 - np}{\sqrt{np(1-p)}}\Big)
+-
+\Phi\Big(\frac{k - 0.5 - np}{\sqrt{np(1-p)}}\Big).
+\]
+Under suitable conditions on \(n\) and \(p\), there are theorems that guarantee these approximations become very accurate as \(n\) grows.
+
+\subsubsection{Polling revisited: CLT approximation}
+
+We return to the polling problem and now use the central limit theorem to obtain more accurate and informative results than those provided by Chebyshev's inequality.  
+We want to estimate an unknown proportion \(p\), representing the fraction of the population that will vote \textit{yes} in a referendum.  
+We select \(n\) people independently and uniformly at random from the population.  
+For each selected person \(i\), we define a Bernoulli random variable \(X_i\) that is equal to \(1\) if the response is \textit{yes} and \(0\) otherwise.  
+Under the sampling assumptions, the random variables \(X_1, X_2, \ldots, X_n\) are independent, identically distributed Bernoulli with parameter \(p\).
+
+We let
+\[
+S_n = \sum_{i=1}^{n} X_i
+\]
+denote the total number of \textit{yes} responses in the sample and define the sample mean
+\[
+M_n = \frac{S_n}{n}.
+\]
+The sample mean \(M_n\) is our estimator for \(p\).  
+We are interested in the accuracy of this estimator and, in particular, in controlling the probability that the estimation error exceeds a given tolerance.  
+For concreteness, suppose that we want the error to be at most one percentage point, that is,
+\[
+|M_n - p| \leq 0.01,
+\]
+with high probability.  
+Since we cannot guarantee this with certainty (unless we survey essentially the entire population), we instead require that the probability of violating the specification be small:
+\[
+\mathbb{P}\big(|M_n - p| \geq 0.01\big)
+\text{ is small.}
+\]
+Our goal is to approximate this probability and then choose \(n\) so that it is below a prescribed level, such as \(5\%\).
+
+\bigskip
+\textsc{Expressing the error event in standardized form}
+
+To apply the CLT we rewrite the error event in terms of the standardized sum.  
+The mean and variance of a Bernoulli\((p)\) random variable are
+\[
+\mu = \mathbb{E}[X_i] = p,
+\qquad
+\sigma^2 = \operatorname{Var}(X_i) = p(1-p),
+\qquad
+\sigma = \sqrt{p(1-p)}.
+\]
+Recall that \(M_n = S_n/n\).  
+Consider the event
+\[
+|M_n - p| \geq 0.01.
+\]
+Since \(M_n = S_n/n\), we can rewrite this as
+\[
+\Big|\frac{S_n}{n} - p\Big|
+\geq 0.01.
+\]
+Equivalently,
+\[
+\Big|\frac{S_n - np}{n}\Big|
+\geq 0.01.
+\]
+
+Next, multiply both sides by \(\sqrt{n}\):
+\[
+\Big|\frac{S_n - np}{n}\Big| \sqrt{n}
+=
+\Big|\frac{S_n - np}{\sqrt{n}}\Big|
+\geq 0.01 \sqrt{n}.
+\]
+We then divide both sides by \(\sigma\) and obtain
+\[
+\Big|\frac{S_n - np}{\sqrt{n}\,\sigma}\Big|
+\geq \frac{0.01\sqrt{n}}{\sigma}.
+\]
+The quantity
+\[
+Z_n
+=
+\frac{S_n - np}{\sqrt{n}\,\sigma}
+\]
+is precisely the standardized sum that appears in the CLT for Bernoulli random variables.  
+Thus we have expressed the error event in terms of \(Z_n\):
+\[
+\big\{|M_n - p| \geq 0.01\big\}
+=
+\big\{|Z_n| \geq 0.01\sqrt{n}/\sigma\big\}.
+\]
+Consequently,
+\[
+\mathbb{P}\big(|M_n - p| \geq 0.01\big)
+=
+\mathbb{P}\Big(|Z_n| \geq \frac{0.01\sqrt{n}}{\sigma}\Big).
+\]
+
+By the central limit theorem, \(Z_n\) is approximately standard normal for large \(n\).  
+We therefore approximate
+\[
+\mathbb{P}\Big(|Z_n| \geq \frac{0.01\sqrt{n}}{\sigma}\Big)
+\approx
+\mathbb{P}\Big(|Z| \geq \frac{0.01\sqrt{n}}{\sigma}\Big),
+\]
+where \(Z\) is a standard normal random variable.
+
+\bigskip
+\textsc{Worst-case bound and reduction to the standard normal}
+
+The preceding expression still involves \(\sigma\), which depends on the unknown \(p\).  
+However, for a Bernoulli\((p)\) variable we have
+\[
+\sigma^2 = p(1-p) \leq \frac{1}{4},
+\qquad
+\text{hence}
+\qquad
+\sigma \leq \frac{1}{2}.
+\]
+Since \(\sigma \leq 1/2\), we have
+\[
+\frac{0.01\sqrt{n}}{\sigma}
+\geq
+0.01\sqrt{n} \cdot 2
+=
+0.02\sqrt{n}.
+\]
+Thus
+\[
+\mathbb{P}\Big(|Z| \geq \frac{0.01\sqrt{n}}{\sigma}\Big)
+\leq
+\mathbb{P}\big(|Z| \geq 0.02\sqrt{n}\big),
+\]
+because the event \(\{|Z| \geq 0.02\sqrt{n}\}\) corresponds to being in the outer part of the tails, which is contained in the event \(\{|Z| \geq 0.01\sqrt{n}/\sigma\}\) when \(0.01\sqrt{n}/\sigma\) is larger.  
+Therefore, a conservative (worst-case) bound is
+\[
+\mathbb{P}\big(|M_n - p| \geq 0.01\big)
+\lesssim
+\mathbb{P}\big(|Z| \geq 0.02\sqrt{n}\big).
+\]
+
+Using symmetry of the standard normal distribution, we can express the right-hand side as
+\[
+\mathbb{P}\big(|Z| \geq a\big)
+=
+\mathbb{P}(Z \leq -a) + \mathbb{P}(Z \geq a)
+=
+2\mathbb{P}(Z \geq a)
+=
+2\big(1 - \Phi(a)\big),
+\]
+where \(a = 0.02\sqrt{n}\).  
+Thus,
+\[
+\mathbb{P}\big(|M_n - p| \geq 0.01\big)
+\lesssim
+2\big(1 - \Phi(0.02\sqrt{n})\big).
+\]
+
+\bigskip
+\textsc{Numerical example: \(n = 10{,}000\)}
+
+Suppose we take a sample of size \(n = 10{,}000\).  
+Then
+\[
+\sqrt{n} = 100,
+\qquad
+0.02\sqrt{n} = 2.
+\]
+Our bound becomes
+\[
+\mathbb{P}\big(|M_{10{,}000} - p| \geq 0.01\big)
+\lesssim
+2\big(1 - \Phi(2)\big).
+\]
+From standard normal tables,
+\[
+\Phi(2) \approx 0.9772,
+\]
+so
+\[
+2\big(1 - \Phi(2)\big)
+\approx
+2\cdot (1 - 0.9772)
+=
+2\cdot 0.0228
+=
+0.0456.
+\]
+Thus, with a sample size of \(10{,}000\), the probability that the polling error exceeds one percentage point is about \(4.6\%\), which is slightly below the target level of \(5\%\).  
+This means that using \(10{,}000\) respondents is more than sufficient to achieve the desired accuracy with high probability.
+
+\bigskip
+\textsc{Choosing the sample size for a desired error probability}
+
+We can also invert the above reasoning to determine \(n\) given a target probability.  
+Suppose we want
+\[
+\mathbb{P}\big(|M_n - p| \geq 0.01\big)
+\approx
+2\big(1 - \Phi(0.02\sqrt{n})\big)
+= 0.05.
+\]
+Solving for \(0.02\sqrt{n}\), we get
+\[
+2\big(1 - \Phi(0.02\sqrt{n})\big) = 0.05
+\quad\Longrightarrow\quad
+1 - \Phi(0.02\sqrt{n}) = 0.025
+\quad\Longrightarrow\quad
+\Phi(0.02\sqrt{n}) = 0.975.
+\]
+Looking up \(\Phi^{-1}(0.975)\) in the standard normal table, we find
+\[
+\Phi^{-1}(0.975) \approx 1.96.
+\]
+Therefore we require
+\[
+0.02\sqrt{n} = 1.96
+\quad\Longrightarrow\quad
+\sqrt{n} = \frac{1.96}{0.02}
+=
+98
+\quad\Longrightarrow\quad
+n = 98^2
+=
+9604.
+\]
+So a sample size of approximately \(n = 9604\) is sufficient to ensure that the probability of an error larger than one percentage point is about \(5\%\) in the worst case over all possible values of \(p\).  
+This is slightly smaller than \(10{,}000\), reflecting the fact that our earlier choice of \(n = 10{,}000\) was somewhat conservative.
+
+\bigskip
+\textsc{Practical implications and looser specifications}
+
+In real-world polling, one rarely sees surveys with sample sizes as large as \(10{,}000\).  
+Typical national polls often use sample sizes on the order of \(1{,}000\).  
+This discrepancy is explained by the fact that practical polling specifications are usually looser than \(\pm 1\%\).  
+For example, pollsters commonly report a margin of error of \(\pm 3\%\) at a confidence level of about \(95\%\).  
+If we replace \(0.01\) in our derivations by \(0.03\) and repeat the calculations, the required sample size scales roughly like \(1/(0.03)^2\), which is about one-ninth of what is needed for \(0.01\).  
+Starting from \(n \approx 9604\) for a \(1\%\) margin of error and \(95\%\) confidence, dividing by \(9\) leads to a sample size of a little over \(1000\), which matches what is observed in typical polling practice.
+
+In summary, the CLT-based analysis shows that with \(n\) on the order of a few thousand, one can obtain very accurate estimates of population proportions with small margins of error.  
+It also provides a transparent formula that relates the desired accuracy and confidence level to the required sample size.
