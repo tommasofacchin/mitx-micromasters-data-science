@@ -1,0 +1,1140 @@
+
+\subsection{Bernoulli and Poisson processes}
+
+\subsubsection{The Bernoulli process}
+
+We consider a sequence \(\{X_i\}_{i \geq 1}\) of independent identically distributed random variables, where each \(X_i\) takes values in the set \(\{0,1\}\).  
+We say that \(\{X_i\}\) is a Bernoulli process with parameter \(p\) if
+\[
+\mathbb{P}(X_i = 1) = p
+\quad\text{and}\quad
+\mathbb{P}(X_i = 0) = 1 - p,
+\qquad\text{for all } i \geq 1,
+\]
+for some fixed number \(p \in (0,1)\).  
+We interpret the outcome \(X_i = 1\) as a \textit{success} at trial \(i\), and \(X_i = 0\) as a \textit{failure}.  
+
+The two key assumptions in this model are the following.  
+First, the random variables \(X_1, X_2, \ldots\) are independent, so that the outcome of one trial does not influence the outcome of any other trial.  
+Second, the success probability \(\mathbb{P}(X_i = 1)\) is the same for all trials \(i\), which means that the process is time-homogeneous.  
+Intuitively, we are repeating the same experiment over and over under identical conditions.  
+
+We can think of many situations that fit this model.  
+One simple example is the familiar repeated coin flip experiment, where \(X_i = 1\) represents that the \(i\)-th flip results in heads and \(X_i = 0\) represents tails.  
+If the coin is biased, the parameter \(p\) is the probability of heads at each flip.  
+Another example is a weekly lottery, where each week you either win or do not win, and we model these weekly outcomes as independent Bernoulli trials with the same win probability \(p\).  
+
+In a different context, the Bernoulli process can be used as a first model for arrivals in discrete time.  
+We divide time into equal slots, and during each slot we record whether at least one arrival occurred.  
+We let \(X_i = 1\) if there is an arrival in slot \(i\), and \(X_i = 0\) if no arrival occurs in that slot.  
+Under the assumption that different time slots can be treated as independent and that the arrival probability per slot is approximately constant, the sequence \(\{X_i\}\) is modeled as a Bernoulli process.  
+
+\bigskip
+\textsc{Distribution and basic properties}
+
+For each trial \(i\), the random variable \(X_i\) is Bernoulli distributed with parameter \(p\).  
+Its expectation and variance are given by the familiar formulas
+\[
+\mathbb{E}[X_i] = p,
+\qquad
+\operatorname{Var}(X_i) = p(1-p).
+\]
+Because the trials are identically distributed, these expressions do not depend on \(i\).  
+
+Let us introduce the counting process associated with the Bernoulli sequence.  
+For any positive integer \(n\), we define
+\[
+S_n = \sum_{i=1}^{n} X_i,
+\]
+which counts the total number of successes in the first \(n\) trials.  
+The random variable \(S_n\) takes values in \(\{0,1,\ldots,n\}\) and has a binomial distribution with parameters \(n\) and \(p\), that is
+\[
+\mathbb{P}(S_n = k)
+=
+\binom{n}{k} p^{k} (1-p)^{n-k},
+\qquad
+k = 0,1,\ldots,n.
+\]
+Using standard binomial identities, we obtain the mean and variance of \(S_n\) as
+\[
+\mathbb{E}[S_n] = np,
+\qquad
+\operatorname{Var}(S_n) = np(1-p).
+\]
+
+The interpretation of these formulas is straightforward.  
+The quantity \(S_n\) is the sum of \(n\) independent indicator variables, each with mean \(p\).  
+By linearity of expectation, the expected number of successes in \(n\) trials is therefore equal to \(n\) times the success probability per trial.  
+The variance expression reflects the combined variability contributed by each trial and the independence across trials.  
+
+\bigskip
+\textsc{Example: modeling arrivals in discrete time}
+
+Suppose that we sit at the entrance of a bank and divide time into discrete one-minute intervals.  
+For each minute \(i\), we define a random variable \(X_i\) that takes the value \(1\) if at least one customer arrives during that minute and the value \(0\) otherwise.  
+If the bank operates under stable conditions and the arrival rate is roughly constant, we might choose to model the sequence \(\{X_i\}\) as a Bernoulli process with parameter \(p\), where \(p\) is the probability of at least one arrival during a given minute.  
+
+In this setting, the associated counting process is
+\[
+S_n = \sum_{i=1}^{n} X_i,
+\]
+which represents the total number of minutes (among the first \(n\) minutes) during which at least one customer arrived.  
+We have
+\[
+\mathbb{E}[S_n] = np,
+\]
+so on average we expect \(np\) busy minutes during any block of \(n\) minutes.  
+Furthermore, the variance of \(S_n\) equals
+\[
+\operatorname{Var}(S_n) = np(1-p),
+\]
+which quantifies the fluctuations of the number of busy minutes around its mean value.  
+
+Although this model ignores many details (such as multiple customers arriving within the same minute or correlations in time), it is often useful as a simple starting point.  
+One can gradually refine the model if needed, but the Bernoulli process provides a clear and mathematically tractable baseline description of such discrete-time arrival phenomena.  
+
+\bigskip
+\textsc{Example: lottery winnings over time}
+
+Consider a person who participates in the same lottery every week.  
+On week \(i\), define \(X_i = 1\) if the person wins the lottery and \(X_i = 0\) otherwise.  
+If the lottery rules do not change over time and each weekly outcome is independent of past results, the sequence \(\{X_i\}\) is again modeled as a Bernoulli process with parameter \(p\), where \(p\) is the weekly win probability.  
+
+After \(n\) weeks, the total number of wins is
+\[
+S_n = \sum_{i=1}^{n} X_i.
+\]
+The distribution of \(S_n\) is binomial with parameters \(n\) and \(p\), and the expected number of wins after \(n\) weeks is
+\[
+\mathbb{E}[S_n] = np.
+\]
+In particular, if \(p\) is very small, this expectation grows slowly with \(n\), illustrating that even after a large number of weeks, the expected number of wins can remain small.  
+This example emphasizes how the Bernoulli process captures sequences of independent yes/no events in a natural and quantitative way.
+
+
+\subsubsection{Stochastic processes}
+
+A stochastic process can be thought of as a sequence \(\{X_i\}_{i \geq 1}\) of random variables defined on a common sample space.  
+In contrast to earlier situations where we dealt with a finite collection of random variables, here we usually have an infinite sequence, which brings additional conceptual and technical challenges.  
+To fully describe a stochastic process, we need to specify the distribution of each individual \(X_i\), for example through its mean, variance, or PMF when the variables are discrete.  
+
+For the Bernoulli process, each \(X_i\) is a Bernoulli random variable with parameter \(p\), so its PMF is given by
+\[
+\mathbb{P}(X_i = 1) = p,
+\qquad
+\mathbb{P}(X_i = 0) = 1 - p,
+\]
+and we can easily compute its mean and variance.  
+However, specifying the individual distributions is not enough.  
+We also need to describe how the different random variables in the sequence are related to each other, which means that we must specify, directly or indirectly, their joint distributions.  
+Because there are infinitely many random variables, we need a consistent description of the joint distribution for \((X_1,\ldots,X_n)\) for every positive integer \(n\).  
+
+In the special case of the Bernoulli process, we obtain this joint description indirectly through the independence assumption.  
+We postulate that the random variables \(X_1, X_2, \ldots\) are independent and identically distributed with the same Bernoulli\((p)\) law.  
+This implies that for any finite \(n\), the joint PMF of \((X_1,\ldots,X_n)\) factors as the product of the marginal PMFs:
+\[
+\mathbb{P}(X_1 = x_1, \ldots, X_n = x_n)
+=
+\prod_{i=1}^{n} \mathbb{P}(X_i = x_i),
+\]
+for any choice of \(x_i \in \{0,1\}\).  
+For more complicated stochastic processes, obtaining or working with these finite-dimensional joint distributions can be considerably more difficult.  
+
+There is also a second, more dynamical point of view on stochastic processes.  
+We do not just consider an abstract collection of random variables, but rather a family indexed by an integer \(i\) that often represents time.  
+We then imagine the process as a random evolution in time, where at each step \(i\) the random variable \(X_i\) takes a new value.  
+
+This time-evolution viewpoint becomes clearer if we think in terms of the sample space.  
+Even though we have an infinite sequence of random variables, we still think of performing a single experiment that unfolds over time.  
+In the case of a Bernoulli process, a single run of the experiment might produce an outcome such as
+\[
+0, 0, 1, 0, 1, 1, 0, \ldots,
+\]
+which is one particular infinite sequence of 0s and 1s.  
+If we repeat the experiment, we may obtain a different sequence, for example
+\[
+0, 1, 1, 0, 0, 0, 1, 1, \ldots.
+\]
+Each such infinite sequence is a possible outcome of the stochastic process.  
+
+From this perspective, the sample space of the Bernoulli process can be taken to be the set of all infinite sequences of 0s and 1s.  
+Each point in the sample space is a time function assigning a value to each time index \(i\).  
+This point of view emphasizes the evolution of the process over time and is particularly useful when we want to ask questions about long-term behavior.  
+
+One natural question of this type is the following.  
+Consider a Bernoulli process with parameter \(p \in (0,1)\).  
+What is the probability that all of the random variables \(X_i\) are equal to 1, that is, that the outcome of the experiment is the sequence
+\[
+1,1,1,\ldots?
+\]
+This event involves the entire infinite sequence, not just a finite subset of the random variables, so we cannot answer it directly from the joint PMF of \((X_1,\ldots,X_n)\) for a fixed \(n\).  
+
+Instead, we reason through a sequence of related events.  
+For each positive integer \(n\), let \(A_n\) be the event that the first \(n\) outcomes are all equal to 1, that is,
+\[
+A_n = \{X_1 = 1, X_2 = 1, \ldots, X_n = 1\}.
+\]
+The event that all \(X_i\) are equal to 1 is contained in every \(A_n\), because if every outcome in the infinite sequence is 1, then in particular the first \(n\) of them must be 1.  
+Therefore, the event that all \(X_i\) are equal to 1 is a subset of \(A_n\) for every \(n\), and hence its probability is bounded above by \(\mathbb{P}(A_n)\).  
+
+For a Bernoulli process, the probability of \(A_n\) is easily computed using independence.  
+We have
+\[
+\mathbb{P}(A_n)
+=
+\mathbb{P}(X_1 = 1, \ldots, X_n = 1)
+=
+\prod_{i=1}^{n} \mathbb{P}(X_i = 1)
+=
+p^n.
+\]
+Because \(p < 1\), the quantity \(p^n\) becomes arbitrarily small as \(n\) grows.  
+Therefore, for every \(n\) we have
+\[
+\mathbb{P}(\text{all } X_i = 1)
+\leq
+p^n,
+\]
+and since \(p^n\) can be made as small as we wish by choosing \(n\) large enough, the only possibility is that
+\[
+\mathbb{P}(\text{all } X_i = 1) = 0.
+\]
+This argument illustrates how we can use probabilities of finite-dimensional events to deduce properties of the process over an infinite time horizon.  
+
+Throughout our study of stochastic processes, we will move back and forth between these two perspectives.  
+Sometimes we will focus on probability distributions, joint PMFs, and expectations of random variables defined on the sample space.  
+At other times, it will be more insightful to think of a stochastic process as a random time function, evolving as time progresses, and to reason about its trajectories and long-term behavior.  
+
+\bigskip
+\textsc{Example: an event involving the infinite horizon}
+
+Consider again a Bernoulli process \(\{X_i\}\) with parameter \(p \in (0,1)\).  
+Define the event \(B\) that the process eventually stops producing successes, that is, that there exists some time \(N\) such that for all \(i \geq N\) we have \(X_i = 0\).  
+This event \(B\) depends on the behavior of the process over the infinite horizon, because it requires that beyond some point all outcomes are failures.  
+
+To study \(\mathbb{P}(B)\), we introduce a sequence of simpler events.  
+For each positive integer \(n\), let \(B_n\) be the event that all outcomes from time \(n\) onward are equal to 0, so
+\[
+B_n = \{X_n = 0, X_{n+1} = 0, X_{n+2} = 0, \ldots\}.
+\]
+By definition, the event \(B\) is the union of all \(B_n\),
+\[
+B = \bigcup_{n=1}^{\infty} B_n,
+\]
+because if the process eventually stops having successes at some time \(N\), then it belongs to \(B_N\).  
+
+Using the same reasoning as before, we find that
+\[
+\mathbb{P}(B_n)
+=
+\mathbb{P}(X_n = 0, X_{n+1} = 0, \ldots)
+=
+\lim_{k \to \infty} \mathbb{P}(X_n = 0, \ldots, X_{n+k} = 0)
+=
+\lim_{k \to \infty} (1-p)^{k+1}
+=
+0,
+\]
+because \(1-p < 1\).  
+This shows that each event \(B_n\) has probability zero.  
+Since the countable union of events of probability zero still has probability zero, we conclude that
+\[
+\mathbb{P}(B) = 0.
+\]
+Thus, with probability one, a Bernoulli process with parameter \(p \in (0,1)\) produces infinitely many successes over time.
+
+\subsubsection{Review of known properties of the Bernoulli process}
+
+We consider a Bernoulli process \(\{X_i\}_{i \geq 1}\) with parameter \(p \in (0,1)\), where each \(X_i\) takes values in \(\{0,1\}\).  
+At each time slot \(i\), we record a value \(X_i = 1\) if a success or arrival occurs, and \(X_i = 0\) otherwise.  
+We review some properties of two key random variables associated with this process: the number of successes in the first \(n\) slots, and the time of the first success.  
+
+We first look at the number of successes (or arrivals) in the first \(n\) time slots.  
+This is the random variable
+\[
+S_n = \sum_{i=1}^{n} X_i,
+\]
+which simply adds up the indicators \(X_i\) and therefore counts how many successes occur among the first \(n\) trials.  
+The possible values of \(S_n\) are the integers \(k\) from \(0\) to \(n\).  
+
+Because \(X_1,\ldots,X_n\) are independent Bernoulli\((p)\) random variables, the distribution of \(S_n\) is binomial with parameters \(n\) and \(p\).  
+The probability of observing exactly \(k\) successes in the first \(n\) trials is
+\[
+\mathbb{P}(S_n = k)
+=
+\binom{n}{k} p^{k} (1-p)^{n-k},
+\qquad
+k = 0,1,\ldots,n.
+\]
+For this binomial random variable, we know that the expected value and variance are given by
+\[
+\mathbb{E}[S_n] = np,
+\qquad
+\operatorname{Var}(S_n) = np(1-p).
+\]
+These formulas follow from standard properties of the binomial distribution or by applying linearity of expectation and independence to the sum \(\sum_{i=1}^{n} X_i\).  
+
+Another important random variable associated with the Bernoulli process is the time until the first success (or arrival).  
+We define
+\[
+T_1 = \min\{i \geq 1 : X_i = 1\},
+\]
+that is, \(T_1\) is the index of the first trial at which a success occurs.  
+The possible values of \(T_1\) are the positive integers \(k = 1,2,\ldots\).  
+
+To find the distribution of \(T_1\), we note that the event \(\{T_1 = k\}\) means that the first \(k-1\) trials resulted in failures (zeros), and the \(k\)-th trial resulted in a success (one).  
+Using independence, we obtain
+\[
+\mathbb{P}(T_1 = k)
+=
+\mathbb{P}(X_1 = 0, \ldots, X_{k-1} = 0, X_k = 1)
+=
+(1-p)^{k-1} p,
+\qquad
+k = 1,2,\ldots.
+\]
+This is the geometric distribution with parameter \(p\), defined on the positive integers.  
+
+The geometric distribution arises frequently in the context of Bernoulli trials.  
+In particular, it is well known that for a geometric random variable \(T_1\) with parameter \(p\), the mean and variance are
+\[
+\mathbb{E}[T_1] = \frac{1}{p},
+\qquad
+\operatorname{Var}(T_1) = \frac{1-p}{p^{2}}.
+\]
+Thus, in a Bernoulli process, the expected waiting time until the first success is \(1/p\), and the variability of this waiting time is captured by the variance \((1-p)/p^{2}\).  
+
+\bigskip
+\textsc{Example: successes in the first \(n\) trials}
+
+Suppose you flip a biased coin \(n\) times, where the probability of heads on each flip is \(p\).  
+Let \(X_i = 1\) if the \(i\)-th flip is heads and \(X_i = 0\) otherwise, and define \(S_n = \sum_{i=1}^{n} X_i\).  
+Then \(S_n\) counts the total number of heads in the first \(n\) flips and has a binomial\((n,p)\) distribution.  
+
+For instance, the probability of seeing exactly \(k\) heads in \(n\) flips is
+\[
+\mathbb{P}(S_n = k) = \binom{n}{k} p^{k} (1-p)^{n-k}.
+\]
+The expected number of heads is \(\mathbb{E}[S_n] = np\), and the variance is \(\operatorname{Var}(S_n) = np(1-p)\).  
+These formulas summarize how the number of successes grows and fluctuates as we repeat the basic Bernoulli trial \(n\) times.
+
+
+\subsubsection{The fresh-start property}
+
+We consider a Bernoulli process \(\{X_i\}_{i \geq 1}\) with parameter \(p \in (0,1)\), where the random variables \(X_i\) are independent and identically distributed, and each \(X_i\) takes values in \(\{0,1\}\).  
+In this segment we explore the consequences of the independence assumption for the evolution of the process over time.  
+These consequences are intuitive, but they are very useful in problem solving and in understanding the continuous-time analogue of the Bernoulli process, the Poisson process.  
+
+Imagine that the Bernoulli process starts at time \(1\) and evolves in discrete time.  
+A friend watches the process from the beginning and observes the outcomes of the first five trials, that is, they see \(X_1,\ldots,X_5\).  
+Right after time \(5\), they call you into the room, and from that point on you observe the process.  
+The first random variable you see is \(X_6\), the second is \(X_7\), and so on.  
+
+Let us define a new process \(\{Y_i\}_{i \geq 1}\) by
+\[
+Y_i = X_{5+i},
+\qquad
+i = 1,2,\ldots.
+\]
+What kind of process is \(\{Y_i\}\)?  
+By independence, the future trials \(X_6,X_7,\ldots\) are independent of the past trials \(X_1,\ldots,X_5\).  
+Furthermore, each \(X_i\) has the same Bernoulli\((p)\) distribution.  
+
+It follows that the random variables \(Y_1,Y_2,\ldots\) are independent Bernoulli\((p)\) random variables.  
+Thus, \(\{Y_i\}\) is itself a Bernoulli process with parameter \(p\), and it is independent of the past \(\{X_1,\ldots,X_5\}\).  
+From your point of view, when you start watching at time \(6\), it is as if a new Bernoulli process has just started at that instant.  
+
+This leads us to the fresh-start property after a deterministic time.  
+More generally, for any fixed integer \(n \geq 1\), we can define
+\[
+Y_i = X_{n+i},
+\qquad
+i = 1,2,\ldots.
+\]
+Then the process \(\{Y_i\}\) is a Bernoulli process with parameter \(p\) and is independent of the past \(\{X_1,\ldots,X_n\}\).  
+Thus, after any deterministic time \(n\), the process \(\{X_i\}\) starts fresh, in the sense that the future looks like a new independent Bernoulli process.  
+
+We now complicate the story by considering random times.  
+Suppose that your friend watches the process until the first success occurs, and at that moment they call you to start observing the process.  
+Let
+\[
+T_1 = \min\{i \geq 1 : X_i = 1\}
+\]
+be the time of the first success.  
+You arrive immediately after time \(T_1\) and observe the process from that point onward.  
+
+We again define a process \(\{Y_i\}_{i \geq 1}\) by
+\[
+Y_i = X_{T_1 + i},
+\qquad
+i = 1,2,\ldots.
+\]
+The trials that took place before and at time \(T_1\) are now part of the past, and their exact sequence is known to your friend.  
+However, by the independence assumption, the future trials \(X_{T_1+1}, X_{T_1+2},\ldots\) are independent of the past and each is Bernoulli\((p)\).  
+
+Therefore, the sequence \(\{Y_i\}\) is again a Bernoulli process with parameter \(p\), independent of the past \(\{X_1,\ldots,X_{T_1}\}\).  
+We describe this by saying that the process starts fresh at the random time \(T_1\).  
+From your viewpoint, when you arrive right after the first success, what you see is just a new Bernoulli process.  
+
+We can ask whether the fresh-start property holds more generally at other random times.  
+Consider, for example, the time \(N\) of the third success, that is, the smallest time at which three successes have occurred in total.  
+More precisely, let
+\[
+N = \min\left\{i \geq 1 : \sum_{j=1}^{i} X_j = 3\right\}.
+\]
+Your friend watches the process from the beginning and calls you exactly at time \(N\).  
+From that time on, you observe the future of the process.  
+
+Define
+\[
+Y_i = X_{N + i},
+\qquad
+i = 1,2,\ldots.
+\]
+By independence, the future trials \(X_{N+1},X_{N+2},\ldots\) are independent from the past \(\{X_1,\ldots,X_N\}\) and each is Bernoulli\((p)\).  
+Thus, the process \(\{Y_i\}\) is again a Bernoulli process with parameter \(p\), independent of the past.  
+We can therefore say that the process starts fresh at the (random) time \(N\) of the third success.  
+
+Let us consider another example of such a random time.  
+Define \(N\) to be the first time at which three successes in a row occur.  
+That is, \(N\) is the smallest index for which
+\[
+X_{N} = 1, \quad X_{N+1} = 1, \quad X_{N+2} = 1.
+\]
+Your friend watches the process and keeps checking whether three consecutive ones have appeared.  
+As soon as they observe the pattern \(1,1,1\) for the first time, they call you in, and you start watching the process from time \(N+1\) onward.  
+
+Once more, we define
+\[
+Y_i = X_{N + i},
+\qquad
+i = 1,2,\ldots.
+\]
+The part of the sequence up to time \(N\) is now fixed and known to your friend.  
+However, by independence, the future trials beyond time \(N\) are independent of this past and are Bernoulli\((p)\).  
+Thus, the sequence \(\{Y_i\}\) is again a Bernoulli process with parameter \(p\), independent of the past.  
+
+In all of these examples, the time \(N\) at which you start observing is determined causally from the history of the process.  
+This means that someone watches the process in real time and, at each step, decides whether to call you in based only on the observations made so far.  
+Formally, the event \(\{N = n\}\) depends only on \(X_1,\ldots,X_n\), and not on future values.  
+
+We now contrast this with a non-causal choice of \(N\).  
+Suppose that \(N\) is chosen to be the time just before the first occurrence of the pattern \(1,1,1\).  
+For example, if the sequence of outcomes is
+\[
+0,1,0,1,1,1,0,\ldots,
+\]
+then the first occurrence of \(1,1,1\) starts at time \(4\), so we set \(N = 3\).  
+Your friend, knowing the entire future of the process (for instance, by watching a recorded movie of what happened yesterday), calls you in at time \(N\), that is, just before the first occurrence of three consecutive ones.  
+
+In this scenario, when you start watching, you are certain that the next three trials will be successes, that is, you know that
+\[
+X_{N+1} = X_{N+2} = X_{N+3} = 1
+\]
+with probability \(1\).  
+This is in sharp contrast with the Bernoulli process model, where each trial should have probability \(p\) of being \(1\) and probability \(1-p\) of being \(0\).  
+Because the initial part of the sequence you observe is fully determined, the distribution of the trials you see does not match that of a Bernoulli process.  
+
+Thus, in this non-causal example, the process you observe after time \(N\) is not a fresh Bernoulli process.  
+We do not have the fresh-start property.  
+The failure arises because \(N\) is defined using information from the future of the process, not just from its past.  
+
+The general conclusion is that the Bernoulli process enjoys a fresh-start property at random times that are causally determined from the past history.  
+If the time at which you begin to observe the process is decided based only on what has happened up to that time, then the future of the process from that time onward is independent of the past and has the same distribution as a Bernoulli process with parameter \(p\).  
+This fact can be established rigorously, but the formal proof involves detailed manipulations of joint distributions and does not add much to the underlying intuition.  
+
+\bigskip
+\textsc{Example: fresh start after the second success}
+
+Consider a Bernoulli process \(\{X_i\}\) with parameter \(p\), and let \(N\) be the time of the second success.  
+That is, \(N\) is the smallest time at which exactly two successes have been observed in total.  
+A friend watches the process from the beginning and calls you exactly at time \(N\).  
+
+From time \(N+1\) onward, you observe the sequence
+\[
+Y_i = X_{N+i},
+\qquad
+i = 1,2,\ldots.
+\]
+By the fresh-start property, the random variables \(Y_i\) are independent Bernoulli\((p)\) and are independent of the past \(\{X_1,\ldots,X_N\}\).  
+Thus, the part of the process you see is probabilistically indistinguishable from a brand new Bernoulli process, started at the moment when the second success occurred.
+
+\subsubsection{The time of the \(k\)-th arrival}
+
+We consider a Bernoulli process \(\{X_i\}_{i \geq 1}\) with parameter \(p \in (0,1)\), where each \(X_i\) is a Bernoulli\((p)\) random variable indicating whether an arrival (or success) occurs at time slot \(i\).  
+We are interested in the random times at which the successive arrivals occur.  
+
+Let \(Y_1\) denote the time of the first arrival, \(Y_2\) the time of the second arrival, \(Y_3\) the time of the third arrival, and in general \(Y_k\) the time of the \(k\)-th arrival.  
+The process starts at time \(1\) and evolves as follows.  
+We wait until the first slot at which an arrival occurs and record that time as \(Y_1\).  
+We then keep observing the process until the second arrival occurs and record that time as \(Y_2\), and so on.  
+
+It is convenient to introduce the inter-arrival times.  
+The time until the first arrival is
+\[
+T_1 = Y_1,
+\]
+which is the waiting time from the start of the process until the first arrival.  
+We define the second inter-arrival time \(T_2\) as the time elapsed between the first and second arrivals, that is,
+\[
+T_2 = Y_2 - Y_1,
+\]
+and similarly the third inter-arrival time as
+\[
+T_3 = Y_3 - Y_2.
+\]
+In general, for \(k \geq 2\), we define
+\[
+T_k = Y_k - Y_{k-1},
+\]
+so that \(T_k\) measures the number of time slots between the \((k-1)\)-st and \(k\)-th arrivals.  
+
+By construction, the time of the third arrival is the sum of the first three inter-arrival times,
+\[
+Y_3 = T_1 + T_2 + T_3.
+\]
+More generally, the time of the \(k\)-th arrival is the sum of the first \(k\) inter-arrival times,
+\[
+Y_k = \sum_{i=1}^{k} T_i.
+\]
+Thus, in order to understand the distribution and properties of \(Y_k\), it is natural to study first the inter-arrival times \(T_i\).  
+
+We know from earlier that the time \(T_1\) until the first arrival has a geometric distribution with parameter \(p\).  
+Now, at the time of the first arrival, the Bernoulli process has the fresh-start property.  
+This means that, immediately after time \(Y_1\), the future of the process behaves like a new independent Bernoulli process with the same parameter \(p\).  
+
+Consequently, the random variable \(T_2\), which counts how many additional Bernoulli trials are needed to obtain the next arrival after time \(Y_1\), also has a geometric\((p)\) distribution.  
+Furthermore, by the fresh-start property, the future evolution after the first arrival is independent of the past evolution before the first arrival, so \(T_2\) is independent of \(T_1\).  
+
+Applying the same reasoning repeatedly, we see that after each arrival, the process starts fresh.  
+Therefore, for every \(k \geq 1\), the inter-arrival time \(T_k\) has a geometric distribution with parameter \(p\), and the family \(\{T_k\}_{k \geq 1}\) consists of independent identically distributed random variables.  
+
+Using these properties, we can now compute the mean and variance of \(Y_k\).  
+Since
+\[
+Y_k = \sum_{i=1}^{k} T_i,
+\]
+and the \(T_i\) are independent and identically distributed geometric\((p)\) random variables, we have
+\[
+\mathbb{E}[T_i] = \frac{1}{p},
+\qquad
+\operatorname{Var}(T_i) = \frac{1-p}{p^{2}},
+\qquad
+\text{for all } i.
+\]
+By linearity of expectation,
+\[
+\mathbb{E}[Y_k]
+=
+\mathbb{E}\left[\sum_{i=1}^{k} T_i\right]
+=
+\sum_{i=1}^{k} \mathbb{E}[T_i]
+=
+\sum_{i=1}^{k} \frac{1}{p}
+=
+\frac{k}{p}.
+\]
+Because the \(T_i\) are independent, the variance of their sum is the sum of their variances:
+\[
+\operatorname{Var}(Y_k)
+=
+\operatorname{Var}\left(\sum_{i=1}^{k} T_i\right)
+=
+\sum_{i=1}^{k} \operatorname{Var}(T_i)
+=
+\sum_{i=1}^{k} \frac{1-p}{p^{2}}
+=
+k\,\frac{1-p}{p^{2}}.
+\]
+Thus, the time of the \(k\)-th arrival has mean \(k/p\) and variance \(k(1-p)/p^{2}\).  
+
+We now turn to the PMF of \(Y_k\).  
+For a fixed positive integer \(k\), the random variable \(Y_k\) can take values \(t = k, k+1, k+2,\ldots\).  
+We are interested in computing
+\[
+\mathbb{P}(Y_k = t)
+\]
+for all such values of \(t\).  
+
+The event \(\{Y_k = t\}\) means that the \(k\)-th arrival occurs exactly at time \(t\).  
+In order for this to happen, two things must occur:  
+\textit{(i)} there must be exactly \(k-1\) arrivals in the first \(t-1\) time slots, and  
+\textit{(ii)} there must be an arrival at time slot \(t\).  
+
+Formally, the event \(\{Y_k = t\}\) is the intersection of  
+\[
+A = \{\text{exactly } k-1 \text{ arrivals in slots } 1,\ldots,t-1\}
+\]
+and
+\[
+B = \{\text{arrival at time } t\}.
+\]
+Thus,
+\[
+\{Y_k = t\} = A \cap B.
+\]
+The event \(A\) depends only on the random variables \(X_1,\ldots,X_{t-1}\), while the event \(B\) depends only on \(X_t\).  
+By the independence of the Bernoulli trials, the events \(A\) and \(B\) are independent.  
+Therefore,
+\[
+\mathbb{P}(Y_k = t)
+=
+\mathbb{P}(A \cap B)
+=
+\mathbb{P}(A)\,\mathbb{P}(B).
+\]
+
+We now compute these two probabilities.  
+The probability of an arrival at time \(t\) is simply
+\[
+\mathbb{P}(B) = \mathbb{P}(X_t = 1) = p.
+\]
+For the first \(t-1\) slots, the number of arrivals is binomially distributed with parameters \(t-1\) and \(p\).  
+The probability of having exactly \(k-1\) arrivals in \(t-1\) slots is given by the binomial PMF:
+\[
+\mathbb{P}(A)
+=
+\mathbb{P}\left(\sum_{i=1}^{t-1} X_i = k-1\right)
+=
+\binom{t-1}{k-1} p^{k-1} (1-p)^{(t-1)-(k-1)}
+=
+\binom{t-1}{k-1} p^{k-1} (1-p)^{t-k}.
+\]
+Multiplying these two factors, we obtain
+\[
+\mathbb{P}(Y_k = t)
+=
+\binom{t-1}{k-1} p^{k-1} (1-p)^{t-k} \cdot p
+=
+\binom{t-1}{k-1} p^{k} (1-p)^{t-k},
+\]
+for \(t = k, k+1, k+2,\ldots\).  
+
+We summarize the PMF of \(Y_k\) as
+\[
+\mathbb{P}(Y_k = t)
+=
+\begin{cases}
+\binom{t-1}{k-1} p^{k} (1-p)^{t-k}, & t = k, k+1, k+2,\ldots,\\[3pt]
+0, & t < k.
+\end{cases}
+\]
+The random variable \(Y_k\) is sometimes said to have a negative binomial distribution, since it represents the number of trials needed to obtain \(k\) successes in a sequence of Bernoulli\((p)\) trials.  
+
+Let us describe qualitatively the shape of this PMF.  
+The \(k\)-th arrival cannot occur before time \(k\), because we need at least \(k\) time slots to have \(k\) arrivals.  
+Therefore, for \(t < k\), the probability \(\mathbb{P}(Y_k = t)\) is zero.  
+For \(t \geq k\), the probabilities are positive, and the PMF extends indefinitely to the right, since the \(k\)-th arrival can, in principle, take arbitrarily long to occur.  
+
+If we compare the PMFs of \(Y_2\) and \(Y_3\), for example, we find that they have the same general shape but with different supports.  
+The distribution of \(Y_3\) is typically more spread out and shifted to the right relative to that of \(Y_2\), reflecting the fact that the third arrival generally takes longer to occur than the second arrival.  
+
+\bigskip
+\textsc{Example: the time of the third arrival}
+
+Consider a Bernoulli process with parameter \(p\).  
+We focus on the random variable \(Y_3\), the time of the third arrival.  
+Using the general formula, we have
+\[
+\mathbb{P}(Y_3 = t)
+=
+\binom{t-1}{2} p^{3} (1-p)^{t-3},
+\qquad
+t = 3,4,5,\ldots.
+\]
+For instance, the probability that the third arrival occurs exactly at time \(5\) is
+\[
+\mathbb{P}(Y_3 = 5)
+=
+\binom{4}{2} p^{3} (1-p)^{2}
+=
+6 p^{3} (1-p)^{2}.
+\]
+The mean and variance of \(Y_3\) follow from the general formulas:
+\[
+\mathbb{E}[Y_3] = \frac{3}{p},
+\qquad
+\operatorname{Var}(Y_3) = 3\,\frac{1-p}{p^{2}}.
+\]
+These expressions quantify how long, on average, we must wait for the third arrival and how much variability there is around that average.
+
+\subsubsection{Merging of Bernoulli processes}
+
+We consider two independent Bernoulli processes \(\{X_t\}_{t \geq 1}\) and \(\{Y_t\}_{t \geq 1}\), with parameters \(p\) and \(q\), respectively.  
+For each time slot \(t\), the random variable \(X_t\) takes value \(1\) if there is an arrival in the first stream at time \(t\) and \(0\) otherwise, while \(Y_t\) takes value \(1\) if there is an arrival in the second stream at time \(t\) and \(0\) otherwise.  
+We assume that all random variables in the first process are independent of all random variables in the second process, and that within each process, we have the usual independence and identical distribution properties of a Bernoulli process.  
+
+We form a merged process \(\{Z_t\}_{t \geq 1}\) as follows.  
+At each time slot \(t\), we record an arrival in the merged process if there is at least one arrival in either of the original processes at that time.  
+Formally, we define
+\[
+Z_t =
+\begin{cases}
+1, & \text{if } X_t = 1 \text{ or } Y_t = 1,\\
+0, & \text{if } X_t = 0 \text{ and } Y_t = 0.
+\end{cases}
+\]
+In particular, if both \(X_t\) and \(Y_t\) are equal to \(1\) (a collision), this still counts as a single arrival in the merged process, so \(Z_t = 1\) in that case.  
+
+We will show that the merged process \(\{Z_t\}\) is itself a Bernoulli process and compute its parameter.  
+To verify that \(\{Z_t\}\) is a Bernoulli process, we need to check two properties:  
+\textit{(i)} independence of the random variables \(Z_1, Z_2, \ldots\), and  
+\textit{(ii)} stationarity of their distribution, that is, the success probability does not depend on \(t\).  
+
+We start with independence.  
+Fix two distinct time slots, say \(t\) and \(t+1\).  
+The value of \(Z_t\) is a function of the pair \((X_t, Y_t)\), while the value of \(Z_{t+1}\) is a function of the pair \((X_{t+1}, Y_{t+1})\).  
+By the assumptions on the original processes, we know that
+\[
+X_t, \, X_{t+1}, \, Y_t, \, Y_{t+1}
+\]
+are mutually independent random variables.  
+
+Since \((X_t, Y_t)\) is independent of \((X_{t+1}, Y_{t+1})\), any function of \((X_t, Y_t)\) is independent of any function of \((X_{t+1}, Y_{t+1})\).  
+In particular, \(Z_t\), which is determined by \((X_t, Y_t)\), is independent of \(Z_{t+1}\), which is determined by \((X_{t+1}, Y_{t+1})\).  
+This argument extends to any finite collection of time slots, and hence the random variables \(Z_1, Z_2, \ldots\) are mutually independent.  
+
+Next, we compute the success probability of the merged process in a typical slot.  
+For a fixed time \(t\), the pair \((X_t, Y_t)\) can take four possible combinations of values:
+\[
+(0,0),\ (1,0),\ (0,1),\ (1,1).
+\]
+We write down the probabilities of these four cases.  
+By independence between \(X_t\) and \(Y_t\), we have:
+\[
+\mathbb{P}(X_t = 1, Y_t = 1) = pq,
+\]
+\[
+\mathbb{P}(X_t = 1, Y_t = 0) = p(1-q),
+\]
+\[
+\mathbb{P}(X_t = 0, Y_t = 1) = (1-p)q,
+\]
+\[
+\mathbb{P}(X_t = 0, Y_t = 0) = (1-p)(1-q).
+\]
+
+The event \(\{Z_t = 1\}\) occurs in all cases except the last one, that is, whenever \((X_t, Y_t)\) is equal to \((1,1)\), \((1,0)\), or \((0,1)\).  
+Therefore, the probability of an arrival in the merged process at time \(t\) is
+\[
+\mathbb{P}(Z_t = 1)
+=
+\mathbb{P}(X_t = 1, Y_t = 1)
++
+\mathbb{P}(X_t = 1, Y_t = 0)
++
+\mathbb{P}(X_t = 0, Y_t = 1).
+\]
+Substituting the expressions above, we obtain
+\[
+\mathbb{P}(Z_t = 1)
+=
+pq + p(1-q) + (1-p)q.
+\]
+We can simplify this expression by grouping terms:
+\[
+pq + p(1-q) + (1-p)q
+=
+pq + p - pq + q - pq
+=
+p + q - pq.
+\]
+
+An alternative way to arrive at the same result is to note that
+\[
+\{Z_t = 1\}
+=
+\{(X_t, Y_t) \neq (0,0)\},
+\]
+so
+\[
+\mathbb{P}(Z_t = 1)
+=
+1 - \mathbb{P}(X_t = 0, Y_t = 0)
+=
+1 - (1-p)(1-q).
+\]
+Expanding the product, we have
+\[
+1 - (1-p)(1-q)
+=
+1 - (1 - p - q + pq)
+=
+p + q - pq,
+\]
+which matches the previous result.  
+
+The success probability \(\mathbb{P}(Z_t = 1)\) is the same for all time slots \(t\) and is equal to
+\[
+p' = p + q - pq.
+\]
+Combining this with the independence property established earlier, we conclude that the merged process \(\{Z_t\}\) is a Bernoulli process with parameter \(p' = p + q - pq\).  
+
+We now address a conditional probability question related to the merged process.  
+Suppose we are told that at a certain time slot there was at least one arrival in the two processes, which is equivalent to saying that there was an arrival in the merged process (that is, \(Z_t = 1\)).  
+We would like to compute the conditional probability that there was an arrival in the first process at that time, that is, to find
+\[
+\mathbb{P}(X_t = 1 \mid Z_t = 1).
+\]
+
+To compute this quantity, we use the definition of conditional probability:
+\[
+\mathbb{P}(X_t = 1 \mid Z_t = 1)
+=
+\frac{\mathbb{P}(X_t = 1, Z_t = 1)}{\mathbb{P}(Z_t = 1)}.
+\]
+Now, the event \(\{X_t = 1, Z_t = 1\}\) is simply the event that \(X_t = 1\), because whenever \(X_t = 1\), we automatically have \(Z_t = 1\).  
+Thus,
+\[
+\mathbb{P}(X_t = 1, Z_t = 1) = \mathbb{P}(X_t = 1) = p.
+\]
+We have already computed that
+\[
+\mathbb{P}(Z_t = 1) = p + q - pq.
+\]
+Therefore,
+\[
+\mathbb{P}(X_t = 1 \mid Z_t = 1)
+=
+\frac{p}{p + q - pq}.
+\]
+
+This conditional probability can be interpreted as follows.  
+Given that at least one arrival occurred in the combined stream during a particular slot, the probability that this arrival was (at least) contributed by the first source is equal to \(p / (p + q - pq)\).  
+In situations where \(p\) and \(q\) represent the arrival probabilities of two independent traffic sources, this ratio tells us how likely it is that an observed arrival in the merged stream originated from the first source.  
+
+\bigskip
+\textsc{Example: merging two traffic streams}
+
+Suppose that a server receives requests from two independent user populations.  
+During each time slot, the probability that at least one user from the first population sends a request is \(p = 0.3\), and the probability that at least one user from the second population sends a request is \(q = 0.5\).  
+We model each of these two request streams as a Bernoulli process and form the merged process by recording whether at least one request arrived in each slot.  
+
+The merged process is itself a Bernoulli process with parameter
+\[
+p' = p + q - pq = 0.3 + 0.5 - 0.3 \cdot 0.5 = 0.8 - 0.15 = 0.65.
+\]
+Thus, in each time slot, the probability that the server receives at least one request is \(0.65\).  
+Furthermore, if we observe that at least one request arrived in a given slot, the probability that there was a request from the first population is
+\[
+\mathbb{P}(X_t = 1 \mid Z_t = 1)
+=
+\frac{0.3}{0.65}
+=
+\frac{6}{13}.
+\]
+This illustrates how merging independent Bernoulli processes leads to another Bernoulli process and how conditional probabilities can be used to attribute arrivals to their sources.
+
+
+\subsubsection{Splitting a Bernoulli process}
+
+We consider a Bernoulli process \(\{X_t\}_{t \geq 1}\) with parameter \(p \in (0,1)\), where \(X_t = 1\) indicates an arrival at time slot \(t\) and \(X_t = 0\) indicates no arrival.  
+We construct two new streams by \textit{splitting} each arrival of the original process according to an independent coin flip.  
+
+More precisely, each time an arrival occurs (that is, when \(X_t = 1\)), we flip a coin that lands \textit{success} with probability \(q\) and \textit{failure} with probability \(1-q\), independently for each arrival and independently of the original Bernoulli process.  
+If the coin flip is a success, we send that arrival to the first output stream; if it is a failure, we send it to the second output stream.  
+Arrivals in different time slots are routed independently in this way.  
+
+To formalize this, we introduce an auxiliary sequence \(\{C_t\}_{t \geq 1}\) of independent coin flips, where
+\[
+\mathbb{P}(C_t = 1) = q,
+\qquad
+\mathbb{P}(C_t = 0) = 1 - q,
+\]
+and the random variables \(C_t\) are independent across time and also independent of all the \(X_t\).  
+We then define two output processes \(\{A_t\}_{t \geq 1}\) and \(\{B_t\}_{t \geq 1}\) by
+\[
+A_t =
+\begin{cases}
+1, & \text{if } X_t = 1 \text{ and } C_t = 1,\\
+0, & \text{otherwise},
+\end{cases}
+\qquad
+B_t =
+\begin{cases}
+1, & \text{if } X_t = 1 \text{ and } C_t = 0,\\
+0, & \text{otherwise}.
+\end{cases}
+\]
+Thus, \(A_t = 1\) means that we have an arrival in the original stream at time \(t\) and that the coin flip directs it to the first stream; similarly, \(B_t = 1\) means that an arrival is directed to the second stream.  
+
+We first show that the process \(\{A_t\}\) is a Bernoulli process and determine its parameter.  
+For a fixed time slot \(t\), we compute the probability of an arrival in the first stream:
+\[
+\mathbb{P}(A_t = 1)
+=
+\mathbb{P}(X_t = 1, C_t = 1).
+\]
+Since \(X_t\) and \(C_t\) are independent, we have
+\[
+\mathbb{P}(X_t = 1, C_t = 1)
+=
+\mathbb{P}(X_t = 1)\,\mathbb{P}(C_t = 1)
+=
+p q.
+\]
+Therefore,
+\[
+\mathbb{P}(A_t = 1) = p q,
+\qquad
+\mathbb{P}(A_t = 0) = 1 - p q.
+\]
+
+Next, we verify the independence of the random variables \(A_1, A_2, \ldots\).  
+Consider two distinct time slots \(t\) and \(t+1\).  
+The value of \(A_t\) is a function of the pair \((X_t, C_t)\), while the value of \(A_{t+1}\) is a function of the pair \((X_{t+1}, C_{t+1})\).  
+By the assumptions of the model, the four random variables
+\[
+X_t, \, C_t, \, X_{t+1}, \, C_{t+1}
+\]
+are mutually independent.  
+Hence, the pair \((X_t, C_t)\) is independent of the pair \((X_{t+1}, C_{t+1})\), and so any function of the first pair is independent of any function of the second pair.  
+In particular, \(A_t\) is independent of \(A_{t+1}\).  
+
+This argument extends to any finite collection of time slots, establishing that the random variables \(A_1, A_2, \ldots\) are mutually independent.  
+Since the success probability \(\mathbb{P}(A_t = 1) = p q\) does not depend on \(t\), we conclude that \(\{A_t\}\) is a Bernoulli process with parameter \(p q\).  
+
+By a completely analogous argument, we can show that the second output process \(\{B_t\}\) is also a Bernoulli process.  
+For a typical time slot \(t\), the probability of an arrival in the second stream is
+\[
+\mathbb{P}(B_t = 1)
+=
+\mathbb{P}(X_t = 1, C_t = 0)
+=
+\mathbb{P}(X_t = 1)\,\mathbb{P}(C_t = 0)
+=
+p (1 - q),
+\]
+while \(\mathbb{P}(B_t = 0) = 1 - p (1-q)\).  
+The same reasoning as above shows that the random variables \(B_1, B_2, \ldots\) are independent.  
+Hence, \(\{B_t\}\) is a Bernoulli process with parameter \(p (1 - q)\).  
+
+We now address the question of whether the two output processes \(\{A_t\}\) and \(\{B_t\}\) are independent of each other.  
+Intuitively, they are not.  
+To see this, consider a particular time slot \(t\).  
+Suppose we are told that \(A_t = 1\).  
+By the definition of \(A_t\), this implies that \(X_t = 1\) and \(C_t = 1\).  
+But if \(C_t = 1\), then by construction we must have \(B_t = 0\), because an arrival directed to the first stream cannot simultaneously be directed to the second stream.  
+
+Thus, the event \(\{A_t = 1\}\) implies the event \(\{B_t = 0\}\).  
+This means that knowledge about one stream gives information about the other stream: if we know there was an arrival in the first stream at time \(t\), we know there was no arrival in the second stream at that time.  
+Therefore, the random variables \(A_t\) and \(B_t\) are not independent.  
+
+The lack of independence can also be expressed in terms of joint probabilities.  
+For example,
+\[
+\mathbb{P}(A_t = 1, B_t = 1) = 0,
+\]
+because it is impossible to send the same arrival to both streams.  
+On the other hand, the product of the marginal probabilities is
+\[
+\mathbb{P}(A_t = 1)\,\mathbb{P}(B_t = 1)
+=
+(p q)\, (p (1-q))
+=
+p^{2} q (1-q),
+\]
+which is strictly positive as long as \(0 < p < 1\) and \(0 < q < 1\).  
+Since
+\[
+\mathbb{P}(A_t = 1, B_t = 1) \neq \mathbb{P}(A_t = 1)\,\mathbb{P}(B_t = 1),
+\]
+the random variables \(A_t\) and \(B_t\) cannot be independent.  
+
+To summarize, splitting a Bernoulli process with parameter \(p\) by sending each arrival to one of two streams according to an independent coin flip with parameter \(q\) produces two output processes with the following properties:
+\[
+\{A_t\} \text{ is Bernoulli}(p q),
+\qquad
+\{B_t\} \text{ is Bernoulli}(p (1-q)),
+\]
+each process is independent across time, but the two processes are not independent of each other.  
+
+\bigskip
+\textsc{Example: splitting customer arrivals in a store}
+
+Consider a department store where customers arrive according to a Bernoulli process with parameter \(p\), so \(X_t = 1\) means that at least one customer arrives during time slot \(t\).  
+Upon arrival, each customer independently chooses to visit the clothing section with probability \(q\), and all other sections with probability \(1 - q\).  
+
+We model the number of arrivals to the clothing section by the process \(\{A_t\}\), where \(A_t = 1\) if an arrival occurs in slot \(t\) and the customer chooses clothing, and \(A_t = 0\) otherwise.  
+Similarly, we define \(\{B_t\}\) to indicate arrivals to the other sections.  
+
+By the splitting arguments above, the sequence \(\{A_t\}\) is a Bernoulli process with parameter \(p q\), and \(\{B_t\}\) is a Bernoulli process with parameter \(p (1 - q)\).  
+Within each stream, arrivals in different time slots are independent, but the two streams are not independent of each other, because a customer who chooses the clothing section in a given slot cannot simultaneously choose to go to the other sections in that same slot.
+
+
+\subsubsection{The Poisson approximation to the Binomial}
+
+The binomial distribution plays a central role in the analysis of the Bernoulli process, because it describes the number of arrivals in a fixed number of time slots.  
+We now develop an approximation to the binomial distribution that is valid in a particular regime, namely when we have a very large number \(n\) of trials, a small success probability \(p\) in each trial, and the product \(\lambda = np\), which is the expected number of successes, remains of moderate size.  
+
+This regime arises in various applications.  
+For example, suppose we are interested in the number of noticeable earthquakes in a city over a period of several years and divide time into hourly slots.  
+In each hour, the probability \(p\) of a noticeable earthquake is extremely small, but the number of hours \(n\) in several years is very large.  
+The expected number of earthquakes \(\lambda = np\) over this period may be moderate.  
+Another important context will be when we approximate a discrete-time Bernoulli process by a continuous-time model by taking very small time slots, which leads to many slots but a small probability of arrival in each slot.  
+
+We start from the binomial PMF.  
+Let \(X\) be a binomial random variable with parameters \(n\) and \(p\), so
+\[
+\mathbb{P}(X = k)
+=
+\binom{n}{k} p^{k} (1-p)^{n-k},
+\qquad
+k = 0,1,\ldots,n.
+\]
+We are interested in the behavior of this probability when \(k\) is a fixed nonnegative integer and \(n\) tends to infinity, while
+\[
+p = \frac{\lambda}{n}
+\]
+and \(\lambda = np\) is held constant.  
+
+Substituting \(p = \lambda/n\) into the binomial PMF, we obtain
+\[
+\mathbb{P}(X = k)
+=
+\binom{n}{k}
+\left(\frac{\lambda}{n}\right)^{k}
+\left(1 - \frac{\lambda}{n}\right)^{n-k}.
+\]
+We now rewrite the binomial coefficient:
+\[
+\binom{n}{k}
+=
+\frac{n!}{k!(n-k)!}
+=
+\frac{n (n-1) \cdots (n-k+1)}{k!}.
+\]
+Substituting this expression into the PMF gives
+\[
+\mathbb{P}(X = k)
+=
+\frac{n (n-1) \cdots (n-k+1)}{k!}
+\left(\frac{\lambda}{n}\right)^{k}
+\left(1 - \frac{\lambda}{n}\right)^{n-k}.
+\]
+
+We now rearrange terms in a convenient way.  
+Write the product in the numerator as a product of \(k\) terms:
+\[
+n (n-1) \cdots (n-k+1)
+=
+\prod_{j=0}^{k-1} (n-j).
+\]
+Then
+\[
+\mathbb{P}(X = k)
+=
+\left[\prod_{j=0}^{k-1} (n-j)\right]
+\frac{1}{k!}
+\left(\frac{\lambda}{n}\right)^{k}
+\left(1 - \frac{\lambda}{n}\right)^{n-k}.
+\]
+We now separate the factors involving \(n\) and write
+\[
+\prod_{j=0}^{k-1} (n-j)
+=
+\prod_{j=0}^{k-1} n \left(1 - \frac{j}{n}\right)
+=
+n^{k}
+\prod_{j=0}^{k-1} \left(1 - \frac{j}{n}\right).
+\]
+Substituting this back, we get
+\[
+\mathbb{P}(X = k)
+=
+\left[
+n^{k}
+\prod_{j=0}^{k-1} \left(1 - \frac{j}{n}\right)
+\right]
+\frac{1}{k!}
+\left(\frac{\lambda}{n}\right)^{k}
+\left(1 - \frac{\lambda}{n}\right)^{n-k}.
+\]
+The powers of \(n\) cancel, giving
+\[
+\mathbb{P}(X = k)
+=
+\left[\prod_{j=0}^{k-1} \left(1 - \frac{j}{n}\right)\right]
+\frac{\lambda^{k}}{k!}
+\left(1 - \frac{\lambda}{n}\right)^{n-k}.
+\]
+
+We now separate the last factor as
+\[
+\left(1 - \frac{\lambda}{n}\right)^{n-k}
+=
+\left(1 - \frac{\lambda}{n}\right)^{n}
+\left(1 - \frac{\lambda}{n}\right)^{-k}.
+\]
+Thus,
+\[
+\mathbb{P}(X = k)
+=
+\left[\prod_{j=0}^{k-1} \left(1 - \frac{j}{n}\right)\right]
+\frac{\lambda^{k}}{k!}
+\left(1 - \frac{\lambda}{n}\right)^{n}
+\left(1 - \frac{\lambda}{n}\right)^{-k}.
+\]
+
+We now examine the limit of each factor as \(n \to \infty\), keeping \(k\) and \(\lambda\) fixed.  
+
+First, for each \(j = 0,1,\ldots,k-1\),
+\[
+\lim_{n \to \infty} \left(1 - \frac{j}{n}\right) = 1,
+\]
+so
+\[
+\lim_{n \to \infty}
+\prod_{j=0}^{k-1} \left(1 - \frac{j}{n}\right)
+=
+1.
+\]
+
+Second, the factor \(\lambda^{k}/k!\) does not depend on \(n\) and remains as is.  
+
+Third, we recall the standard limit
+\[
+\lim_{n \to \infty}
+\left(1 - \frac{\lambda}{n}\right)^{n}
+=
+e^{-\lambda}.
+\]
+
+Fourth, since
+\[
+\lim_{n \to \infty} \left(1 - \frac{\lambda}{n}\right) = 1,
+\]
+and \(k\) is fixed, we have
+\[
+\lim_{n \to \infty}
+\left(1 - \frac{\lambda}{n}\right)^{-k}
+=
+1.
+\]
+
+Putting these limits together, we obtain
+\[
+\lim_{n \to \infty}
+\mathbb{P}(X = k)
+=
+1 \cdot
+\frac{\lambda^{k}}{k!} \cdot
+e^{-\lambda} \cdot
+1
+=
+e^{-\lambda} \frac{\lambda^{k}}{k!}.
+\]
+This is exactly the PMF of a Poisson random variable with parameter \(\lambda\).  
+
+Thus, we have shown that, for any fixed \(k\),
+\[
+\lim_{n \to \infty}
+\binom{n}{k} p^{k} (1-p)^{n-k}
+=
+e^{-\lambda} \frac{\lambda^{k}}{k!},
+\]
+when \(p = \lambda/n\) and \(\lambda = np\) is held constant.  
+In other words, the binomial \(\text{Binomial}(n,p)\) distribution converges to the Poisson \(\text{Poisson}(\lambda)\) distribution as \(n \to \infty\) and \(p \to 0\) with \(np = \lambda\).  
+
+This limiting relationship underlies the use of the Poisson distribution as an approximation to the binomial distribution in situations where \(n\) is large, \(p\) is small, and \(\lambda = np\) is moderate.  
+It will also be central when we introduce the Poisson process as a continuous-time limit of the Bernoulli process.
