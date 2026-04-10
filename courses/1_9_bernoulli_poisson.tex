@@ -1138,3 +1138,229 @@ In other words, the binomial \(\text{Binomial}(n,p)\) distribution converges to 
 
 This limiting relationship underlies the use of the Poisson distribution as an approximation to the binomial distribution in situations where \(n\) is large, \(p\) is small, and \(\lambda = np\) is moderate.  
 It will also be central when we introduce the Poisson process as a continuous-time limit of the Bernoulli process.
+
+
+\subsubsection{Definition and assumptions of the Poisson process}
+
+We consider a counting process \(\{N(t), t \ge 0\}\), where \(N(t)\) denotes the total number of arrivals that have occurred in the time interval \((0,t]\).  
+We assume that \(N(0) = 0\) and that arrivals occur one by one over time.  
+
+The Poisson process is defined through three main assumptions, which parallel those of the Bernoulli process but in continuous time.  
+
+\textit{Independent increments.}  
+For any collection of disjoint time intervals, the random variables that count the number of arrivals in each interval are independent.  
+That is, if \((t_1,t_2], (t_3,t_4], \ldots\) are disjoint intervals, then the corresponding random variables \(N(t_2) - N(t_1), N(t_4) - N(t_3), \ldots\) are independent.  
+
+\textit{Stationary increments.}  
+The distribution of the number of arrivals in an interval depends only on the length of the interval, not on its location on the time axis.  
+If an interval has length \(\tau\), then for any shift in time, the probability of observing \(k\) arrivals in that interval is the same.  
+We denote this probability by
+\[
+p_k(\tau) = \mathbb{P}\big(N(t+\tau) - N(t) = k\big),
+\]
+which depends on \(k\) and \(\tau\) but not on \(t\).  
+
+\textit{Behavior over small intervals.}  
+Let \(\lambda > 0\) be a fixed constant called the arrival rate.  
+Consider a very small time interval of length \(\delta\).  
+During such a small interval, the probability of having exactly one arrival is approximately proportional to \(\delta\), while the probability of having two or more arrivals is negligible compared to \(\delta\).  
+Formally, as \(\delta \to 0\), we impose
+\[
+\mathbb{P}\big(N(t+\delta) - N(t) = 1\big) = \lambda \delta + o(\delta),
+\]
+\[
+\mathbb{P}\big(N(t+\delta) - N(t) = 0\big) = 1 - \lambda \delta + o(\delta),
+\]
+\[
+\mathbb{P}\big(N(t+\delta) - N(t) \ge 2\big) = o(\delta),
+\]
+where \(o(\delta)\) denotes a term that is of smaller order than \(\delta\) as \(\delta \to 0\).  
+Intuitively, in a very short time interval we either get no arrival or one arrival with high probability, and multiple arrivals are extremely unlikely.  
+
+The parameter \(\lambda\) has the interpretation of an arrival rate or intensity.  
+It describes how likely it is to see an arrival in a short time interval.  
+If we double \(\lambda\), then for the same small \(\delta\) the probability of an arrival in that interval roughly doubles, so on average we expect about twice as many arrivals per unit time.  
+
+\bigskip
+\textsc{Interpretation via the Bernoulli process}
+
+One way to interpret the Poisson process is as a limit of a Bernoulli process in which time is divided into very small slots.  
+In each slot there is a small probability of an arrival, approximately \(\lambda \Delta t\) when the slot length is \(\Delta t\), and slots are independent of each other.  
+As the slots become finer and finer and \(\Delta t \to 0\), while keeping the expected number of arrivals per unit time equal to \(\lambda\), the resulting counting process converges (in an appropriate sense) to a Poisson process of rate \(\lambda\).  
+
+This viewpoint explains why the Poisson process is regarded as a continuous time analog of the Bernoulli process.  
+In the Bernoulli process, we have independent trials in discrete time with a fixed success probability in each slot.  
+In the Poisson process, we instead have independent increments in continuous time and arrivals occurring randomly, with the rate \(\lambda\) determining how often arrivals take place on average.
+
+\subsubsection{Applications of the Poisson process}
+
+The Poisson process arises in situations where we observe random events that are relatively rare and occur in an uncoordinated manner over time.  
+In such settings, the number of events in a given time interval is often well described by the Poisson distribution, named after the French mathematician Simon Denis Poisson.  
+
+Historically, one of the early data sets that fit a Poisson model involved accidental deaths due to horse kicks in the Prussian army.  
+A death caused by a horse kick could happen at essentially any time, and different accidents were unrelated to each other, making the sequence of such events appear completely random.  
+
+In the physical sciences, several phenomena are naturally modeled by a Poisson process.  
+For instance, consider a radioactive source that emits particles as it decays.  
+Each emission occurs at a random time, and emissions from different atoms are uncoordinated, so the counting process of emitted particles over time is well modeled as a Poisson process.  
+
+Another classical example comes from optics.  
+Suppose we have a very weak light source and a photo detector that records the arrival times of photons.  
+Photons are detected one at a time at seemingly random instants, and the arrivals can be modeled by a Poisson process, with the rate parameter describing the average photon flux.  
+
+In more modern contexts, Poisson processes are also used as approximate models in finance.  
+For example, the times at which rare, unexpected events such as market shocks occur can be modeled using a Poisson process.  
+While this is only an approximation and real markets are more complex, it often serves as a useful first model for such jump-like phenomena.  
+
+The most widespread applications today occur in service and communication systems.  
+A typical example is telephony: calls to a large telephone exchange are initiated by many different users acting independently, so call arrival times can be modeled as a Poisson process.  
+Similarly, requests to web servers or service centers from many uncoordinated users are often modeled as arrivals of a Poisson process, forming the basis for the analysis and design of such systems.  
+
+\bigskip
+\textsc{Summary of typical scenarios}
+
+The Poisson process provides a convenient idealization whenever the following features are approximately present:  
+events are relatively rare, they occur one by one, and the behavior of one event does not influence the timing of others.  
+Examples range from physics (radioactive decay, photon arrivals) to finance (rare market shocks) and to operations and computer systems (call arrivals, web requests, and general service demands).
+
+
+\subsubsection{The Poisson PMF for the number of arrivals}
+
+We consider a Poisson process with rate \(\lambda > 0\).  
+For a fixed time horizon \(\tau > 0\), we are interested in the random variable \(N_\tau\), which denotes the number of arrivals in an interval of length \(\tau\), and in its PMF \(\mathbb{P}(N_\tau = k)\) for \(k = 0,1,2,\dots\).  
+
+To derive this PMF, we approximate the continuous-time process by a Bernoulli-type model.  
+Divide the time interval \((0,\tau]\) into \(n\) subintervals (slots), each of length \(\delta = \tau/n\).  
+During each slot, because \(\delta\) is small, the defining properties of the Poisson process imply that the probability of exactly one arrival is approximately \(\lambda \delta\), and the probability of two or more arrivals is negligible compared to \(\delta\).  
+Thus, as \(\delta \to 0\), the chance that any slot contains two or more arrivals goes to zero, and we can approximate the event of “an arrival in a slot” by a Bernoulli trial with success probability \(p \approx \lambda \delta\).  
+
+Under this approximation, the total number of arrivals in \((0,\tau]\) is (with overwhelming probability) equal to the number of slots that contain an arrival.  
+Because of independent increments, different slots behave approximately like independent Bernoulli trials with success probability \(p\).  
+Therefore, the number of slots that contain an arrival has approximately a binomial distribution with parameters \(n\) and \(p\), where
+\[
+n = \frac{\tau}{\delta},
+\qquad
+p \approx \lambda \delta.
+\]
+The mean of this binomial distribution is \(np \approx \lambda \tau\).  
+
+Taking the limit as \(\delta \to 0\) (so \(n \to \infty\) and \(p \to 0\)) while keeping \(np = \lambda \tau\) fixed, the binomial PMF converges to the Poisson PMF.  
+Concretely, the limiting distribution of \(N_\tau\) is given by
+\[
+\mathbb{P}(N_\tau = k)
+=
+\frac{(\lambda \tau)^k}{k!}\,e^{-\lambda \tau},
+\qquad
+k = 0,1,2,\dots.
+\]
+We say that \(N_\tau\) has a Poisson distribution with parameter \(\lambda \tau\).  
+The parameter \(\lambda \tau\) plays the role of the mean number of arrivals in the interval of length \(\tau\), and it also equals the variance of \(N_\tau\).  
+
+\bigskip
+\textsc{Connection to the Bernoulli process}
+
+In the Bernoulli process with \(n\) slots and success probability \(p\) per slot, the number of successes \(S\) has a binomial distribution \(\text{Binomial}(n,p)\).  
+If we let \(n \to \infty\) and \(p \to 0\) in such a way that \(np \to \lambda \tau\), then the PMF of \(S\) converges to
+\[
+\mathbb{P}(S = k)
+=
+\frac{(\lambda \tau)^k}{k!}\,e^{-\lambda \tau}.
+\]
+The Poisson process can be viewed as the continuous-time limit of such finely discretized Bernoulli processes, where slot lengths shrink to zero and the Bernoulli parameters are chosen so that the expected number of arrivals per unit time remains equal to \(\lambda\).  
+This limiting argument justifies both the Poisson PMF and the interpretation of \(\lambda\) as the arrival rate.
+
+
+\subsubsection{Mean and variance of the number of arrivals}
+
+Consider a Poisson process with rate \(\lambda > 0\), and let \(N_\tau\) denote the number of arrivals in a time interval of length \(\tau > 0\).  
+We already know that \(N_\tau\) has a Poisson distribution with parameter \(\lambda \tau\).  
+
+To find the mean, one option is to use directly the definition of expectation and the Poisson PMF.  
+This leads to the result
+\[
+\mathbb{E}[N_\tau] = \lambda \tau.
+\]
+Instead of a direct calculation, we can also use the discretization argument that relates the Poisson process to a Bernoulli (binomial) model.  
+
+Approximate the interval \((0,\tau]\) by \(n\) slots of length \(\delta = \tau/n\).  
+In the small-\(\delta\) regime, each slot contains an arrival with probability approximately \(p \approx \lambda \delta\), independently of the others.  
+Then the number of arrivals in \((0,\tau]\) is well approximated by a binomial random variable with parameters \(n\) and \(p\).  
+The expected value of this binomial variable is
+\[
+\mathbb{E}[\text{Binomial}(n,p)] = np \approx \frac{\tau}{\delta} \cdot \lambda \delta = \lambda \tau.
+\]
+As \(\delta \to 0\), this approximation becomes exact, so we obtain \(\mathbb{E}[N_\tau] = \lambda \tau\).  
+
+For the variance, the same approximation idea applies.  
+Using the binomial model, the variance of the number of arrivals in the discretized model is
+\[
+\operatorname{Var}[\text{Binomial}(n,p)] = np(1-p).
+\]
+When \(\delta\) is very small, \(p \approx \lambda \delta\) is also very small, so \(1 - p \approx 1\), and thus
+\[
+np(1-p) \approx np \approx \lambda \tau.
+\]
+Therefore, in the limit as \(\delta \to 0\), the variance of the number of arrivals in the Poisson process satisfies
+\[
+\operatorname{Var}(N_\tau) = \lambda \tau.
+\]
+This matches the value obtained by a direct calculation from the Poisson PMF, although that calculation is more tedious.  
+
+These formulas have an intuitive interpretation.  
+The mean number of arrivals grows linearly with the length \(\tau\) of the time interval.  
+If we double \(\tau\), we expect to see twice as many arrivals, which reinforces the interpretation of \(\lambda\) as an arrival rate, that is, the expected number of arrivals per unit time.  
+It is also a special property of the Poisson distribution that its variance equals its mean: both are equal to \(\lambda \tau\).
+
+
+\subsubsection{The fresh start property and its implications}
+
+The Poisson process has a \textit{fresh start} (or \textit{memoryless}) property that makes its behavior closely analogous to that of the Bernoulli process.  
+Conceptually, whenever we look at the process starting from a fixed time on the time axis, we see a new Poisson process that is independent of the past.  
+
+Suppose the original process starts at time \(0\), and you begin observing it at some deterministic time \(t\).  
+From that time onward, the increments over disjoint intervals remain independent, and the probability of an arrival in a short interval of length \(\delta\) is still approximately \(\lambda \delta\).  
+Thus, what you see from time \(t\) onward is itself a Poisson process with the same rate \(\lambda\), independent of the past history before time \(t\).  
+We summarize this by saying that the Poisson process \textit{starts fresh} at time \(t\).  
+
+One immediate consequence concerns the remaining time until the next arrival when you start observing at time \(t\).  
+Because you are effectively seeing a fresh Poisson process from time \(t\), the time until the first arrival in this new view has an exponential distribution with parameter \(\lambda\).  
+Moreover, this remaining time is independent of everything that happened before time \(t\).  
+
+Now consider starting to observe at a random time equal to the time of the first arrival, denoted by \(T_1\).  
+Condition on the event that the first arrival occurred at some particular value, say \(T_1 = 3\).  
+From time \(3\) onward, the future evolution of the process is independent of the history up to time \(3\), including the fact that the first arrival happened exactly at \(3\).  
+So starting at time \(T_1\), the process again starts fresh as a Poisson process with rate \(\lambda\).  
+By the same reasoning as before, the time until the next arrival (the second arrival) has an exponential distribution with parameter \(\lambda\), and is independent of \(T_1\).  
+
+In general, let \(T_k\) denote the time of the \(k\)th arrival, and let the \textit{inter-arrival times} be the differences between consecutive arrival times.  
+The first inter-arrival time is \(T_1\), the second is \(T_2 = T_2 - T_1\), and in general the \(k\)th inter-arrival time is
+\[
+T_k = \text{(time of \(k\)th arrival)} - \text{(time of \((k-1)\)th arrival)}.
+\]
+By repeatedly applying the fresh start property at each arrival time, we conclude that each inter-arrival time is an exponential random variable with parameter \(\lambda\), and that these inter-arrival times are independent of each other.  
+
+As a result, the time \(Y_k\) until the \(k\)th arrival is the sum of \(k\) independent, identically distributed exponential random variables of parameter \(\lambda\).  
+Thus,
+\[
+Y_k = T_1 + T_2 + \cdots + T_k,
+\]
+where the \(T_i\) are i.i.d. exponentials with parameter \(\lambda\).  
+This implies that \(Y_k\) has an Erlang (or Gamma with integer shape) distribution of order \(k\), and its mean and variance can be obtained by adding the means and variances of the exponentials:
+\[
+\mathbb{E}[Y_k] = \frac{k}{\lambda},
+\qquad
+\operatorname{Var}(Y_k) = \frac{k}{\lambda^2}.
+\]
+
+A deeper implication is that we can alternatively \textit{define} a Poisson process using i.i.d. exponential inter-arrival times.  
+Start with a sequence \(T_1, T_2, \dots\) of independent exponential random variables with parameter \(\lambda\), and define the arrival times \(Y_k\) as partial sums
+\[
+Y_k = T_1 + T_2 + \cdots + T_k.
+\]
+Then declare that an arrival occurs at each time \(Y_k\), and let \(N(t)\) be the number of arrivals up to time \(t\).  
+One can show that the resulting counting process \(N(t)\) satisfies the usual Poisson process assumptions (independent and stationary increments, small-interval behavior) and thus is a Poisson process of rate \(\lambda\).  
+Conversely, starting from the original definition of the Poisson process, we have argued that its inter-arrival times are indeed i.i.d. exponentials with parameter \(\lambda\), so the two viewpoints are equivalent.  
+
+Finally, this characterization suggests a natural way to simulate a Poisson process.  
+To generate a sample path, we can simulate independent exponential random variables \(T_1, T_2, \dots\) with parameter \(\lambda\) and form the partial sums \(Y_k\).  
+Each \(Y_k\) gives the time of the \(k\)th arrival, and by continuing this procedure we obtain a complete time history of the Poisson process.
