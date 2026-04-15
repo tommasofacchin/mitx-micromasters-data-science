@@ -1364,3 +1364,480 @@ Conversely, starting from the original definition of the Poisson process, we hav
 Finally, this characterization suggests a natural way to simulate a Poisson process.  
 To generate a sample path, we can simulate independent exponential random variables \(T_1, T_2, \dots\) with parameter \(\lambda\) and form the partial sums \(Y_k\).  
 Each \(Y_k\) gives the time of the \(k\)th arrival, and by continuing this procedure we obtain a complete time history of the Poisson process.
+
+
+\subsubsection{Sum of independent Poisson random variables}
+
+Consider a Poisson process with rate \(\lambda\).  
+For any time interval of length \(\tau\), the number of arrivals in that interval is a Poisson random variable with parameter \(\lambda \tau\), and hence has mean \(\lambda \tau\).  
+
+Now let us look at two consecutive time intervals of lengths \(\mu\) and \(\nu\).  
+Denote by \(M\) the number of arrivals in the first interval and by \(N\) the number of arrivals in the second interval.  
+By the defining properties of a Poisson process, the numbers of arrivals in disjoint intervals are independent, and each count over an interval has a Poisson distribution with parameter equal to the rate times the interval length.  
+Therefore,
+\[
+M \sim \operatorname{Pois}(\lambda \mu),
+\qquad
+N \sim \operatorname{Pois}(\lambda \nu),
+\]
+and \(M\) and \(N\) are independent random variables.  
+
+The total number of arrivals over the combined interval of length \(\mu + \nu\) is the sum
+\[
+S = M + N.
+\]
+On the other hand, by viewing the combined interval as a single time interval of length \(\mu + \nu\), the total number of arrivals over this interval must be a Poisson random variable with parameter \(\lambda (\mu + \nu)\).  
+Thus \(S\) has a Poisson distribution with mean \(\lambda (\mu + \nu)\).  
+We have therefore obtained that the sum of two independent Poisson random variables is again Poisson, with its parameter equal to the sum of the parameters:
+\[
+M \sim \operatorname{Pois}(\lambda \mu),
+\quad
+N \sim \operatorname{Pois}(\lambda \nu),
+\quad
+M \perp N
+\quad \Longrightarrow \quad
+M + N \sim \operatorname{Pois}\big(\lambda \mu + \lambda \nu\big).
+\]
+
+This argument extends naturally to more than two random variables.  
+Suppose that we split a time interval into \(k\) disjoint subintervals of lengths \(\tau_1, \dots, \tau_k\).  
+Let \(X_i\) be the number of arrivals in subinterval \(i\).  
+Then the independent increments property of the Poisson process implies that the random variables \(X_1, \dots, X_k\) are independent and
+\[
+X_i \sim \operatorname{Pois}(\lambda \tau_i),
+\qquad i = 1, \dots, k.
+\]
+The total number of arrivals in the union of all these subintervals is
+\[
+T = \sum_{i=1}^{k} X_i,
+\]
+which also counts arrivals over a single interval of length \(\tau_1 + \cdots + \tau_k\).  
+Hence \(T\) is a Poisson random variable with parameter \(\lambda (\tau_1 + \cdots + \tau_k)\), and we conclude that
+\[
+\sum_{i=1}^{k} X_i \sim \operatorname{Pois}\Big(\sum_{i=1}^{k} \lambda \tau_i\Big).
+\]
+In more abstract terms, if \(X_1, \dots, X_k\) are independent Poisson random variables with parameters \(\lambda_1, \dots, \lambda_k\), their sum is Poisson with parameter \(\lambda_1 + \cdots + \lambda_k\).  
+
+\bigskip
+\textsc{Example: splitting a Poisson process}
+
+Consider again a Poisson process of rate \(\lambda\) over a time interval of length \(\tau\).  
+Suppose that each arrival is independently classified as type A with probability \(p\) and type B with probability \(1-p\), regardless of other arrivals.  
+Let \(N_A\) be the number of type A arrivals during the interval and \(N_B\) the number of type B arrivals.  
+
+Conditioned on the event that the total number of arrivals is \(n\), the vector \((N_A, N_B)\) follows a binomial splitting: \(N_A \mid (N_A + N_B = n) \sim \operatorname{Bin}(n, p)\) and \(N_B = n - N_A\).  
+As the total number of arrivals \(N = N_A + N_B\) is Poisson with parameter \(\lambda \tau\), one can show that \(N_A\) and \(N_B\) are independent Poisson random variables with parameters \(\lambda \tau p\) and \(\lambda \tau (1-p)\), respectively.  
+Furthermore,
+\[
+N = N_A + N_B \sim \operatorname{Pois}(\lambda \tau p + \lambda \tau (1-p)) = \operatorname{Pois}(\lambda \tau),
+\]
+so the sum of these two independent Poisson counts reconstructs the original process.  
+This illustrates both the \textit{splitting} of a Poisson process into independent Poisson subprocesses and the fact that their sum remains Poisson.
+
+\subsubsection{Merging independent Poisson processes}
+
+Consider two independent Poisson processes.  
+The first process records the arrival times of flashes of a red light bulb and has rate \(\lambda_1\).  
+The second process records the arrival times of flashes of a green light bulb and has rate \(\lambda_2\).  
+Independence means that knowing the arrival pattern of one process over any collection of time intervals does not give any information about the arrival pattern of the other process over those intervals.  
+
+We now define a merged process that records an arrival whenever either the red or the green light bulb flashes.  
+If you are color blind and can only observe the times of flashes without distinguishing their colors, then the merged process is exactly the process that you see.  
+Let us denote by \(N_1(t)\) and \(N_2(t)\) the counting processes for the red and green bulbs respectively, and by \(N(t)\) the counting process of the merged flashes.  
+By construction,
+\[
+N(t) = N_1(t) + N_2(t), \qquad t \ge 0.
+\]
+
+To argue that \(N(t)\) is itself a Poisson process, we need to verify the defining properties of a Poisson process.  
+One of these properties concerns the distribution of the number of arrivals in any fixed time interval.  
+Let us fix an interval of length \(\tau\), and denote by \(N_1\) and \(N_2\) the numbers of arrivals in this interval for the red and green processes respectively.  
+Since each of the original processes is Poisson, we have
+\[
+N_1 \sim \operatorname{Pois}(\lambda_1 \tau),
+\qquad
+N_2 \sim \operatorname{Pois}(\lambda_2 \tau),
+\]
+and because the processes are independent, the random variables \(N_1\) and \(N_2\) are independent.  
+The total number of arrivals in the merged process during this interval is
+\[
+N = N_1 + N_2.
+\]
+By the result on sums of independent Poisson random variables, \(N\) is a Poisson random variable with parameter \((\lambda_1 + \lambda_2)\tau\).  
+Thus, for any fixed interval of length \(\tau\), the merged process has a Poisson number of arrivals with mean \((\lambda_1 + \lambda_2)\tau\), which is consistent with a Poisson process of rate \(\lambda_1 + \lambda_2\).
+
+Next, we verify the independence property of increments.  
+Take two disjoint time intervals.  
+The number of arrivals of the merged process in the first interval depends only on what happens in the red and green processes during that interval.  
+Similarly, the number of arrivals in the second interval depends only on what happens in the two original processes during that second interval.  
+Since the original processes are Poisson, the counts in disjoint intervals are independent within each process, and because the two processes are also independent of each other, the pair of counts associated with the first interval is independent of the pair of counts associated with the second interval.  
+As a consequence, the total counts of the merged process in these disjoint intervals are independent of each other, which establishes the independent increments property for the merged process.
+
+\bigskip
+\textsc{Small-interval behavior of the merged process}
+
+We now examine the behavior of the merged process over a small time interval of length \(\Delta\).  
+For a Poisson process of rate \(\lambda\), the defining small-interval behavior is that, for small \(\Delta\),
+\[
+\mathbb{P}(\text{one arrival in } \Delta) \approx \lambda \Delta,
+\qquad
+\mathbb{P}(\text{two or more arrivals in } \Delta) \approx 0,
+\]
+where the second approximation means that this probability is of order \(\Delta^2\).  
+
+For the red process of rate \(\lambda_1\), over a small interval \(\Delta\), we have
+\[
+\mathbb{P}(\text{0 red arrivals}) = 1 - \lambda_1 \Delta + o(\Delta),
+\qquad
+\mathbb{P}(\text{1 red arrival}) = \lambda_1 \Delta + o(\Delta),
+\]
+and the probability of two or more red arrivals is of order \(\Delta^2\).  
+Similarly, for the green process of rate \(\lambda_2\), over the same interval,
+\[
+\mathbb{P}(\text{0 green arrivals}) = 1 - \lambda_2 \Delta + o(\Delta),
+\qquad
+\mathbb{P}(\text{1 green arrival}) = \lambda_2 \Delta + o(\Delta),
+\]
+and the probability of two or more green arrivals is of order \(\Delta^2\).  
+
+Because the two original processes are independent, the joint behavior over the small interval can be obtained by multiplying probabilities.  
+The merged process records zero arrivals in the interval if and only if neither the red nor the green process records an arrival.  
+Thus
+\[
+\mathbb{P}(\text{0 merged arrivals})
+=
+\mathbb{P}(\text{0 red arrivals}) \,\mathbb{P}(\text{0 green arrivals})
+=
+\big(1 - \lambda_1 \Delta + o(\Delta)\big)\big(1 - \lambda_2 \Delta + o(\Delta)\big).
+\]
+Multiplying out and discarding terms of order \(\Delta^2\) and higher, we obtain
+\[
+\mathbb{P}(\text{0 merged arrivals})
+=
+1 - (\lambda_1 + \lambda_2)\Delta + o(\Delta).
+\]
+
+The merged process records exactly one arrival in the interval if either there is one red arrival and zero green arrivals, or one green arrival and zero red arrivals.  
+Using independence and keeping only terms up to order \(\Delta\), we have
+\[
+\mathbb{P}(\text{1 merged arrival})
+=
+\mathbb{P}(\text{1 red, 0 green})
++
+\mathbb{P}(\text{0 red, 1 green})
+=
+\lambda_1 \Delta + \lambda_2 \Delta + o(\Delta)
+=
+(\lambda_1 + \lambda_2)\Delta + o(\Delta).
+\]
+The event that the merged process records two or more arrivals in the small interval can only happen if we have at least one arrival in each of the original processes, or two or more arrivals in at least one of them.  
+Each of these scenarios has probability of order \(\Delta^2\), so the total probability of two or more merged arrivals is also of order \(\Delta^2\).  
+
+We have therefore shown that, for small \(\Delta\), the merged process satisfies
+\[
+\mathbb{P}(\text{one merged arrival in } \Delta)
+=
+(\lambda_1 + \lambda_2)\Delta + o(\Delta),
+\]
+\[
+\mathbb{P}(\text{two or more merged arrivals in } \Delta)
+=
+o(\Delta),
+\]
+and together with the independent increments property, this confirms that the merged process is a Poisson process with rate \(\lambda_1 + \lambda_2\).  
+
+\bigskip
+\textsc{Example: merging two traffic streams}
+
+Imagine two independent traffic streams approaching an intersection.  
+Cars arriving from the north form a Poisson process with rate \(\lambda_1\) cars per minute.  
+Cars arriving from the east form an independent Poisson process with rate \(\lambda_2\) cars per minute.  
+
+If a sensor at the intersection only records the total number of cars entering the intersection, without keeping track of their direction, then the sensor observes the merged process.  
+By the arguments above, this merged arrival process is a Poisson process with rate \(\lambda_1 + \lambda_2\).  
+In particular, over any time interval of length \(t\), the total number of cars observed by the sensor has a Poisson distribution with mean \((\lambda_1 + \lambda_2)t\).
+
+\subsubsection{Origin of an arrival in the merged process}
+
+Consider two independent Poisson processes.  
+The first process corresponds to red arrivals and has rate \(\lambda_1\).  
+The second process corresponds to green arrivals and has rate \(\lambda_2\).  
+As before, we merge these two processes and observe only the combined (merged) process, which we know is a Poisson process with rate \(\lambda_1 + \lambda_2\).  
+
+Suppose that we are told that there is an arrival of the merged process during a specific small time interval around some time \(t\).  
+We are interested in the conditional probability that this arrival came from the red stream.  
+To answer this, we examine all possible combinations of red and green arrivals during this small interval of length \(\Delta\).  
+
+For the red process over this small interval, the probabilities are approximately
+\[
+\mathbb{P}(\text{0 red arrivals}) = 1 - \lambda_1 \Delta,
+\qquad
+\mathbb{P}(\text{1 red arrival}) = \lambda_1 \Delta,
+\]
+where we ignore terms of order \(\Delta^2\) and higher.  
+Similarly, for the green process,
+\[
+\mathbb{P}(\text{0 green arrivals}) = 1 - \lambda_2 \Delta,
+\qquad
+\mathbb{P}(\text{1 green arrival}) = \lambda_2 \Delta,
+\]
+again ignoring terms of order \(\Delta^2\).  
+
+The merged process has exactly one arrival in the interval if either there is one red arrival and zero green arrivals, or one green arrival and zero red arrivals.  
+Using independence and keeping only terms up to order \(\Delta\), the probability of exactly one merged arrival is
+\[
+\mathbb{P}(\text{1 merged arrival})
+=
+\lambda_1 \Delta (1 - \lambda_2 \Delta)
++
+\lambda_2 \Delta (1 - \lambda_1 \Delta)
+\approx
+(\lambda_1 + \lambda_2)\Delta.
+\]
+The event that there is exactly one merged arrival and that it is red corresponds to the combination “1 red, 0 green”.  
+The probability of this event is approximately
+\[
+\mathbb{P}(\text{1 red, 0 green})
+=
+\lambda_1 \Delta (1 - \lambda_2 \Delta)
+\approx
+\lambda_1 \Delta.
+\]
+Therefore, the conditional probability that an arrival of the merged process in this small interval came from the red process is
+\[
+\mathbb{P}(\text{arrival is red} \mid \text{1 merged arrival})
+=
+\frac{\mathbb{P}(\text{1 red, 0 green})}{\mathbb{P}(\text{1 merged arrival})}
+\approx
+\frac{\lambda_1 \Delta}{(\lambda_1 + \lambda_2)\Delta}
+=
+\frac{\lambda_1}{\lambda_1 + \lambda_2}.
+\]
+By symmetry, the conditional probability that the arrival is green is \(\lambda_2 / (\lambda_1 + \lambda_2)\).  
+This answer is consistent with intuition: for example, if \(\lambda_1 = \lambda_2\), then each arrival in the merged process is equally likely to be red or green.
+
+\bigskip
+\textsc{Multiple arrivals and a binomial model}
+
+We now extend this reasoning to multiple arrivals.  
+Consider the first \(n\) arrivals of the merged process, and focus on their colors.  
+For each arrival, the event “arrival is red” has probability \(\lambda_1 / (\lambda_1 + \lambda_2)\), and “arrival is green” has probability \(\lambda_2 / (\lambda_1 + \lambda_2)\).  
+
+Because the original Poisson processes have independent increments over disjoint intervals, the occurrences of red and green arrivals in non-overlapping time intervals are independent.  
+This implies that the origins (red or green) of distinct arrivals of the merged process are independent of each other.  
+We can therefore model the color of each arrival as the outcome of a Bernoulli trial with success probability
+\[
+p = \frac{\lambda_1}{\lambda_1 + \lambda_2},
+\]
+where “success” corresponds to the event that the arrival is red.  
+
+Let \(R_n\) be the number of red arrivals among the first \(n\) arrivals of the merged process.  
+Since each arrival is independently red with probability \(p\), the random variable \(R_n\) follows a binomial distribution with parameters \(n\) and \(p\):
+\[
+R_n \sim \operatorname{Bin}\Big(n, \frac{\lambda_1}{\lambda_1 + \lambda_2}\Big).
+\]
+For example, the probability that exactly \(k\) out of the first \(n\) arrivals are red is
+\[
+\mathbb{P}(R_n = k)
+=
+\binom{n}{k}
+\Big(\frac{\lambda_1}{\lambda_1 + \lambda_2}\Big)^{k}
+\Big(\frac{\lambda_2}{\lambda_1 + \lambda_2}\Big)^{n-k},
+\qquad k = 0, 1, \dots, n.
+\]
+This binomial description captures the randomness in the origin of each arrival in the merged process, treating colors as outcomes of independent Bernoulli trials.
+
+\bigskip
+\textsc{Example: probability of a red arrival}
+
+Suppose that we observe the merged process and focus on its third arrival.  
+We ask for the probability that this third arrival came from the red process.  
+The third arrival occurs at some random time, but conditioning on its occurrence during a particular small interval around that time, the same argument as above applies.  
+Given that there is exactly one merged arrival in that small interval (the third arrival), the conditional probability that it is red is again \(\lambda_1 / (\lambda_1 + \lambda_2)\).  
+
+More generally, the color of each arrival in the merged process is determined by an independent Bernoulli trial with success probability \(\lambda_1 / (\lambda_1 + \lambda_2)\).  
+For instance, if we have observed \(10\) arrivals in total, the probability that exactly \(4\) of them are red is
+\[
+\binom{10}{4}
+\Big(\frac{\lambda_1}{\lambda_1 + \lambda_2}\Big)^{4}
+\Big(\frac{\lambda_2}{\lambda_1 + \lambda_2}\Big)^{6}.
+\]
+Thus, even though we cannot see the colors in the merged process, the statistical behavior of the origins of arrivals is completely characterized by a simple binomial model.
+
+\subsubsection{Splitting a Poisson process}
+
+Consider a Poisson process with rate \(\lambda\).  
+Whenever there is an arrival in this process, we decide to send it to one of two output streams.  
+The decision is made by flipping an independent biased coin that comes up \textit{heads} with probability \(q\) and \textit{tails} with probability \(1-q\).  
+If the coin lands heads, the arrival is sent to stream 1; if it lands tails, the arrival is sent to stream 2.  
+
+All coin flips are independent of each other and are also independent of the Poisson process itself.  
+In particular, the coin that determines the destination of a given arrival does not depend on the time at which that arrival occurred or on the times of other arrivals.  
+We will argue that each of the two resulting streams is itself a Poisson process.  
+By symmetry, it will suffice to analyze stream 1, and then the corresponding properties of stream 2 will follow in the same way.  
+
+We first verify the independent increments property for stream 1.  
+Take any two disjoint time intervals.  
+For the original Poisson process, the numbers of arrivals in these two intervals are independent.  
+Coin flips associated with arrivals in disjoint intervals are also independent, and the coin flips are independent from the original process.  
+Therefore, whatever happens in stream 1 over the first interval is independent from whatever happens in stream 1 over the second interval, which shows that stream 1 has independent increments.  
+
+Next, we examine the small-interval behavior for stream 1.  
+Consider a small time interval of length \(\Delta\).  
+In the original Poisson process, the probability of having two or more arrivals during this interval is of order \(\Delta^2\), which is negligible for small \(\Delta\).  
+The probability of having exactly one arrival is approximately \(\lambda \Delta\), and the remaining probability corresponds to the event of having zero arrivals.  
+
+Stream 1 receives an arrival during this small interval if and only if there is exactly one arrival in the original process and the coin flip sends that arrival to stream 1.  
+The probability of this event is the product of the approximate probability \(\lambda \Delta\) of one arrival in the original process and the probability \(q\) that the coin sends it to stream 1:
+\[
+\mathbb{P}(\text{1 arrival in stream 1 during } \Delta)
+\approx
+\lambda \Delta \, q
+=
+\lambda q \Delta.
+\]
+Because the probability of two or more original arrivals in \(\Delta\) is negligible, the probability that stream 1 has two or more arrivals in \(\Delta\) is also negligible and of order \(\Delta^2\).  
+Thus the behavior of stream 1 over small intervals matches that of a Poisson process with rate \(\lambda q\).  
+
+We have therefore checked that stream 1 has independent increments and satisfies the correct small-interval behavior with rate \(\lambda q\).  
+This implies that stream 1 is a Poisson process with rate \(\lambda q\).  
+By the same argument, stream 2 is a Poisson process with rate \(\lambda (1-q)\).  
+
+\bigskip
+\textsc{Independence of the split streams}
+
+A subtle and somewhat surprising fact is that the two split streams are independent Poisson processes.  
+This is in contrast with the discrete-time Bernoulli case, where splitting a Bernoulli process into two streams leads to dependence between the streams.  
+In the Bernoulli setting, knowing that there was an arrival in one stream at a given time slot implies that there cannot be an arrival in the other stream at that same slot, which directly creates dependence.  
+
+In continuous time, arrivals occur at precise time instants, and the probability of two arrivals happening at exactly the same time is zero.  
+Informally, the fact that an arrival at a particular time instant was routed to stream 1 does not create a meaningful restriction on stream 2, since the chance that another arrival occurs at exactly that instant is negligible.  
+A more formal proof uses conditioning and properties of Poisson point processes, but the key intuition is that the thinning decisions are made independently for each arrival and do not produce a coupling strong enough to violate independence.  
+As a result, when we split a Poisson process using independent coin flips, the two resulting Poisson streams not only have rates \(\lambda q\) and \(\lambda (1-q)\) but are also independent of each other.
+
+\subsubsection{Random incidence in the Poisson process}
+
+Consider a Poisson process with rate \(\lambda\) that has been running for a very long time.  
+The interarrival times of this process are independent and identically distributed exponential random variables with parameter \(\lambda\), and hence each interarrival time has expected value \(1/\lambda\).  
+For instance, if \(\lambda = 4\) arrivals per hour, then the expected interarrival time is
+\[
+\mathbb{E}[\text{interarrival time}] = \frac{1}{\lambda} = \frac{1}{4} \text{ hours} = 15 \text{ minutes}.
+\]
+
+Now suppose you arrive at a random time \(t^{\ast}\) (for example, at 12:00).  
+Let \(U\) be the time of the last arrival before \(t^{\ast}\), and \(V\) the time of the next arrival after \(t^{\ast}\).  
+The interarrival interval that you observe is
+\[
+V - U.
+\]
+We can decompose this random length as
+\[
+V - U = (V - t^{\ast}) + (t^{\ast} - U).
+\]
+The quantity \(t^{\ast}\) is a fixed constant, while \(V\) and \(U\) are random variables determined by the Poisson process.  
+
+Let us first analyze \(V - t^{\ast}\), the waiting time from your arrival until the next event.  
+Because of the \textit{memoryless} property and the independent increments of the Poisson process, the process \textit{restarts} at time \(t^{\ast}\).  
+Thus, the time from \(t^{\ast}\) to the next arrival has the same distribution as the first interarrival time of a Poisson process with rate \(\lambda\), so
+\[
+V - t^{\ast} \sim \operatorname{Exp}(\lambda),
+\qquad
+\mathbb{E}[V - t^{\ast}] = \frac{1}{\lambda}.
+\]
+
+Next, consider \(t^{\ast} - U\), the time from the last arrival before you arrived up to the time \(t^{\ast}\).  
+To understand its distribution, imagine running time backwards starting from \(t^{\ast}\).  
+Viewed backwards, the Poisson process still has independent increments, and the small-interval probabilities remain the same, so the time to the first arrival in the reversed process also has an exponential distribution with parameter \(\lambda\).  
+Therefore,
+\[
+t^{\ast} - U \sim \operatorname{Exp}(\lambda),
+\qquad
+\mathbb{E}[t^{\ast} - U] = \frac{1}{\lambda}.
+\]
+Moreover, the random variables \(V - t^{\ast}\) and \(t^{\ast} - U\) are independent.  
+This independence follows from the fact that the Poisson process has independent increments: the future after \(t^{\ast}\) is independent of the past before \(t^{\ast}\).  
+
+Putting everything together, the interarrival time that you observe satisfies
+\[
+V - U = (V - t^{\ast}) + (t^{\ast} - U),
+\]
+where the two terms on the right-hand side are independent exponential random variables with parameter \(\lambda\).  
+Hence,
+\[
+\mathbb{E}[V - U]
+=
+\mathbb{E}[V - t^{\ast}] + \mathbb{E}[t^{\ast} - U]
+=
+\frac{1}{\lambda} + \frac{1}{\lambda}
+=
+\frac{2}{\lambda}.
+\]
+In the numerical example with \(\lambda = 4\) arrivals per hour, this gives
+\[
+\mathbb{E}[V - U] = \frac{2}{4} \text{ hours} = 30 \text{ minutes}.
+\]
+So if you go to the bus stop at a random time and measure the interarrival interval that contains your arrival time, its expected length is 30 minutes, twice the usual 15-minute interarrival mean.
+
+\bigskip
+\textsc{Why this is not a paradox}
+
+At first sight, this seems paradoxical.  
+Interarrival times in a Poisson process have mean \(1/\lambda\), yet the interarrival interval that you \textit{see} by arriving at a random time has expected length \(2/\lambda\).  
+The resolution lies in the way we select the interarrival interval.  
+
+There are two different notions of “an interarrival time”.  
+One is the length of a specific interarrival interval: the first, the second, the \(k\)-th, and so on.  
+Each such interarrival time has mean \(1/\lambda\) because it is exponentially distributed with parameter \(\lambda\).  
+The other notion is the interarrival interval that contains a randomly chosen time \(t^{\ast}\), such as the time at which you arrive at the bus stop.  
+
+When you pick a time \(t^{\ast}\) independently of the process, you are more likely to land inside a \textit{long} interarrival interval than a short one.  
+Long intervals occupy more of the time axis, so they are more likely to contain your randomly chosen time.  
+This sampling method introduces a bias toward longer intervals, and this bias exactly accounts for the factor of 2 in the expectation.  
+
+In other words, the usual interarrival times (indexed by event number) are exponential with mean \(1/\lambda\), but the interarrival interval containing a random time is longer on average, with mean \(2/\lambda\).  
+This phenomenon is an instance of a more general principle: sampling by time can produce different average behaviors than sampling by event index, and often leads to a bias toward larger values when intervals of different sizes are involved.
+
+\subsubsection{Sampling methods matter}
+
+Consider a population consisting of several families of different sizes.  
+One way to define the \textit{average family size} is to select a family uniformly at random, each family being equally likely to be chosen, and then record its size.  
+The expected value obtained in this way is the average over families.  
+
+A different way to sample is to select a person uniformly at random from the entire population and ask, \textit{how many people are in your family?}  
+In this case, larger families are more likely to be represented, because they contain more individuals.  
+As a result, the expected family size obtained by sampling individuals is typically larger than the one obtained by sampling families.  
+It is therefore possible that \textit{the average family has size 3}, while \textit{the average person lives in a family of size 4}; these statements are both correct because they refer to different sampling schemes.  
+
+A similar phenomenon occurs when measuring bus occupancy.  
+One method is to pick buses at random, each bus equally likely, and record the number of passengers on each bus; the average of these numbers is the average occupancy per bus.  
+Another method is to pick passengers at random and ask them \textit{how many people were on your bus?}  
+Large, crowded buses contain more passengers, and hence are more likely to be sampled when you pick passengers at random, so the average occupancy reported by passengers will generally be larger than the average occupancy computed by sampling buses.  
+
+An analogous situation arises when measuring class sizes.  
+If we list all classes and average their enrollments, we obtain the average class size.  
+If instead we sample students and ask them \textit{how many students are in your class?}, the classes with more students will be overrepresented in the responses.  
+Consequently, the average class size reported by students will tend to be larger than the average over classes.  
+
+\bigskip
+\textsc{Example: average class size versus average experienced size}
+
+Suppose a school has three classes with sizes \(10\), \(10\), and \(50\).  
+If we sample classes uniformly at random, the average class size is
+\[
+\frac{10 + 10 + 50}{3} = 70/3 \approx 23.3.
+\]
+If instead we sample students uniformly at random and ask \textit{how many students are in your class?}, the two classes of size \(10\) contribute \(20\) students who answer \(10\), while the class of size \(50\) contributes \(50\) students who answer \(50\).  
+The expected class size experienced by a randomly chosen student is then
+\[
+\frac{20 \cdot 10 + 50 \cdot 50}{20 + 50}
+=
+\frac{200 + 2500}{70}
+=
+\frac{2700}{70}
+\approx 38.6,
+\]
+which is significantly larger than \(23.3\).  
+
+The key message is that different sampling procedures measure different quantities.  
+Picking families, buses, or classes uniformly averages over \textit{units} (families, buses, classes), while picking people, passengers, or students averages over \textit{individuals}, which biases the sample toward larger units.  
+In any statistical study, it is therefore crucial to specify precisely what is being sampled at random, since different sampling methods naturally lead to different, yet internally consistent, answers.
