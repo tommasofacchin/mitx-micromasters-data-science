@@ -1,0 +1,644 @@
+
+\subsection{Markov processes}
+
+Markov processes form a broad class of stochastic models used to describe the evolution of systems over time when randomness plays a key role.
+They appear in areas such as physics, chemistry, queuing theory, internet algorithms, finance, genetics, and many others, whenever we want to represent a system whose configuration changes randomly as time progresses.
+
+The key modeling idea is that at each time step the system is in some \textit{state} that summarizes all information from the past that is relevant for predicting the future.
+The state then evolves over time according to certain transition probabilities, which quantify how likely the system is to move from one state to another in the next step.
+
+\bigskip
+\textsc{State, time, and randomness}
+
+In this setting we focus on discrete time Markov chains, in which time increases in integer steps \(t = 0,1,2,\dots\).
+At each time \(t\), the system is described by a random variable \(X_t\) taking values in a set of possible states, such as \(\{0,1,2,\dots\}\) or a finite collection of labels representing different configurations.
+
+The evolution from time \(t\) to time \(t+1\) is not deterministic but random.
+Given the current state \(X_t\), the next state \(X_{t+1}\) is selected according to a probability distribution that depends only on \(X_t\) and not on earlier states, encapsulating the idea that the present state captures all relevant information about the past.
+
+\bigskip
+\textsc{The Markov property}
+
+The mathematical formulation of the Markov property is
+\[
+\mathbb{P}(X_{t+1} = j \mid X_t = i, X_{t-1} = i_{t-1}, \dots, X_0 = i_0)
+=
+\mathbb{P}(X_{t+1} = j \mid X_t = i)
+\]
+for all states \(i_0,\dots,i_{t-1},i,j\) and times \(t \ge 0\).
+This relation states that, once we know the current state \(X_t\), additional details about the past \(X_0,\dots,X_{t-1}\) do not change the conditional distribution of the next state.
+
+Equivalently, the Markov property says that the future and the past are conditionally independent given the present.
+Intuitively, the chain has no extra memory beyond the current state: all information from the entire trajectory that affects future behavior is summarized by \(X_t\).
+
+\bigskip
+\textsc{Transition probabilities and matrices}
+
+For a discrete time Markov chain with a countable state space \(S\), the one-step dynamics are described by transition probabilities
+\[
+P_{ij}
+=
+\mathbb{P}(X_{t+1} = j \mid X_t = i),
+\qquad
+i,j \in S.
+\]
+These numbers are nonnegative and must satisfy
+\[
+\sum_{j \in S} P_{ij} = 1
+\quad
+\text{for each fixed state } i,
+\]
+because from any given state the chain must move to some state at the next step.
+
+When \(S\) is finite, we collect the transition probabilities into a matrix \(P\), called the transition matrix, whose \((i,j)\) entry is \(P_{ij}\).
+If we represent the distribution of \(X_t\) as a row vector \(\pi^{(t)}\), then the distribution one step later is given by matrix multiplication,
+\[
+\pi^{(t+1)}
+=
+\pi^{(t)} P.
+\]
+
+
+\subsubsection{A checkout counter as a Markov chain}
+
+Consider again a supermarket checkout counter observed in discrete time, with time steps \(n = 0,1,2,\dots\), measured for instance in seconds.
+At each time step we record the number of customers in the system, including the one possibly in service and those waiting in the queue.
+
+We let \(X_n\) denote the number of customers present at time \(n\), and we call \(X_n\) the \textit{state} of the system at that time.
+In our example, when you arrive at the supermarket at time \(n = 0\), you observe that there are exactly two customers in the queue, so the initial state is \(X_0 = 2\).
+
+\bigskip
+\textsc{Arrival and service processes}
+
+To describe how customers arrive, we assume a Bernoulli process with parameter \(p\).
+This means that during each time step, independently of the past, a new customer arrives with probability \(p\), and with probability \(1-p\) no customer arrives.
+
+An equivalent description is an imaginary experiment in which, during each time step, nature flips a biased coin with probability \(p\) of Heads.
+Whenever the outcome is Heads, exactly one new customer joins the queue, while a Tails outcome corresponds to no arrival.
+
+From the properties of the Bernoulli process, the number of time steps between consecutive arrivals is modeled by a geometric random variable with parameter \(p\).
+That is, if \(T\) denotes the number of steps from one arrival to the next, then
+\[
+\mathbb{P}(T = k)
+=
+(1-p)^{k-1} p,
+\qquad
+k = 1,2,\dots.
+\]
+
+Service durations are also random, and depend on factors such as the number of items a customer has or the clerk's speed and mood.
+We model the service time of each customer as a geometric random variable with parameter \(q\), representing the probability that service is completed during any given time step.
+
+We can again imagine an experiment: when a customer reaches the front of the queue and starts being served, that customer flips a biased coin at each time step, with probability \(q\) of Heads.
+The service ends at the first time Heads appears, so the number of steps spent in service follows a geometric distribution with parameter \(q\).
+
+Finally, we assume that the arrival and service processes are independent.
+In particular, the coin flips governing arrivals are independent of those governing service completions.
+
+\bigskip
+\textsc{States and the Markov property}
+
+The state of the system at time \(n\) is given by the integer \(X_n\), the number of customers in the system at that time.
+Between successive steps, the state can increase by one if there is an arrival and no departure, decrease by one if there is a departure and no arrival, or remain unchanged if either both events occur or neither occurs.
+
+For example, suppose initially \(X_0 = 2\).
+If during the first time step there is no arrival and no departure, then \(X_1 = 2\).
+If during the next time step there is exactly one arrival and no departure, then \(X_2 = 3\).
+If during the third step there is a departure and no arrival, then \(X_3 = 2\), and so on.
+
+The crucial modeling observation is that, given the current number of customers \(X_n\), the conditional distribution of the next state \(X_{n+1}\) does not depend on the entire past history \(X_0,\dots,X_{n-1}\).
+The reason is that the future evolution is determined by the independent arrival and service processes, which depend on the present state but do not remember how that state was reached.
+
+This is exactly the Markov property:
+\[
+\mathbb{P}(X_{n+1} = j \mid X_n = i, X_{n-1} = i_{n-1}, \dots, X_0 = i_0)
+=
+\mathbb{P}(X_{n+1} = j \mid X_n = i),
+\]
+for all states \(i_0,\dots,i_{n-1},i,j\) and all times \(n\).
+Thus, the process \(\{X_n\}_{n \ge 0}\) is a discrete time Markov chain.
+
+\bigskip
+\textsc{Finite capacity and possible transitions}
+
+Assume now that the supermarket has limited space, with a maximum of 10 customers allowed in the system at any time.
+Then the state space of the Markov chain is the finite set
+\[
+S = \{0,1,2,\dots,10\},
+\]
+where state \(0\) corresponds to an empty queue and state \(10\) corresponds to a system at full capacity.
+
+From a given interior state \(i\) with \(1 \le i \le 9\), several one-step transitions are possible:
+\[
+i \longrightarrow i+1,
+\qquad
+i \longrightarrow i-1,
+\qquad
+i \longrightarrow i.
+\]
+A transition \(i \to i+1\) occurs when there is exactly one arrival and no departure during the next time step.
+A transition \(i \to i-1\) occurs when there is exactly one departure and no arrival.
+A transition \(i \to i\) occurs when either both an arrival and a departure happen, or neither arrival nor departure occurs.
+
+At the boundary states the possibilities are more restricted.
+If \(X_n = 0\), there are no customers that can depart, so from state \(0\) the next state is either \(0\) (no arrival) or \(1\) (one arrival).
+If \(X_n = 10\), no additional customers can join, so from state \(10\) the next state is either \(10\) (no departure) or \(9\) (one departure).
+
+\bigskip
+\textsc{Transition probabilities}
+
+Let us now compute the one-step transition probabilities in terms of the parameters \(p\) and \(q\).
+Consider first a state \(i\) with \(1 \le i \le 9\), so that both arrivals and departures are possible without hitting the capacity or the empty state.
+
+The probability of an arrival during a single step is \(p\), and the probability of no arrival is \(1-p\).
+Similarly, the probability that the customer in service completes checkout during the step is \(q\), and the probability that service continues is \(1-q\).
+
+Using independence of the arrival and service processes, we obtain the probabilities of the four basic combinations:
+\[
+\begin{aligned}
+\textit{arrival and no departure:}&
+\quad
+p (1-q), \\
+\textit{departure and no arrival:}&
+\quad
+q (1-p), \\
+\textit{arrival and departure:}&
+\quad
+p q, \\
+\textit{no arrival and no departure:}&
+\quad
+(1-p)(1-q).
+\end{aligned}
+\]
+
+From a state \(i\) with \(1 \le i \le 9\), these combinations translate into transitions as follows:
+\[
+\mathbb{P}(X_{n+1} = i+1 \mid X_n = i)
+=
+p (1-q),
+\]
+\[
+\mathbb{P}(X_{n+1} = i-1 \mid X_n = i)
+=
+q (1-p),
+\]
+\[
+\mathbb{P}(X_{n+1} = i \mid X_n = i)
+=
+p q + (1-p)(1-q).
+\]
+
+At the empty state \(0\), a departure is impossible, so the only two relevant combinations are an arrival with probability \(p\) and no arrival with probability \(1-p\).
+Thus
+\[
+\mathbb{P}(X_{n+1} = 1 \mid X_n = 0)
+=
+p,
+\qquad
+\mathbb{P}(X_{n+1} = 0 \mid X_n = 0)
+=
+1-p.
+\]
+
+At the full state \(10\), new arrivals are not accepted, so the only changes come from possible departures.
+With probability \(q\) the customer in service departs and the state decreases to \(9\), while with probability \(1-q\) no departure occurs and the state remains at \(10\):
+\[
+\mathbb{P}(X_{n+1} = 9 \mid X_n = 10)
+=
+q,
+\qquad
+\mathbb{P}(X_{n+1} = 10 \mid X_n = 10)
+=
+1-q.
+\]
+
+For each state \(i\), the sum of all outgoing transition probabilities equals \(1\), as required for a valid probabilistic model.
+For example, if \(1 \le i \le 9\) then
+\[
+p(1-q) + q(1-p) + \big(p q + (1-p)(1-q)\big) = 1,
+\]
+which can be verified by expanding and simplifying the expression.
+
+\bigskip
+\textsc{The transition probability graph}
+
+A convenient way to visualize this Markov chain is through a transition probability graph.
+This graph has one node for each possible state \(i \in \{0,1,\dots,10\}\), and directed edges representing possible one-step transitions, labeled with their corresponding probabilities.
+
+For interior states \(1 \le i \le 9\), there is an edge from \(i\) to \(i+1\) with label \(p(1-q)\), an edge from \(i\) to \(i-1\) with label \(q(1-p)\), and a self-loop at \(i\) with label \(p q + (1-p)(1-q)\).
+At state \(0\), there is an edge to \(1\) with label \(p\) and a self-loop at \(0\) with label \(1-p\).
+At state \(10\), there is an edge to \(9\) with label \(q\) and a self-loop at \(10\) with label \(1-q\).
+
+This transition probability graph provides a complete description of the discrete time finite state Markov chain that models the supermarket checkout counter.
+Once the parameters \(p\) and \(q\) are specified, the graph encodes all information needed to analyze the future evolution of the system, starting from any initial state.
+
+
+\subsubsection{Discrete time finite state Markov chains}
+
+We now abstract from the checkout counter and give a general definition of a discrete time, finite state Markov chain.
+The central modeling element is the \textit{state}, which encodes the current situation of the system in a way that is sufficient for predicting its future evolution.
+
+Time is assumed to be discrete, with steps \(n = 0,1,2,\dots\).
+The system starts at time \(0\) in some initial state, and at each subsequent step it moves randomly from its current state to a next state.
+
+After \(n\) transitions, the state of the system is random, so we represent it by a random variable \(X_n\).
+As a shorthand, we say that \(X_n\) is the state of the system at time \(n\).
+
+We assume there is a finite number \(m\) of possible states.
+We label these states by the integers \(1,2,\dots,m\), and we use \(i\) and \(j\) as generic labels for states.
+
+The initial state may be fixed (for example, always state \(3\)) or may itself be random, according to some initial distribution on the state space.
+
+\bigskip
+\textsc{State space and possible transitions}
+
+We can represent the finite state space as a collection of nodes labeled \(1,\dots,m\).
+Between some pairs of states we draw directed arcs that indicate possible one-step transitions of the system.
+
+By convention, we include an arc from \(i\) to \(j\) only if it is possible for the system to move from state \(i\) to state \(j\) in one time step.
+If a certain move cannot occur in a single step under the modeling assumptions, we simply omit the corresponding arc.
+
+For example, in the checkout counter model we did not draw an arc from a state with one customer directly to a state with three customers, because at most one arrival can occur in a single time step by assumption.
+Similarly, we did not draw arcs corresponding to the departure of more than one customer in a single step.
+
+Suppose that at time \(0\) the system is in some state, say state \(3\).
+The next state will be chosen randomly among the states that are directly reachable from \(3\) by a single transition, including possibly a self-transition from \(3\) back to \(3\).
+
+\bigskip
+\textsc{Transition probabilities}
+
+We describe the statistics of these random jumps using conditional probabilities.
+For each pair of states \(i\) and \(j\), we define the one-step transition probability
+\[
+p_{ij}
+=
+\mathbb{P}(X_{n+1} = j \mid X_n = i).
+\]
+
+For a fixed state \(i\), the numbers \(\{p_{ij}\}_{j=1}^{m}\) give the probabilities of moving from state \(i\) to each of the possible next states.
+These probabilities are nonnegative and must satisfy
+\[
+\sum_{j=1}^{m} p_{ij}
+=
+1,
+\]
+because starting from state \(i\) the system must go somewhere (possibly staying in \(i\)) at the next time step.
+
+We usually assume that the chain is \textit{time homogeneous}, meaning that the transition probabilities do not depend on the time index \(n\).
+Formally, for all times \(n\) and all states \(i,j\) we have
+\[
+\mathbb{P}(X_{n+1} = j \mid X_n = i)
+=
+p_{ij},
+\]
+where the right-hand side does not depend on \(n\).
+
+In a diagrammatic representation, for a fixed state \(3\) we might have outgoing arcs to states \(1,2,3,j\), labeled respectively by \(p_{31}, p_{32}, p_{33}, p_{3j}\), and these probabilities satisfy
+\[
+p_{31} + p_{32} + p_{33} + p_{3j} + \dots = 1,
+\]
+with the sum taken over all states \(j\) that can be reached from \(3\) in one step.
+
+\bigskip
+\textsc{The Markov property}
+
+To obtain a consistent probabilistic model based on these transition probabilities, we impose the Markov property on the sequence of random variables \(\{X_n\}_{n \ge 0}\).
+In words, the Markov property states that, given the present state, the conditional distribution of the next state does not depend on the earlier history of the process.
+
+More precisely, for all states \(i_0,\dots,i_{n-1},i,j\) and all times \(n \ge 0\),
+\[
+\mathbb{P}(X_{n+1} = j \mid X_n = i, X_{n-1} = i_{n-1}, \dots, X_0 = i_0)
+=
+\mathbb{P}(X_{n+1} = j \mid X_n = i)
+=
+p_{ij}.
+\]
+
+Thus, once we know that the current state is \(i\), additional information about the specific path \((X_0,\dots,X_{n-1})\) taken to reach \(i\) does not change the conditional probabilities of where the chain will go next.
+The future evolution depends on the past only through the current state.
+
+Equivalently, the Markov property says that \(X_{n+1}\) is conditionally independent of \((X_0,\dots,X_{n-1})\) given \(X_n\).
+This conditional independence is the defining feature of a Markov chain.
+
+\bigskip
+\textsc{Choosing a good state description}
+
+For the Markov property to hold in a given application, it is essential to choose the state variables carefully.
+The state must be rich enough to capture all information from the past that is relevant for predicting the future behavior of the system.
+
+If the state is chosen too coarsely, so that it omits important aspects of the system's history, then the Markov property will typically fail, because the future evolution will still depend on missing past details.
+In contrast, if the state records sufficiently detailed information, then the distribution of the next state can legitimately depend only on the current state.
+
+Designing an appropriate state representation is more of an art than a mechanical procedure.
+With practice and experience, one develops intuition about what information needs to be included in the state to obtain a useful Markov chain model of a given system.
+
+
+\subsubsection{N-step transition probabilities}
+
+We now turn to the problem of making probabilistic predictions about the future evolution of a Markov chain.
+Because the dynamics are random, we cannot usually predict the exact state of the system at a future time, but we can compute the probabilities of being in each possible state after a given number of steps.
+
+Suppose that the chain starts in a specific state \(i\) at time \(0\), and we observe it for \(n\) transitions.
+We define the \textit{\(n\)-step transition probability} from state \(i\) to state \(j\) by
+\[
+r_{ij}^{(n)}
+=
+\mathbb{P}(X_n = j \mid X_0 = i),
+\]
+for all states \(i,j\) and integers \(n \ge 0\).
+
+For each fixed initial state \(i\) and time \(n\), the numbers \(\{r_{ij}^{(n)}\}_{j}\) form a probability distribution over the state space, so they satisfy
+\[
+\sum_{j} r_{ij}^{(n)} = 1.
+\]
+
+Because the Markov chain is time homogeneous, the same quantity can be written for any reference time \(s \ge 0\) as
+\[
+r_{ij}^{(n)}
+=
+\mathbb{P}(X_{n+s} = j \mid X_s = i),
+\]
+which expresses the fact that the probability of going from \(i\) to \(j\) in \(n\) steps depends only on the number of steps and not on the absolute time.
+
+\bigskip
+\textsc{Special cases: 0-step and 1-step probabilities}
+
+For \(n = 0\), there are no transitions.
+If the chain starts in state \(i\), then after zero steps it is still in state \(i\) with probability \(1\), and it cannot be in any other state:
+\[
+r_{ij}^{(0)}
+=
+\mathbb{P}(X_0 = j \mid X_0 = i)
+=
+\begin{cases}
+1, & i = j, \\
+0, & i \ne j.
+\end{cases}
+\]
+
+For \(n = 1\), the \(1\)-step transition probabilities coincide with the basic transition probabilities of the Markov chain:
+\[
+r_{ij}^{(1)}
+=
+\mathbb{P}(X_1 = j \mid X_0 = i)
+=
+p_{ij}.
+\]
+
+\bigskip
+\textsc{A recursion by conditioning on the state at time \(n-1\)}
+
+To compute \(r_{ij}^{(n)}\) for \(n \ge 2\), we apply the Total Probability Theorem and condition on the state of the chain one step before the final time.
+Consider the event that the chain starts in state \(i\) and is in state \(j\) after \(n\) steps.
+We break this event according to the intermediate state \(k\) at time \(n-1\).
+
+For a fixed intermediate state \(k\), the probability of going from \(i\) to \(k\) in \(n-1\) steps is \(r_{ik}^{(n-1)}\), and the probability of then going from \(k\) to \(j\) in one additional step is \(p_{kj}\).
+Thus the probability of following a path that is in state \(k\) at time \(n-1\) and in \(j\) at time \(n\) is
+\[
+r_{ik}^{(n-1)} p_{kj}.
+\]
+
+Summing over all possible intermediate states \(k\), we obtain
+\[
+r_{ij}^{(n)}
+=
+\sum_{k} r_{ik}^{(n-1)} p_{kj}.
+\]
+
+In the derivation of this recursion, the Markov property is used when we replace the conditional probability
+\[
+\mathbb{P}(X_n = j \mid X_{n-1} = k, X_{n-2} = i_{n-2}, \dots, X_0 = i)
+\]
+by
+\[
+\mathbb{P}(X_n = j \mid X_{n-1} = k)
+=
+p_{kj},
+\]
+because the distribution of the next state depends only on the current state and not on the full past trajectory.
+
+This recursion has a dynamic programming interpretation.
+If we already know all the \((n-1)\)-step transition probabilities \(r_{ik}^{(n-1)}\) for every pair \(i,k\), we can compute the \(n\)-step probabilities \(r_{ij}^{(n)}\) for all \(i,j\) by evaluating the sum above for each pair.
+
+\bigskip
+\textsc{An alternative recursion by conditioning on the first step}
+
+There is a second useful recursion obtained by conditioning instead on the state after the first step.
+Starting from state \(i\) at time \(0\), suppose that the chain moves to state \(k\) in one step.
+The probability of this event is the one-step transition probability \(p_{ik}\).
+
+Given that the chain is in state \(k\) at time \(1\), the probability that it will be in state \(j\) at time \(n\) (that is, after \(n-1\) additional steps) is \(r_{kj}^{(n-1)}\).
+Thus the probability of starting in state \(i\), being in state \(k\) after one step, and then reaching state \(j\) after a total of \(n\) steps is
+\[
+p_{ik} r_{kj}^{(n-1)}.
+\]
+
+Summing over all possible intermediate states \(k\), we obtain the alternative recursion
+\[
+r_{ij}^{(n)}
+=
+\sum_{k} p_{ik} r_{kj}^{(n-1)}.
+\]
+
+Both recursion formulas,
+\[
+r_{ij}^{(n)}
+=
+\sum_{k} r_{ik}^{(n-1)} p_{kj}
+\quad\text{and}\quad
+r_{ij}^{(n)}
+=
+\sum_{k} p_{ik} r_{kj}^{(n-1)},
+\]
+are valid and rely on the combination of the Total Probability Theorem and the Markov property.
+Depending on the context, one or the other may be more convenient.
+
+\bigskip
+\textsc{Evolution of the state distribution from a random initial state}
+
+If the initial state \(X_0\) is itself random, described by an initial distribution
+\[
+\pi_i^{(0)} = \mathbb{P}(X_0 = i),
+\]
+then the probability distribution of the state after \(n\) steps is obtained by another application of the Total Probability Theorem.
+
+For each state \(j\),
+\[
+\mathbb{P}(X_n = j)
+=
+\sum_{i} \mathbb{P}(X_n = j \mid X_0 = i) \,\mathbb{P}(X_0 = i)
+=
+\sum_{i} r_{ij}^{(n)} \,\pi_i^{(0)}.
+\]
+
+Equivalently, if we regard \(\pi^{(0)}\) as a row vector and \(R^{(n)}\) as the matrix whose \((i,j)\) entry is \(r_{ij}^{(n)}\), then the distribution after \(n\) steps is the row vector
+\[
+\pi^{(n)}
+=
+\pi^{(0)} R^{(n)},
+\]
+whose \(j\)-th component equals \(\mathbb{P}(X_n = j)\).
+
+
+\subsubsection{Generic convergence questions}
+
+We have seen in simple examples that some Markov chains exhibit a well-defined long term behavior.
+In particular, the probability of being in a given state after many steps may converge to a constant value, and this limiting probability may be the same regardless of the initial state from which the chain started.
+
+Formally, we ask whether, for each pair of states \(i\) and \(j\), the \(n\)-step transition probabilities \(r_{ij}^{(n)}\) have a limit as \(n \to \infty\), and whether this limit, when it exists, is independent of the initial state \(i\).
+In many nice cases, such convergence holds and the influence of the initial state disappears in the long run, but these properties are not guaranteed for all Markov chains.
+
+\bigskip
+\textsc{Failure of convergence: periodic chains}
+
+We first consider whether the limits
+\[
+\lim_{n \to \infty} r_{ij}^{(n)}
+\]
+always exist.
+The answer is no: there are Markov chains in which these probabilities oscillate and never settle down to a single value.
+
+As an example, consider a three-state Markov chain with states \(\{1,2,3\}\) and a structure such that whenever the chain is in state \(2\), it must move to either state \(1\) or state \(3\) at the next step, and from either \(1\) or \(3\) it must return to \(2\) at the following step.
+In this situation, if the chain starts in state \(2\), then at all odd times \(n\) it is impossible to be in state \(2\), while at all even times \(n\) it is certain to be in state \(2\).
+
+In terms of the \(n\)-step transition probabilities from \(2\) to \(2\), this behavior is summarized as
+\[
+r_{22}^{(n)} =
+\begin{cases}
+0, & n \text{ odd}, \\
+1, & n \text{ even}.
+\end{cases}
+\]
+Thus the sequence \(\{r_{22}^{(n)}\}\) alternates between \(0\) and \(1\) and does not converge.
+
+This phenomenon is associated with \textit{periodicity}: the chain can return to state \(2\) only at times that are multiples of a certain integer (here, period \(2\)).
+When such periodicity is present, convergence of \(r_{ij}^{(n)}\) as \(n \to \infty\) can fail.
+
+\bigskip
+\textsc{Dependence on the initial state: lack of mixing}
+
+Next we ask whether, when the limits \(\lim_{n \to \infty} r_{ij}^{(n)}\) do exist, they necessarily become independent of the initial state \(i\).
+That is, we are asking whether the effect of the starting state always vanishes in the long run.
+
+Again the answer is negative in general.
+Consider a chain with three states \(\{1,2,3\}\) in which state \(1\) is \textit{absorbing}: once the chain enters state \(1\), it stays there forever, with probability \(1\) of remaining in state \(1\) at each step.
+Suppose also that state \(3\) is such that it cannot reach state \(1\) at all.
+
+If the chain starts in state \(1\), then for all \(n\) we have
+\[
+r_{11}^{(n)} = 1,
+\]
+because the chain never leaves state \(1\).
+On the other hand, if the chain starts in state \(3\), then it will never reach state \(1\), and for all \(n\),
+\[
+r_{31}^{(n)} = 0.
+\]
+
+In this example, both sequences \(\{r_{11}^{(n)}\}\) and \(\{r_{31}^{(n)}\}\) converge, but they converge to different limits that depend on the initial state.
+Therefore, the effect of the starting state does not disappear, and the chain does not mix the states in the long run.
+
+This lack of mixing arises because some states are not accessible from others.
+The state space decomposes into regions that cannot all communicate with each other, so the long term behavior depends on where the chain starts.
+
+\bigskip
+\textsc{A splitting example and an escape probability}
+
+To further illustrate long term behavior, consider a Markov chain with three states \(\{1,2,3\}\) and the following structure.
+State \(2\) is neither absorbing nor transient in a trivial way: from state \(2\) the chain can remain in \(2\) for some time, but eventually it will leave \(2\) and move to either \(1\) or \(3\), after which it never returns to \(2\).
+
+More concretely, suppose that:
+\begin{itemize}
+\item From state \(2\), there are transitions back to \(2\) and to \(1\) and \(3\) with certain probabilities.
+\item Once the chain reaches state \(1\), it stays there forever and cannot go back to \(2\) or \(3\).
+\item Once the chain reaches state \(3\), it stays there forever and cannot go back to \(1\) or \(2\).
+\end{itemize}
+
+Starting from state \(2\), the chain may visit \(2\) multiple times, repeatedly using transitions that keep it in \(2\).
+However, with probability \(1\), it will eventually leave \(2\) and move to either \(1\) or \(3\), after which it is trapped in whichever of these two absorbing states it has reached.
+
+If the transition probabilities from \(2\) to \(1\) and from \(2\) to \(3\) are symmetric, for example each equal to \(0.3\), then at the moment of escape from state \(2\) the chain is equally likely to fall into state \(1\) or state \(3\).
+Therefore, starting in state \(2\), the probability of eventually being absorbed in state \(1\) is
+\[
+\lim_{n \to \infty} r_{21}^{(n)} = \frac{1}{2}.
+\]
+
+In this example, the long term probability of being in state \(1\) starting from \(2\) does converge, but it depends on the detailed structure of the chain.
+Moreover, because states \(1\) and \(3\) are absorbing and not mutually accessible, the limiting behavior still depends on the initial state when we compare different starting positions such as \(1,2,3\).
+
+\bigskip
+\textsc{Nice chains and long term behavior}
+
+The examples above show that, in general, two desirable properties may fail:
+\begin{itemize}
+\item the existence of limits \(\lim_{n \to \infty} r_{ij}^{(n)}\),
+\item the independence of those limits from the initial state \(i\).
+\end{itemize}
+
+In practice, we are often interested in Markov chains for which these problems do not occur.
+Roughly speaking, these \textit{nice} chains are those that do not exhibit periodic oscillations and for which all states communicate in a suitable way.
+
+For such chains, the \(n\)-step transition probabilities \(r_{ij}^{(n)}\) converge as \(n\) goes to infinity, and the limiting values no longer depend on the initial state \(i\).
+The resulting limiting probabilities form a stationary distribution that describes the long term behavior of the chain.
+
+
+\subsubsection{Recurrent and transient states}
+
+We have seen that in some Markov chains the influence of the initial state never disappears in the long run.
+We now make this phenomenon precise by classifying states as \textit{recurrent} or \textit{transient} and by examining how they are organized into classes.
+
+\bigskip
+\textsc{Definitions of recurrent and transient states}
+
+Consider a Markov chain with a given transition diagram.
+A state is said to be \textit{recurrent} if, when the chain starts in that state, no matter where it may go afterwards, there is always some path in the diagram that allows the chain to eventually return to the original state.
+
+More informally, from a recurrent state there is no way to escape forever: wherever the chain moves, there remains some route back.
+A state is said to be \textit{transient} if it is not recurrent, meaning that there exists at least one place where the chain can go and from which there is no path back to the original state.
+
+\bigskip
+\textsc{Examples of recurrent and transient states}
+
+Consider a transition diagram with states labeled \(1,2,3,4,5,6,7,8\).
+Suppose that from state \(8\), any state that can be reached still has a path leading back to \(8\).
+Then state \(8\) is recurrent.
+If the same property holds for states \(7\) and \(6\), then they are also recurrent.
+
+Assume further that from state \(5\) the only possible next state is \(5\) itself.
+In this case, once the chain enters state \(5\), it can never leave, and so state \(5\) is also recurrent.
+
+Now consider state \(4\).
+Suppose there exists a path from \(4\) that leads to state \(2\), then to state \(1\), and then to state \(5\), and that from state \(5\) there is no path back to \(4\).
+Because there is a way to leave \(4\) and reach a region from which return is impossible, state \(4\) cannot be recurrent and is therefore transient.
+
+Similarly, from state \(3\) it may be possible to wander for some time among nearby states, but there may be paths that eventually lead to \(2\) and then to \(6\), or to \(1\) and then to \(5\), from which no paths return to \(3\).
+This makes state \(3\) transient, and for the same reason states \(1\) and \(2\) are also transient.
+
+\bigskip
+\textsc{Long term behavior of transient states}
+
+If a state is transient, then starting from that state the chain will visit it only a finite number of times with probability \(1\).
+Intuitively, once the chain leaves a transient state and enters a part of the state space from which return is impossible, it never comes back.
+
+As a consequence, in the long run the probability that the chain is found in a transient state tends to zero.
+That is, for a transient state \(i\), the probability \(\mathbb{P}(X_n = i)\) converges to zero as \(n \to \infty\).
+
+\bigskip
+\textsc{Classes of recurrent states}
+
+The recurrent states of a Markov chain can be grouped into disjoint classes.
+In the example above, suppose the recurrent states split into two classes: one class consists of state \(5\) alone, and another class consists of states \(6,7,8\).
+
+Within a recurrent class, every state can communicate with every other state in that same class.
+This means that for any two states \(i\) and \(j\) in the same class, there is a path from \(i\) to \(j\) and a path from \(j\) to \(i\).
+
+In contrast, there is no communication between different recurrent classes.
+For example, from state \(5\) there is no path to states \(6,7,8\), and from any of \(6,7,8\) there is no path back to \(5\).
+
+\bigskip
+\textsc{Impact on long term behavior and initial states}
+
+The presence of more than one recurrent class is a key reason why the initial state may have a lasting influence on long term behavior.
+If the chain starts in state \(5\), it will remain in the class containing \(5\) forever and will never reach states \(6,7,8\).
+
+Conversely, if the chain starts in one of the states \(6,7,8\), it will remain within that class and will never visit state \(5\).
+Therefore, the long term probability of being in a given recurrent state, such as state \(6\), depends on the recurrent class in which the chain starts, and thus on the initial state.
