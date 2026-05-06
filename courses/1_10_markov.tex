@@ -642,3 +642,395 @@ If the chain starts in state \(5\), it will remain in the class containing \(5\)
 
 Conversely, if the chain starts in one of the states \(6,7,8\), it will remain within that class and will never visit state \(5\).
 Therefore, the long term probability of being in a given recurrent state, such as state \(6\), depends on the recurrent class in which the chain starts, and thus on the initial state.
+
+
+
+
+
+\subsubsection{Probability of a path in a Markov chain}
+
+Consider a discrete-time Markov chain \(\{X_n\}_{n \ge 0}\) with finite state space and transition probabilities
+\[
+p_{ij}
+=
+\mathbb{P}(X_{n+1} = j \mid X_n = i).
+\]
+We assume that the chain is time-homogeneous, so the one-step transition probabilities do not depend on \(n\).
+
+Suppose that we are given an initial state \(i_0\) and a finite sequence of states \(i_1, i_2, \dots, i_k\).
+We are interested in the probability of observing the specific trajectory
+\[
+X_0 = i_0, \,
+X_1 = i_1, \,
+X_2 = i_2, \,
+\dots, \,
+X_k = i_k.
+\]
+By the chain rule of conditional probabilities we can write
+\[
+\mathbb{P}(X_0 = i_0, X_1 = i_1, \dots, X_k = i_k)
+=
+\mathbb{P}(X_0 = i_0)
+\prod_{\ell = 1}^{k}
+\mathbb{P}\big(X_{\ell} = i_{\ell} \mid X_0 = i_0, \dots, X_{\ell-1} = i_{\ell-1}\big).
+\]
+The Markov property implies that
+\[
+\mathbb{P}\big(X_{\ell} = i_{\ell} \mid X_0 = i_0, \dots, X_{\ell-1} = i_{\ell-1}\big)
+=
+\mathbb{P}(X_{\ell} = i_{\ell} \mid X_{\ell-1} = i_{\ell-1})
+=
+p_{i_{\ell-1} i_{\ell}}.
+\]
+Therefore the probability of the path factorizes as
+\[
+\mathbb{P}(X_0 = i_0, X_1 = i_1, \dots, X_k = i_k)
+=
+\mathbb{P}(X_0 = i_0)
+\prod_{\ell = 1}^{k} p_{i_{\ell-1} i_{\ell}}.
+\]
+If the initial state is fixed and known, for example \(X_0 = i_0\) with probability \(1\), then
+\[
+\mathbb{P}(X_0 = i_0, X_1 = i_1, \dots, X_k = i_k)
+=
+\prod_{\ell = 1}^{k} p_{i_{\ell-1} i_{\ell}}.
+\]
+
+\bigskip
+\textsc{Example: specific trajectory}
+
+Assume we start in state \(1\) with probability \(1\) and consider the trajectory
+\[
+1 \to 2 \to 6 \to 7.
+\]
+In terms of the chain, this corresponds to
+\[
+X_0 = 1, \quad
+X_1 = 2, \quad
+X_2 = 6, \quad
+X_3 = 7.
+\]
+Using the general formula above, the probability of this path is
+\[
+\mathbb{P}(X_1 = 2, X_2 = 6, X_3 = 7 \mid X_0 = 1)
+=
+p_{12} \, p_{26} \, p_{67}.
+\]
+More explicitly, this can be seen by the step-by-step multiplicative rule
+\[
+\mathbb{P}(X_1 = 2, X_2 = 6, X_3 = 7 \mid X_0 = 1)
+=
+\mathbb{P}(X_1 = 2 \mid X_0 = 1)
+\,
+\mathbb{P}(X_2 = 6 \mid X_0 = 1, X_1 = 2)
+\,
+\mathbb{P}(X_3 = 7 \mid X_0 = 1, X_1 = 2, X_2 = 6),
+\]
+and by the Markov property each conditional probability depends only on the immediately preceding state.
+
+\bigskip
+\textsc{Brute-force computation of an \(n\)-step transition probability}
+
+Now suppose that we wish to find, for a small time horizon, the probability of being in a particular state after a fixed number of steps.
+For example, assume the chain starts in state \(2\) with probability \(1\) and we want
+\[
+\mathbb{P}(X_4 = 7 \mid X_0 = 2).
+\]
+One approach, practical only when the horizon is small and the state space is modest, is to enumerate all distinct trajectories of length \(4\) that start in state \(2\) and end in state \(7\), and then sum their path probabilities.
+
+For illustration, suppose that the following three trajectories of length \(4\) lead from state \(2\) to state \(7\):
+\[
+2 \to 6 \to 7 \to 6 \to 7,
+\]
+\[
+2 \to 1 \to 2 \to 6 \to 7,
+\]
+\[
+2 \to 6 \to 6 \to 6 \to 7.
+\]
+The probability of each trajectory is the product of its one-step transition probabilities.
+Thus we obtain
+\[
+\mathbb{P}(X_4 = 7 \mid X_0 = 2)
+=
+p_{26} \, p_{67} \, p_{76} \, p_{67}
++
+p_{21} \, p_{12} \, p_{26} \, p_{67}
++
+p_{26} \, p_{66} \, p_{66} \, p_{67}.
+\]
+This procedure is often called a \textit{brute-force} computation, since it relies on listing all contributing paths explicitly.
+
+For larger time horizons, the number of distinct trajectories grows exponentially in the number of steps, and such a direct enumeration becomes impractical.
+In that regime it is more efficient to use recursive relations for \(n\)-step transition probabilities or, equivalently, to work with powers of the transition matrix.
+
+
+\subsubsection{Periodicity in Markov chains}
+
+Consider an irreducible recurrent class of a discrete-time Markov chain \(\{X_n\}_{n \ge 0}\) with finite or countable state space.
+The states in this class are said to be \textit{periodic} if they can be partitioned into \(d \ge 2\) nonempty groups (or classes)
+\[
+C_0, C_1, \dots, C_{d-1}
+\]
+such that all transitions from one group lead to the next group in a cyclic fashion:
+whenever \(X_n \in C_r\), the next state satisfies \(X_{n+1} \in C_{(r+1) \bmod d}\).
+In this situation, the integer \(d\) is called the period of the class.
+
+This structure implies a strong form of temporal regularity.
+If the chain starts at time \(n = 0\) in some state of \(C_0\), then at time \(n = 1\) it must be in \(C_1\), at time \(n = 2\) it must be in \(C_2\), and more generally at time \(n\) it must be in \(C_{n \bmod d}\).
+Consequently, the chain can only return to a given group at times that are multiples of \(d\), which prevents the existence of a limiting distribution that is independent of the parity or residue class of the time index.
+
+\bigskip
+\textsc{Example: period \(d = 2\)}
+
+Suppose that the recurrent class can be partitioned into two nonempty groups \(C_0\) and \(C_1\) with the property that every transition from a state in \(C_0\) leads to a state in \(C_1\), and every transition from a state in \(C_1\) leads to a state in \(C_0\).
+In that case, the chain alternates deterministically between the two groups:
+if \(X_0 \in C_0\), then \(X_1 \in C_1\), \(X_2 \in C_0\), \(X_3 \in C_1\), and so on.
+Here the period is \(d = 2\), and for any state \(i\) in this class, returns to \(i\) can only occur at even times.
+The probability of being in a particular state oscillates between two patterns for even and odd times, so the usual steady-state probabilities do not converge.
+
+\bigskip
+\textsc{Example: period \(d = 3\)}
+
+Now consider a recurrent class that can be partitioned into three groups \(C_0, C_1, C_2\) such that transitions are only allowed from \(C_0\) to \(C_1\), from \(C_1\) to \(C_2\), and from \(C_2\) to \(C_0\).
+If the chain starts in some state of \(C_0\) at time \(n = 0\), then at times \(n = 1, 2, 3, 4, 5, \dots\) the chain will be in \(C_1, C_2, C_0, C_1, C_2, \dots\) respectively.
+More generally, at time \(n\) the chain is in \(C_{n \bmod 3}\).
+Thus, for any state \(i\) in this class, the chain can return to \(i\) only at times \(n\) that are multiples of \(3\).
+Again, the distribution of \(X_n\) cycles among three distinct patterns and does not converge to a single limiting distribution.
+
+\bigskip
+\textsc{Visual identification and coloring argument}
+
+In small examples, periodicity can often be detected by inspecting the transition diagram and attempting to color the states so that all transitions move from one color class to the next in a cycle.
+For instance, to recognize a period \(d = 2\), one may try to color the states red and white so that every transition from a red state goes to some white state, and every transition from a white state goes to some red state.
+If such a coloring is possible for the entire recurrent class, then this class has period \(2\).
+This visualization makes clear that at each time step the chain must alternate between the two color classes, ruling out convergence of the state probabilities.
+
+\bigskip
+\textsc{A simple sufficient condition for aperiodicity}
+
+While detecting periodicity by inspection may be difficult in large chains, it is often very easy to rule out periodicity.
+A particularly useful sufficient condition for aperiodicity is the presence of a self-transition.
+If a state \(i\) in a recurrent class satisfies
+\[
+p_{ii} = \mathbb{P}(X_{n+1} = i \mid X_n = i) > 0,
+\]
+then the chain can return to \(i\) in one step.
+Combined with the possibility of longer return paths, this allows returns to \(i\) at times with greatest common divisor equal to \(1\), so the period of state \(i\) is \(1\), and the recurrent class containing \(i\) is aperiodic.
+Therefore, whenever an irreducible recurrent class contains at least one state with a positive probability of staying in place in a single step, that class is aperiodic.
+
+\subsubsection{Steady-state convergence in Markov chains}
+
+Consider a discrete-time Markov chain \(\{X_n\}_{n \ge 0}\) with a finite state space \(\{1,2,\dots,m\}\) and one-step transition probabilities
+\[
+p_{ij}
+=
+\mathbb{P}(X_{n+1} = j \mid X_n = i).
+\]
+We are interested in the long-run behavior of the \(n\)-step transition probabilities
+\[
+r_{ij}(n)
+=
+\mathbb{P}(X_n = j \mid X_0 = i),
+\]
+and in particular in whether they converge, as \(n \to \infty\), to limits that do not depend on the initial state \(i\).
+Formally, we ask whether there exist numbers \(\pi(j)\) such that
+\[
+\lim_{n \to \infty} r_{ij}(n) = \pi(j)
+\quad
+\text{for all } i, j.
+\]
+
+There are two separate issues involved.
+First, does the limit \(\lim_{n \to \infty} r_{ij}(n)\) exist for each pair \((i,j)\)?
+Second, assuming it exists, is the limit independent of the initial state \(i\)?
+We have seen examples where one or both of these properties fail, and these examples point to the role of recurrent classes and periodicity.
+
+\bigskip
+\textsc{Role of recurrent classes and periodicity}
+
+If the chain has more than one recurrent class, then the long-run behavior depends on where the chain starts.
+For instance, suppose there are two disjoint recurrent classes.
+If we focus on some state \(j\) in the first class and start the chain in the second class, then the probability of ever visiting \(j\) is zero, so
+\[
+\lim_{n \to \infty} r_{ij}(n) = 0
+\]
+for any initial state \(i\) in the second class.
+On the other hand, if we start in the same recurrent class as \(j\), the long-run probability of being in \(j\) is positive.
+Thus the limiting probability of being in \(j\) depends on the initial state, and we cannot have a single set of limits \(\pi(j)\) that works for all \(i\).
+
+Even if there is exactly one recurrent class, the limits \(r_{ij}(n)\) may fail to exist because of periodicity.
+For example, consider a two-state chain that alternates deterministically between the two states.
+If we label the states \(9\) and \(10\), starting from \(9\) we have that at even times the chain is in \(9\) with probability \(1\), while at odd times it is in \(9\) with probability \(0\).
+Thus the sequence \(r_{9,9}(n)\) oscillates between \(1\) and \(0\) and does not converge.
+
+These examples suggest that two conditions are crucial for convergence to a steady state.
+First, there should be only one recurrent class, so that all states communicate and the influence of the initial state can dissipate over time.
+Second, the recurrent class should be aperiodic, so that the chain does not get trapped in deterministic cycles that prevent convergence.
+
+\bigskip
+\textsc{Steady-state convergence theorem}
+
+Assume that the Markov chain has a single recurrent class and that this class is aperiodic.
+Under these conditions, the steady-state convergence theorem states that the limits
+\[
+\pi(j)
+=
+\lim_{n \to \infty} r_{ij}(n),
+\]
+exist for all states \(j\) and all initial states \(i\), and the limit is the same for every \(i\).
+The numbers \(\pi(j)\) are called the \textit{steady-state probabilities} or \textit{limiting distribution} of the chain.
+
+Intuitively, the independence from the initial state can be understood by a coupling argument.
+Consider two independent copies of the chain, one starting from state \(i\) and the other from state \(i'\).
+Because the chain is irreducible and aperiodic within a single recurrent class, with probability \(1\) there will be some time at which both copies occupy the same state.
+From that time onward, they evolve in exactly the same probabilistic way, since the future depends only on the current state.
+Thus any memory of the different initial states is eventually lost, and both copies converge to the same long-run behavior.
+
+\bigskip
+\textsc{Steady-state equations}
+
+Assuming that the limits \(\pi(j)\) exist, we now derive the equations that characterize them.
+Recall the basic recursion for the \(n\)-step transition probabilities:
+\[
+r_{ij}(n)
+=
+\sum_{k=1}^{m} r_{ik}(n-1) \, p_{kj},
+\qquad
+n \ge 1.
+\]
+We take limits as \(n \to \infty\) on both sides.
+Under the assumptions of the steady-state convergence theorem, \(r_{ij}(n) \to \pi(j)\) and \(r_{ik}(n-1) \to \pi(k)\) for each fixed \(i, j, k\), so we obtain
+\[
+\pi(j)
+=
+\sum_{k=1}^{m} \pi(k) \, p_{kj},
+\qquad
+j = 1, \dots, m.
+\]
+If we collect the steady-state probabilities into a row vector
+\[
+\boldsymbol{\pi}
+=
+\big(\pi(1), \dots, \pi(m)\big),
+\]
+and the transition probabilities into the matrix \(P = (p_{ij})\), the previous system can be written in matrix form as
+\[
+\boldsymbol{\pi} P = \boldsymbol{\pi}.
+\]
+Thus the steady-state distribution is a left eigenvector of the transition matrix associated with eigenvalue \(1\).
+
+The system \(\boldsymbol{\pi} P = \boldsymbol{\pi}\) alone is not sufficient to determine \(\boldsymbol{\pi}\) uniquely.
+Indeed, the trivial solution \(\boldsymbol{\pi} = \mathbf{0}\) satisfies this equation.
+To obtain a unique solution, we need to use the fact that \(\pi(j)\) represents a probability distribution over the states.
+In particular, the steady-state probabilities must sum to \(1\):
+\[
+\sum_{j=1}^{m} \pi(j) = 1.
+\]
+Together, the balance equations
+\[
+\pi(j) = \sum_{k=1}^{m} \pi(k) \, p_{kj},
+\quad j = 1, \dots, m,
+\]
+and the normalization condition
+\[
+\sum_{j=1}^{m} \pi(j) = 1
+\]
+form a system of \(m+1\) linear equations in the \(m\) unknowns \(\pi(1), \dots, \pi(m)\).
+In practice, one usually keeps only \(m-1\) of the balance equations, together with the normalization equation, to obtain a nonsingular system that can be solved by standard linear algebra methods.
+
+\bigskip
+\textsc{Summary of conditions and computation}
+
+Under the assumptions that the Markov chain has a single recurrent class and that this class is aperiodic, the \(n\)-step transition probabilities \(r_{ij}(n)\) converge, as \(n \to \infty\), to steady-state probabilities \(\pi(j)\) that do not depend on the initial state.
+These steady-state probabilities satisfy the linear system
+\[
+\boldsymbol{\pi} P = \boldsymbol{\pi},
+\qquad
+\sum_{j=1}^{m} \pi(j) = 1,
+\]
+which can be solved to obtain the unique limiting distribution of the chain.
+
+\subsubsection{Frequency interpretation and balance equations}
+
+Consider a discrete-time Markov chain \(\{X_n\}_{n \ge 0}\) with finite state space \(\{1,2,\dots,m\}\) and transition probabilities
+\[
+p_{ij}
+=
+\mathbb{P}(X_{n+1} = j \mid X_n = i).
+\]
+Assume that the chain has a single recurrent class and that this class is aperiodic.
+Under these conditions, the steady-state probabilities \(\pi(j)\) exist and satisfy
+\[
+\pi(j)
+=
+\sum_{i=1}^{m} \pi(i) \, p_{ij},
+\qquad
+\sum_{j=1}^{m} \pi(j) = 1.
+\]
+These equations are called the \textit{balance equations}.
+We now give a frequency interpretation of \(\pi(j)\) and of the balance equations.
+
+Imagine the trajectory of the Markov chain as a particle jumping from state to state over time.
+Fix a state \(j\) and consider an observer stationed at state \(j\).
+Each time the particle visits state \(j\), the observer records a \(1\), and otherwise records a \(0\).
+For each integer \(n \ge 1\), define
+\[
+Y_j(n)
+=
+\sum_{t=1}^{n} \mathbf{1}\{X_t = j\},
+\]
+the total number of visits to state \(j\) up to time \(n\).
+The empirical frequency of visits to state \(j\) up to time \(n\) is then
+\[
+\frac{Y_j(n)}{n}.
+\]
+Under our assumptions on the chain, this empirical frequency converges to the steady-state probability \(\pi(j)\) as \(n \to \infty\).
+Thus \(\pi(j)\) can be interpreted as the long-run fraction of time that the chain spends in state \(j\).
+
+Next, we consider a frequency interpretation for transitions between states.
+Fix two states \(i\) and \(j\), and place an observer on the directed edge \(i \to j\).
+Each time the particle makes a transition from \(i\) at time \(t\) to \(j\) at time \(t+1\), the observer records a \(1\), and otherwise a \(0\).
+Define
+\[
+Z_{ij}(n)
+=
+\sum_{t=0}^{n-1} \mathbf{1}\{X_t = i, X_{t+1} = j\},
+\]
+the total number of transitions from \(i\) to \(j\) during the first \(n\) steps.
+The empirical frequency of transitions from \(i\) to \(j\) among the first \(n\) steps is
+\[
+\frac{Z_{ij}(n)}{n}.
+\]
+
+To interpret this frequency, note that for large \(n\), the fraction of times at which the chain is in state \(i\) is approximately \(\pi(i)\).
+Whenever the chain is in state \(i\), the probability that the next state is \(j\) equals \(p_{ij}\).
+Therefore, the long-run fraction of time that the chain performs a transition from \(i\) to \(j\) should be approximately
+\[
+\pi(i) \, p_{ij}.
+\]
+More formally, one can show that
+\[
+\lim_{n \to \infty} \frac{Z_{ij}(n)}{n}
+=
+\pi(i) \, p_{ij}.
+\]
+
+Now fix a state \(j\) and consider all transitions \emph{into} state \(j\).
+For each state \(i\), the long-run fraction of transitions from \(i\) to \(j\) is \(\pi(i) p_{ij}\).
+Summing over all possible sources \(i\), the long-run fraction of transitions that enter state \(j\) is
+\[
+\sum_{i=1}^{m} \pi(i) \, p_{ij}.
+\]
+On the other hand, the particle is in state \(j\) at time \(t\) if and only if the last transition before time \(t\) was a transition into \(j\).
+Thus, in the long run, the fraction of time that the chain is found in state \(j\) must equal the fraction of transitions that enter state \(j\).
+This leads to the identity
+\[
+\pi(j)
+=
+\sum_{i=1}^{m} \pi(i) \, p_{ij},
+\]
+which is exactly the balance equation for state \(j\).
+
+In this sense, the balance equations express the fact that, in steady state, the long-run flow of probability \textit{into} each state equals the long-run flow of probability \textit{through} that state.
+The steady-state probabilities are those frequencies that make the incoming and outgoing flows consistent over time.
